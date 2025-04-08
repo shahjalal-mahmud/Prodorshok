@@ -88,7 +88,7 @@ fun ProfileSetupScreen(navController: NavController) {
                     .set(userProfile)
                     .addOnSuccessListener {
                         Toast.makeText(navController.context, "Profile Saved!", Toast.LENGTH_SHORT).show()
-                        navController.navigate("home")
+                        navController.navigate("dashboard")
                     }
                     .addOnFailureListener {
                         Toast.makeText(navController.context, "Failed to save profile", Toast.LENGTH_SHORT).show()
