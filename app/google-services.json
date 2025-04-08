@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "833137499868",
+    "project_id": "prodorshok-1597c",
+    "storage_bucket": "prodorshok-1597c.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:833137499868:android:643b9c0a98b48ee46dde19",
+        "android_client_info": {
+          "package_name": "com.example.prodorshok"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBzXnr3UqgUuFP7P1Hg2EmbIy8x7lptZ6w"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
