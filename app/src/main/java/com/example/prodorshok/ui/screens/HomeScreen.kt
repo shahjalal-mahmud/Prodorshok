@@ -50,6 +50,9 @@ fun HomeScreen(navController: NavController) {
         // Go to profile button (you can implement profile navigation later)
         Button(onClick = {
             // Handle Profile or Other Navigation
+            navController.navigate("profile_setup"){
+                popUpTo("profile_setup") { inclusive = true }
+            }
         }) {
             Text("Go to Profile")
         }

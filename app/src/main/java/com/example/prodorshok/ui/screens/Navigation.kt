@@ -17,6 +17,7 @@ fun Navigation() {
         composable("signup") { SignUpScreen(navController) }
         composable("forgot_password") { ForgotPasswordScreen(navController) }
         composable("home") { HomeScreen(navController) }
+        composable("profile_setup") { ProfileSetupScreen(navController) }
     }
 }
 
