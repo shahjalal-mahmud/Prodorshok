@@ -2,8 +2,10 @@ package com.example.prodorshok.ui.screens
 
 import android.util.Log
 import androidx.compose.animation.core.*
+import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
@@ -11,7 +13,9 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.scale
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.graphicsLayer
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
@@ -19,11 +23,17 @@ import androidx.navigation.NavController
 import com.airbnb.lottie.compose.*
 import com.google.firebase.auth.FirebaseAuth
 import kotlinx.coroutines.delay
+import androidx.compose.ui.platform.LocalDensity // <-- Import this
+import com.example.prodorshok.R
 
 @Composable
 fun WelcomeScreen(navController: NavController) {
     val auth = FirebaseAuth.getInstance()
     val context = LocalContext.current
+    val density = LocalDensity.current // Get the density context for pixel conversion
+
+    // Convert 10.dp to pixels using LocalDensity
+    val shadowElevationPx = with(density) { 10.dp.toPx() }
 
     // Animation setup
     val infiniteTransition = rememberInfiniteTransition(label = "logoScale")
@@ -81,6 +91,29 @@ fun WelcomeScreen(navController: NavController) {
             )
 
             Spacer(modifier = Modifier.height(8.dp))
+
+            // App logo with a 3D border effect (positioned here between the two texts)
+            Box(
+                modifier = Modifier
+                    .size(150.dp)
+                    .graphicsLayer(
+                        shadowElevation = shadowElevationPx, // Use the converted px value
+                        shape = CircleShape,
+                        clip = true
+                    )
+                    .background(
+                        Color.White,
+                        shape = CircleShape
+                    )
+            ) {
+                Image(
+                    painter = painterResource(id = R.drawable.logo), // Assuming logo is in res/drawable
+                    contentDescription = "App Logo",
+                    modifier = Modifier.fillMaxSize()
+                )
+            }
+
+            Spacer(modifier = Modifier.height(16.dp))
 
             Text(
                 text = "Prodorshok",
