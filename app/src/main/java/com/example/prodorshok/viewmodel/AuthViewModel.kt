@@ -1,14 +1,13 @@
 package com.example.prodorshok.ui.viewmodel
 
-import android.widget.Toast
 import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.ViewModel
+import com.google.firebase.auth.AuthCredential
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseUser
 
 class AuthViewModel : ViewModel() {
 
-    // States to track user input, loading, error, and success
     var email = mutableStateOf("")
     var password = mutableStateOf("")
     var confirmPassword = mutableStateOf("")
@@ -18,7 +17,6 @@ class AuthViewModel : ViewModel() {
 
     private val auth = FirebaseAuth.getInstance()
 
-    // Handle login functionality
     fun loginUser(onLoginSuccess: (FirebaseUser) -> Unit, onLoginFailure: (String) -> Unit) {
         isLoading.value = true
         auth.signInWithEmailAndPassword(email.value, password.value)
@@ -34,7 +32,6 @@ class AuthViewModel : ViewModel() {
             }
     }
 
-    // Handle sign-up functionality
     fun signUpUser(onSignUpSuccess: (FirebaseUser) -> Unit, onSignUpFailure: (String) -> Unit) {
         if (password.value != confirmPassword.value) {
             errorMessage.value = "Passwords do not match"
@@ -55,7 +52,23 @@ class AuthViewModel : ViewModel() {
             }
     }
 
-    // Handle forgot password functionality
+    fun firebaseAuthWithGoogle(
+        credential: AuthCredential,
+        onLoginSuccess: () -> Unit,
+        onLoginFailure: (String) -> Unit
+    ) {
+        isLoading.value = true
+        auth.signInWithCredential(credential)
+            .addOnCompleteListener { task ->
+                isLoading.value = false
+                if (task.isSuccessful) {
+                    onLoginSuccess()
+                } else {
+                    onLoginFailure(task.exception?.message ?: "Unknown error")
+                }
+            }
+    }
+
     fun sendPasswordReset(onSuccess: () -> Unit, onFailure: (String) -> Unit) {
         if (email.value.isEmpty()) {
             errorMessage.value = "Please enter your email"

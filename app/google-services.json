@@ -1,6 +1,7 @@
 {
   "project_info": {
     "project_number": "833137499868",
+    "firebase_url": "https://prodorshok-1597c-default-rtdb.firebaseio.com",
     "project_id": "prodorshok-1597c",
     "storage_bucket": "prodorshok-1597c.firebasestorage.app"
   },
@@ -12,7 +13,20 @@
           "package_name": "com.example.prodorshok"
         }
       },
-      "oauth_client": [],
+      "oauth_client": [
+        {
+          "client_id": "833137499868-fj7ovbpd87dvd6qlku9gspch2uru3pmo.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.prodorshok",
+            "certificate_hash": "c66929161c3170118aef71a222a0673f96804418"
+          }
+        },
+        {
+          "client_id": "833137499868-t0ia0qhtl68iu4rbaa222i5c6sq70rbr.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
       "api_key": [
         {
           "current_key": "AIzaSyBzXnr3UqgUuFP7P1Hg2EmbIy8x7lptZ6w"
@@ -20,7 +34,12 @@
       ],
       "services": {
         "appinvite_service": {
-          "other_platform_oauth_client": []
+          "other_platform_oauth_client": [
+            {
+              "client_id": "833137499868-t0ia0qhtl68iu4rbaa222i5c6sq70rbr.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
         }
       }
     }

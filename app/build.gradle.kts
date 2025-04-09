@@ -74,5 +74,9 @@ dependencies {
     // Coil for image loading
     implementation(libs.coil.compose)
 
+    //  Google Sign-In Dependencies
+    implementation (libs.play.services.auth)
+    implementation (libs.firebase.auth)
+
 }
 apply(plugin = "com.google.gms.google-services")
