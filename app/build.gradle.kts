@@ -78,5 +78,8 @@ dependencies {
     implementation (libs.play.services.auth)
     implementation (libs.firebase.auth)
 
+    // Lottie Dependency
+    implementation (libs.lottie.compose)
+
 }
 apply(plugin = "com.google.gms.google-services")

@@ -1,4 +1,3 @@
-// WelcomeScreen.kt
 package com.example.prodorshok.ui.screens
 
 import android.util.Log
@@ -17,6 +16,7 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
+import com.airbnb.lottie.compose.*
 import com.google.firebase.auth.FirebaseAuth
 import kotlinx.coroutines.delay
 
@@ -36,11 +36,19 @@ fun WelcomeScreen(navController: NavController) {
         ), label = "logoPulse"
     )
 
-    // Auto navigation logic
+    // Lottie animation setup
+    val composition by rememberLottieComposition(
+        spec = LottieCompositionSpec.Url("https://lottie.host/1a71c4b5-9437-43b7-aaa4-0c626e88f124/YmDo3gdQzg.json")
+    )
+    val progress by animateLottieCompositionAsState(
+        composition = composition,
+        iterations = LottieConstants.IterateForever
+    )
+
+    // Auto navigation
     LaunchedEffect(Unit) {
         delay(3000)
         if (auth.currentUser != null) {
-            Log.d("WelcomeScreen", "User logged in: ${auth.currentUser?.email}")
             navController.navigate("home") {
                 popUpTo("welcome") { inclusive = true }
             }
@@ -51,7 +59,7 @@ fun WelcomeScreen(navController: NavController) {
         }
     }
 
-    // UI layout
+    // UI Layout
     Box(
         modifier = Modifier
             .fillMaxSize()
@@ -84,10 +92,11 @@ fun WelcomeScreen(navController: NavController) {
 
             Spacer(modifier = Modifier.height(24.dp))
 
-            CircularProgressIndicator(
-                color = Color.White,
-                strokeWidth = 4.dp,
-                modifier = Modifier.size(36.dp)
+            // Lottie animation
+            LottieAnimation(
+                composition = composition,
+                progress = { progress },
+                modifier = Modifier.size(200.dp)
             )
         }
     }
