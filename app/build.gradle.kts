@@ -51,6 +51,7 @@ dependencies {
     implementation(libs.androidx.material3)
     implementation(libs.play.services.base)
     implementation(libs.play.services.maps)
+    implementation(libs.firebase.storage.ktx)
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)
@@ -80,6 +81,12 @@ dependencies {
 
     // Lottie Dependency
     implementation (libs.lottie.compose)
+
+    // Picasso dependency
+    implementation (libs.picasso)
+
+    // Accompanist Coil for Jetpack Compose
+    implementation (libs.accompanist.coil)
 
 }
 apply(plugin = "com.google.gms.google-services")

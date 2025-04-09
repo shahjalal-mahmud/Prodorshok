@@ -61,12 +61,22 @@ fun HomeScreen(navController: NavController) {
 
         // Go to dashboard button
         Button(onClick = {
-            // Handle Profile or Other Navigation
             navController.navigate("dashboard") {
                 popUpTo("dashboard") { inclusive = true }
             }
         }) {
             Text("Go to Dashboard")
+        }
+
+        Spacer(modifier = Modifier.height(8.dp))
+
+        // Go to Profile Page Button
+        Button(onClick = {
+            navController.navigate("profile"){
+                popUpTo("profile") { inclusive = true }
+            }
+        }){
+            Text("Go to Profile Page")
         }
     }
 }

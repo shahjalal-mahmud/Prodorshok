@@ -27,6 +27,7 @@ fun Navigation() {
         composable("courses") { CoursesScreen() }
         composable("skills") { SkillTrackerScreen() }
         composable("news") { CareerNewsScreen() }
+        composable("profile") { ProfilePage(navController) }
 
     }
 }
