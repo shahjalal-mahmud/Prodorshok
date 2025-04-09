@@ -2,6 +2,7 @@
 accompanistCoil = "0.15.0"
 agp = "8.9.0"
 coilCompose = "2.5.0"
+coilComposeVersion = "2.4.0"
 converterGson = "2.9.0"
 firebaseAuth = "23.2.0"
 firebaseBom = "33.12.0"
@@ -22,12 +23,16 @@ retrofit = "2.9.0"
 playServicesBase = "18.2.0"
 playServicesMaps = "18.2.0"
 firebaseStorageKtx = "21.0.1"
+playServicesBaseVersion = "18.6.0"
+playServicesMapsVersion = "19.1.0"
 
 [libraries]
 accompanist-coil = { module = "com.google.accompanist:accompanist-coil", version.ref = "accompanistCoil" }
 androidx-core-ktx = { group = "androidx.core", name = "core-ktx", version.ref = "coreKtx" }
+androidx-material-icons-extended = { module = "androidx.compose.material:material-icons-extended" }
 androidx-navigation-compose = { module = "androidx.navigation:navigation-compose", version.ref = "navigationCompose" }
 coil-compose = { module = "io.coil-kt:coil-compose", version.ref = "coilCompose" }
+coil-compose-v240 = { module = "io.coil-kt:coil-compose", version.ref = "coilComposeVersion" }
 converter-gson = { module = "com.squareup.retrofit2:converter-gson", version.ref = "converterGson" }
 firebase-auth = { module = "com.google.firebase:firebase-auth", version.ref = "firebaseAuth" }
 firebase-auth-ktx = { module = "com.google.firebase:firebase-auth-ktx" }
@@ -54,6 +59,8 @@ retrofit = { module = "com.squareup.retrofit2:retrofit", version.ref = "retrofit
 play-services-base = { group = "com.google.android.gms", name = "play-services-base", version.ref = "playServicesBase" }
 play-services-maps = { group = "com.google.android.gms", name = "play-services-maps", version.ref = "playServicesMaps" }
 firebase-storage-ktx = { group = "com.google.firebase", name = "firebase-storage-ktx", version.ref = "firebaseStorageKtx" }
+gms-play-services-base = { group = "com.google.android.gms", name = "play-services-base", version.ref = "playServicesBaseVersion" }
+gms-play-services-maps = { group = "com.google.android.gms", name = "play-services-maps", version.ref = "playServicesMapsVersion" }
 
 [plugins]
 android-application = { id = "com.android.application", version.ref = "agp" }

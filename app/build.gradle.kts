@@ -52,6 +52,8 @@ dependencies {
     implementation(libs.play.services.base)
     implementation(libs.play.services.maps)
     implementation(libs.firebase.storage.ktx)
+    implementation(libs.gms.play.services.base)
+    implementation(libs.gms.play.services.maps)
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)
@@ -87,6 +89,12 @@ dependencies {
 
     // Accompanist Coil for Jetpack Compose
     implementation (libs.accompanist.coil)
+
+    // Coli Dependency
+    implementation(libs.coil.compose.v240)
+
+    implementation (libs.androidx.material.icons.extended)
+
 
 }
 apply(plugin = "com.google.gms.google-services")
