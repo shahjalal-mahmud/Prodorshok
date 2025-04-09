@@ -59,7 +59,6 @@ fun LoginScreen(navController: NavController, authViewModel: AuthViewModel = vie
                         }
                     },
                     onLoginFailure = {
-                        Log.e("GoogleSignIn", "Google Sign-In failed: $it")
                         Toast.makeText(context, it, Toast.LENGTH_SHORT).show()
                     }
                 )

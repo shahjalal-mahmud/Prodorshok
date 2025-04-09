@@ -1,33 +1,94 @@
 // WelcomeScreen.kt
 package com.example.prodorshok.ui.screens
 
+import android.util.Log
+import androidx.compose.animation.core.*
+import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
 import androidx.compose.material3.*
-import androidx.compose.runtime.Composable
+import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.scale
+import androidx.compose.ui.graphics.Brush
+import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
+import com.google.firebase.auth.FirebaseAuth
+import kotlinx.coroutines.delay
 
 @Composable
 fun WelcomeScreen(navController: NavController) {
-    Column(
-        modifier = Modifier.fillMaxSize().padding(32.dp),
-        verticalArrangement = Arrangement.Center,
-        horizontalAlignment = Alignment.CenterHorizontally
-    ) {
-        Text("Welcome to Prodorshok!", style = MaterialTheme.typography.headlineSmall)
+    val auth = FirebaseAuth.getInstance()
+    val context = LocalContext.current
 
-        Spacer(modifier = Modifier.height(24.dp))
+    // Animation setup
+    val infiniteTransition = rememberInfiniteTransition(label = "logoScale")
+    val scale by infiniteTransition.animateFloat(
+        initialValue = 0.9f,
+        targetValue = 1.1f,
+        animationSpec = infiniteRepeatable(
+            animation = tween(1000, easing = EaseInOutCubic),
+            repeatMode = RepeatMode.Reverse
+        ), label = "logoPulse"
+    )
 
-        Button(onClick = { navController.navigate("login") }, modifier = Modifier.fillMaxWidth()) {
-            Text("Login")
+    // Auto navigation logic
+    LaunchedEffect(Unit) {
+        delay(3000)
+        if (auth.currentUser != null) {
+            Log.d("WelcomeScreen", "User logged in: ${auth.currentUser?.email}")
+            navController.navigate("home") {
+                popUpTo("welcome") { inclusive = true }
+            }
+        } else {
+            navController.navigate("login") {
+                popUpTo("welcome") { inclusive = true }
+            }
         }
+    }
 
-        Spacer(modifier = Modifier.height(8.dp))
+    // UI layout
+    Box(
+        modifier = Modifier
+            .fillMaxSize()
+            .background(
+                Brush.verticalGradient(
+                    listOf(Color(0xFF004AAD), Color(0xFF00C6FF))
+                )
+            ),
+        contentAlignment = Alignment.Center
+    ) {
+        Column(
+            horizontalAlignment = Alignment.CenterHorizontally
+        ) {
+            Text(
+                text = "Welcome to",
+                color = Color.White,
+                fontSize = 26.sp,
+                fontWeight = FontWeight.Light
+            )
 
-        Button(onClick = { navController.navigate("signup") }, modifier = Modifier.fillMaxWidth()) {
-            Text("Sign Up")
+            Spacer(modifier = Modifier.height(8.dp))
+
+            Text(
+                text = "Prodorshok",
+                color = Color.White,
+                fontSize = 40.sp,
+                fontWeight = FontWeight.Bold,
+                modifier = Modifier.scale(scale)
+            )
+
+            Spacer(modifier = Modifier.height(24.dp))
+
+            CircularProgressIndicator(
+                color = Color.White,
+                strokeWidth = 4.dp,
+                modifier = Modifier.size(36.dp)
+            )
         }
     }
 }
