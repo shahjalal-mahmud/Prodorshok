@@ -92,8 +92,12 @@ dependencies {
 
     // Coli Dependency
     implementation(libs.coil.compose.v240)
+    implementation(libs.coil.compose)
+    implementation(libs.coil)
+
 
     implementation (libs.androidx.material.icons.extended)
+
 
 
 }

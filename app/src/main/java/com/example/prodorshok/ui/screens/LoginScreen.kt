@@ -1,18 +1,29 @@
 package com.example.prodorshok.ui.screens
 
 import android.app.Activity
-import android.content.Intent
-import android.util.Log
 import android.widget.Toast
 import androidx.activity.compose.rememberLauncherForActivityResult
-import androidx.activity.result.IntentSenderRequest
 import androidx.activity.result.contract.ActivityResultContracts
+import androidx.compose.foundation.BorderStroke
+import androidx.compose.material3.OutlinedTextFieldDefaults
+import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.shape.CircleShape
+import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Email
+import androidx.compose.material.icons.filled.Lock
+import androidx.compose.material.icons.filled.MoreVert
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Brush
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.text.font.Font
+import androidx.compose.ui.text.font.FontFamily
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
@@ -23,14 +34,17 @@ import com.google.android.gms.auth.api.identity.Identity
 import com.google.android.gms.auth.api.identity.SignInClient
 import com.google.android.gms.common.api.ApiException
 import com.google.firebase.auth.GoogleAuthProvider
+import com.example.prodorshok.R
+import coil.compose.rememberAsyncImagePainter
+import com.example.prodorshok.ui.components.AssetIcon
 
 @Composable
 fun LoginScreen(navController: NavController, authViewModel: AuthViewModel = viewModel()) {
     val context = LocalContext.current
     val activity = context as Activity
 
-    var oneTapClient: SignInClient = remember { Identity.getSignInClient(context) }
-    var signInRequest: BeginSignInRequest = remember {
+    var oneTapClient = remember { Identity.getSignInClient(context) }
+    var signInRequest = remember {
         BeginSignInRequest.builder()
             .setGoogleIdTokenRequestOptions(
                 BeginSignInRequest.GoogleIdTokenRequestOptions.builder()
@@ -70,101 +84,211 @@ fun LoginScreen(navController: NavController, authViewModel: AuthViewModel = vie
         }
     }
 
-    // Observe ViewModel states
     val email by remember { authViewModel.email }
     val password by remember { authViewModel.password }
     val isLoading by remember { authViewModel.isLoading }
     val errorMessage by remember { authViewModel.errorMessage }
     val successMessage by remember { authViewModel.successMessage }
 
-    Column(
+    Box(
         modifier = Modifier
             .fillMaxSize()
-            .padding(32.dp),
-        verticalArrangement = Arrangement.Center,
-        horizontalAlignment = Alignment.CenterHorizontally
+            .background(brush = Brush.verticalGradient(listOf(Color(0xFF0F4C3A), Color(0xFF1C6758)))),
     ) {
-        Text("Login", style = MaterialTheme.typography.headlineSmall)
-
-        Spacer(modifier = Modifier.height(16.dp))
-
-        OutlinedTextField(
-            value = email,
-            onValueChange = { authViewModel.email.value = it },
-            label = { Text("Email") },
-            modifier = Modifier.fillMaxWidth()
-        )
-
-        Spacer(modifier = Modifier.height(8.dp))
-
-        OutlinedTextField(
-            value = password,
-            onValueChange = { authViewModel.password.value = it },
-            label = { Text("Password") },
-            visualTransformation = PasswordVisualTransformation(),
-            modifier = Modifier.fillMaxWidth()
-        )
-
-        Spacer(modifier = Modifier.height(16.dp))
-
-        Button(
-            onClick = {
-                authViewModel.loginUser(
-                    onLoginSuccess = { _ ->
-                        navController.navigate("home") {
-                            popUpTo("login") { inclusive = true }
-                        }
-                    },
-                    onLoginFailure = { error ->
-                        Toast.makeText(context, error, Toast.LENGTH_SHORT).show()
-                    }
-                )
-            },
-            modifier = Modifier.fillMaxWidth()
+        Column(
+            modifier = Modifier
+                .fillMaxSize()
+                .padding(24.dp),
+            verticalArrangement = Arrangement.SpaceBetween
         ) {
-            Text("Login")
-        }
+            // Top Menu (Icon and Dropdown)
+            Row(
+                modifier = Modifier.fillMaxWidth(),
+                horizontalArrangement = Arrangement.Start
+            ) {
+                var expanded by remember { mutableStateOf(false) }
 
-        Spacer(modifier = Modifier.height(8.dp))
+                IconButton(onClick = { expanded = true }) {
+                    Icon(Icons.Default.MoreVert, contentDescription = "Menu", tint = Color.White)
+                }
 
-        Button(
-            onClick = {
-                oneTapClient.beginSignIn(signInRequest)
-                    .addOnSuccessListener { result ->
-                        googleSignInLauncher.launch(
-                            IntentSenderRequest.Builder(result.pendingIntent.intentSender).build()
+                DropdownMenu(
+                    expanded = expanded,
+                    onDismissRequest = { expanded = false }
+                ) {
+                    DropdownMenuItem(
+                        text = { Text("Need Help?") },
+                        onClick = { /* TODO */ }
+                    )
+                    DropdownMenuItem(
+                        text = { Text("Contact Us") },
+                        onClick = { /* TODO */ }
+                    )
+                    DropdownMenuItem(
+                        text = { Text("Give Feedback") },
+                        onClick = { /* TODO */ }
+                    )
+                }
+            }
+
+            // Main content: Logo, Text, Input fields
+            Column(
+                horizontalAlignment = Alignment.CenterHorizontally,
+                modifier = Modifier.weight(1f),
+                verticalArrangement = Arrangement.Center
+            ) {
+                // Logo placeholder
+                Box(
+                    modifier = Modifier
+                        .size(180.dp)
+                        .background(color = Color.White.copy(alpha = 0.1f), shape = CircleShape)
+                )
+
+                Spacer(modifier = Modifier.height(16.dp))
+                Text(
+                    text = "Prodorshok",
+                    style = MaterialTheme.typography.headlineMedium.copy(
+                        fontFamily = FontFamily(Font(R.font.rocatwo_bold)),
+                        fontWeight = FontWeight.Bold,
+                        color = Color(0xFFEDB232)
+                    )
+                )
+
+                Text(
+                    text = "Your Career, Our Guidance",
+                    style = MaterialTheme.typography.bodyLarge.copy(
+                        fontFamily = FontFamily(Font(R.font.rocatwo_regular)),
+                        fontWeight = FontWeight.Normal,
+                        color = Color(0xFFEDB232)
+                    )
+                )
+
+                Spacer(modifier = Modifier.height(24.dp))
+
+                Column(
+                    modifier = Modifier
+                        .fillMaxWidth(),
+                    horizontalAlignment = Alignment.CenterHorizontally // centers content horizontally
+                ) {
+                    // Email Field
+                    OutlinedTextField(
+                        value = email,
+                        onValueChange = { authViewModel.email.value = it },
+                        label = { Text("Email or Phone") },
+                        leadingIcon = {
+                            AssetIcon(
+                                filename = "email_icon.png", // Use the custom file name for the email icon
+                                modifier = Modifier.size(24.dp) // Adjust size as needed
+                            )
+                        },
+                        modifier = Modifier.fillMaxWidth(0.9f),
+                        colors = OutlinedTextFieldDefaults.colors(
+                            focusedTextColor = Color.White,
+                            unfocusedTextColor = Color.LightGray,
+                            focusedBorderColor = Color.White,
+                            unfocusedBorderColor = Color.LightGray,
+                            cursorColor = Color.White,
+                            focusedLabelColor = Color.White,
+                            unfocusedLabelColor = Color.LightGray
+                        )
+                    )
+
+                    Spacer(modifier = Modifier.height(12.dp))
+
+                    Column(
+                        modifier = Modifier
+                            .fillMaxWidth(),
+                        horizontalAlignment = Alignment.CenterHorizontally
+                    ) {
+                        // Password Field
+                        OutlinedTextField(
+                            value = password,
+                            onValueChange = { authViewModel.password.value = it },
+                            label = { Text("Password") },
+                            leadingIcon = {
+                                AssetIcon(
+                                    filename = "password_icon.png", // Use the custom file name for the password icon
+                                    modifier = Modifier.size(24.dp) // Adjust size as needed
+                                )
+                            },
+                            visualTransformation = PasswordVisualTransformation(),
+                            modifier = Modifier.fillMaxWidth(0.9f),
+                            colors = OutlinedTextFieldDefaults.colors(
+                                focusedTextColor = Color.White,
+                                unfocusedTextColor = Color.LightGray,
+                                focusedBorderColor = Color.White,
+                                unfocusedBorderColor = Color.LightGray,
+                                cursorColor = Color.White,
+                                focusedLabelColor = Color.White,
+                                unfocusedLabelColor = Color.LightGray
+                            )
                         )
                     }
-                    .addOnFailureListener {
-                        Toast.makeText(context, "Google Sign-In Error: ${it.message}", Toast.LENGTH_SHORT).show()
+                }
+
+            }
+
+            // White bottom card shape with buttons
+            Surface(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .heightIn(min = 285.dp),
+                color = Color.White,
+                shape = RoundedCornerShape(topStart = 30.dp, topEnd = 30.dp),
+                shadowElevation = 8.dp
+            ) {
+                Column(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .padding(24.dp),
+                    horizontalAlignment = Alignment.CenterHorizontally
+                ) {
+                    TextButton(onClick = { navController.navigate("forgot_password") }) {
+                        Text("Forgot Password?", color = Color(0xFF2B524A))
                     }
-            },
-            modifier = Modifier.fillMaxWidth()
-        ) {
-            Text("Continue with Google")
-        }
 
-        Spacer(modifier = Modifier.height(8.dp))
+                    Spacer(modifier = Modifier.height(8.dp))
 
-        TextButton(onClick = { navController.navigate("signup") }) {
-            Text("Don't have an account? Sign up")
-        }
+                    Button(
+                        onClick = {
+                            authViewModel.loginUser(
+                                onLoginSuccess = {
+                                    navController.navigate("home") {
+                                        popUpTo("login") { inclusive = true }
+                                    }
+                                },
+                                onLoginFailure = { error ->
+                                    Toast.makeText(context, error, Toast.LENGTH_SHORT).show()
+                                }
+                            )
+                        },
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .height(50.dp),
+                        colors = ButtonDefaults.buttonColors(containerColor = Color(0xFF1A4F40)),
+                        shape = RoundedCornerShape(25.dp)
+                    ) {
+                        Text("Login", color = Color.White)
+                    }
 
-        TextButton(onClick = { navController.navigate("forgot_password") }) {
-            Text("Forgot Password?")
-        }
+                    Spacer(modifier = Modifier.height(8.dp))
 
-        if (isLoading) {
-            Spacer(modifier = Modifier.height(16.dp))
-            CircularProgressIndicator()
-        }
-
-        if (successMessage.isNotEmpty()) {
-            Toast.makeText(context, successMessage, Toast.LENGTH_SHORT).show()
-        }
-
-        if (errorMessage.isNotEmpty()) {
-            Toast.makeText(context, errorMessage, Toast.LENGTH_SHORT).show()
+                    OutlinedButton(
+                        onClick = { navController.navigate("signup") },
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .height(50.dp),
+                        colors = ButtonDefaults.outlinedButtonColors(
+                            containerColor = Color(0xFFBED2D0),
+                            contentColor = Color(0xFF2B524A)
+                        ),
+                        shape = RoundedCornerShape(25.dp),
+                        border = BorderStroke(1.dp, Color(0xFF2B524A))
+                    ) {
+                        Text("Create an account")
+                    }
+                }
+            }
         }
     }
 }
