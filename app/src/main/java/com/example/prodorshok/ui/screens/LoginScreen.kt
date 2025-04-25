@@ -3,6 +3,7 @@ package com.example.prodorshok.ui.screens
 import android.app.Activity
 import android.widget.Toast
 import androidx.activity.compose.rememberLauncherForActivityResult
+import androidx.activity.result.IntentSenderRequest
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.background
@@ -61,6 +62,9 @@ import com.google.android.gms.auth.api.identity.BeginSignInRequest
 import com.google.android.gms.auth.api.identity.Identity
 import com.google.android.gms.common.api.ApiException
 import com.google.firebase.auth.GoogleAuthProvider
+import androidx.compose.animation.*
+import androidx.compose.animation.core.tween
+import androidx.compose.runtime.LaunchedEffect
 
 @Composable
 fun LoginScreen(navController: NavController, authViewModel: AuthViewModel = viewModel()) {
@@ -104,7 +108,8 @@ fun LoginScreen(navController: NavController, authViewModel: AuthViewModel = vie
                 Toast.makeText(context, "No ID token!", Toast.LENGTH_SHORT).show()
             }
         } catch (e: ApiException) {
-            Toast.makeText(context, "Google Sign-In failed: ${e.message}", Toast.LENGTH_SHORT).show()
+            Toast.makeText(context, "Google Sign-In failed: ${e.message}", Toast.LENGTH_SHORT)
+                .show()
         }
     }
 
@@ -117,7 +122,14 @@ fun LoginScreen(navController: NavController, authViewModel: AuthViewModel = vie
     Box(
         modifier = Modifier
             .fillMaxSize()
-            .background(brush = Brush.verticalGradient(listOf(Color(0xFF0F4C3A), Color(0xFF1C6758)))),
+            .background(
+                brush = Brush.verticalGradient(
+                    listOf(
+                        Color(0xFF0F4C3A),
+                        Color(0xFF1C6758)
+                    )
+                )
+            ),
     ) {
         Column(
             modifier = Modifier
@@ -251,96 +263,166 @@ fun LoginScreen(navController: NavController, authViewModel: AuthViewModel = vie
                 }
 
             }
+            var showCard by remember { mutableStateOf(false) }
 
-            // White bottom card shape with buttons
-            Surface(
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .heightIn(min = 285.dp),
-                color = Color.White,
-                shape = RoundedCornerShape(topStart = 30.dp, topEnd = 30.dp),
-                shadowElevation = 8.dp
+            LaunchedEffect(Unit) {
+                showCard = true
+            }
+
+            AnimatedVisibility(
+                visible = showCard,
+                enter = slideInVertically(
+                    initialOffsetY = { fullHeight -> fullHeight }, // slide from bottom
+                    animationSpec = tween(durationMillis = 800)
+                ),
             ) {
-                Column(
+
+                // White bottom card shape with buttons
+                Surface(
                     modifier = Modifier
                         .fillMaxWidth()
-                        .padding(24.dp),
-                    horizontalAlignment = Alignment.CenterHorizontally
+                        .heightIn(min = 285.dp),
+                    color = Color.White,
+                    shape = RoundedCornerShape(topStart = 30.dp, topEnd = 30.dp),
+                    shadowElevation = 8.dp
                 ) {
-                    TextButton(onClick = { navController.navigate("forgot_password") }) {
-                        Text("Forgot Password?", color = Color(0xFF2B524A))
-                    }
-
-                    Spacer(modifier = Modifier.height(8.dp))
-
-                    // Login Button
-                    Box(
+                    Column(
                         modifier = Modifier
                             .fillMaxWidth()
-                            .height(50.dp)
-                            .clip(RoundedCornerShape(25.dp))
-                            .background(
-                                brush = Brush.linearGradient(
-                                    colors = listOf(Color(0xFF4C8479), Color(0xFF2B5F56)),
-                                    start = Offset.Zero,
-                                    end = Offset.Infinite
+                            .padding(horizontal = 24.dp)
+                            .padding(top = 8.dp, bottom = 24.dp),
+                        horizontalAlignment = Alignment.CenterHorizontally
+                    ) {
+
+                        TextButton(onClick = { navController.navigate("forgot_password") }) {
+                            Text("Forgot Password?", color = Color(0xFF2B524A))
+                        }
+
+                        Spacer(modifier = Modifier.height(8.dp))
+
+                        // Login Button
+                        Box(
+                            modifier = Modifier
+                                .fillMaxWidth()
+                                .height(50.dp)
+                                .clip(RoundedCornerShape(25.dp))
+                                .background(
+                                    brush = Brush.linearGradient(
+                                        colors = listOf(Color(0xFF4C8479), Color(0xFF2B5F56)),
+                                        start = Offset.Zero,
+                                        end = Offset.Infinite
+                                    )
                                 )
-                            )
-                            .clickable {
-                                authViewModel.loginUser(
-                                    onLoginSuccess = {
-                                        navController.navigate("home") {
-                                            popUpTo("login") { inclusive = true }
+                                .clickable {
+                                    authViewModel.loginUser(
+                                        onLoginSuccess = {
+                                            navController.navigate("home") {
+                                                popUpTo("login") { inclusive = true }
+                                            }
+                                        },
+                                        onLoginFailure = { error ->
+                                            Toast.makeText(context, error, Toast.LENGTH_SHORT)
+                                                .show()
                                         }
-                                    },
-                                    onLoginFailure = { error ->
-                                        Toast.makeText(context, error, Toast.LENGTH_SHORT).show()
+                                    )
+                                },
+                            contentAlignment = Alignment.Center
+                        ) {
+                            Text(
+                                text = "Login",
+                                color = Color.White,
+                                style = MaterialTheme.typography.bodyLarge
+                            )
+                        }
+
+                        // OR Divider
+                        Spacer(modifier = Modifier.height(12.dp))
+
+                        Row(
+                            modifier = Modifier
+                                .fillMaxWidth()
+                                .padding(horizontal = 16.dp),
+                            verticalAlignment = Alignment.CenterVertically
+                        ) {
+                            Divider(modifier = Modifier.weight(1f), color = Color.Gray)
+                            Text(
+                                text = "  or  ",
+                                color = Color.Gray,
+                                style = MaterialTheme.typography.bodyMedium
+                            )
+                            Divider(modifier = Modifier.weight(1f), color = Color.Gray)
+                        }
+
+                        Spacer(modifier = Modifier.height(12.dp))
+
+                        // Continue with Google Button
+                        OutlinedButton(
+                            onClick = {
+                                oneTapClient.beginSignIn(signInRequest)
+                                    .addOnSuccessListener(activity) { result ->
+                                        val request =
+                                            IntentSenderRequest.Builder(result.pendingIntent.intentSender)
+                                                .build()
+                                        googleSignInLauncher.launch(request)
                                     }
-                                )
+                                    .addOnFailureListener { e ->
+                                        Toast.makeText(
+                                            context,
+                                            "Google Sign-In failed: ${e.localizedMessage}",
+                                            Toast.LENGTH_SHORT
+                                        ).show()
+                                    }
                             },
-                        contentAlignment = Alignment.Center
-                    ) {
-                        Text(
-                            text = "Login",
-                            color = Color.White,
-                            style = MaterialTheme.typography.bodyLarge
-                        )
-                    }
+                            modifier = Modifier
+                                .fillMaxWidth()
+                                .height(50.dp),
+                            shape = RoundedCornerShape(25.dp),
+                            border = BorderStroke(1.dp, Color(0xFF4C8479)),
+                            colors = ButtonDefaults.outlinedButtonColors(
+                                containerColor = Color.White,
+                                contentColor = Color.Black
+                            )
+                        ) {
+                            Row(
+                                verticalAlignment = Alignment.CenterVertically,
+                                horizontalArrangement = Arrangement.Center,
+                                modifier = Modifier.fillMaxWidth()
+                            ) {
+                                AssetIcon(
+                                    filename = "google_icon.png",
+                                    modifier = Modifier
+                                        .size(40.dp)
+                                        .padding(end = 8.dp)
+                                )
+                                Text(
+                                    text = " Continue with Google",
+                                    color = Color.Black,
+                                    style = MaterialTheme.typography.bodyMedium
+                                )
+                            }
+                        }
+                        Spacer(modifier = Modifier.height(16.dp))
 
-                    // OR Divider
-                    Spacer(modifier = Modifier.height(12.dp))
-
-                    Row(
-                        modifier = Modifier
-                            .fillMaxWidth()
-                            .padding(horizontal = 16.dp),
-                        verticalAlignment = Alignment.CenterVertically
-                    ) {
-                        Divider(modifier = Modifier.weight(1f), color = Color.Gray)
-                        Text(
-                            text = "  or  ",
-                            color = Color.Gray,
-                            style = MaterialTheme.typography.bodyMedium
-                        )
-                        Divider(modifier = Modifier.weight(1f), color = Color.Gray)
-                    }
-
-                    Spacer(modifier = Modifier.height(12.dp))
-
-                    // Create Account Button
-                    OutlinedButton(
-                        onClick = { navController.navigate("signup") },
-                        modifier = Modifier
-                            .fillMaxWidth()
-                            .height(50.dp),
-                        colors = ButtonDefaults.outlinedButtonColors(
-                            containerColor = Color(0xFFBED2D0),
-                            contentColor = Color(0xFF2B524A)
-                        ),
-                        shape = RoundedCornerShape(25.dp),
-                        border = BorderStroke(1.dp, Color(0xFF2B524A))
-                    ) {
-                        Text("Create an account")
+                        // Don't have an account? Create one text
+                        Row(
+                            modifier = Modifier.fillMaxWidth(),
+                            horizontalArrangement = Arrangement.Start
+                        ) {
+                            Text(
+                                text = "Don't have an account? ",
+                                style = MaterialTheme.typography.bodySmall,
+                                color = Color.Gray
+                            )
+                            Text(
+                                text = "Create an Account",
+                                style = MaterialTheme.typography.bodySmall,
+                                color = Color.Black,
+                                fontWeight = FontWeight.Bold,
+                                modifier = Modifier.clickable {
+                                    navController.navigate("signup")
+                                }
+                            )
+                        }
                     }
                 }
             }
