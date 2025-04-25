@@ -19,5 +19,11 @@ fun AssetIcon(filename: String, modifier: Modifier = Modifier.size(24.dp)) {
             .build()
     )
 
-    Icon(painter = painter, contentDescription = null, modifier = modifier)
+    Icon(
+        painter = painter,
+        contentDescription = null,
+        modifier = modifier,
+        tint = androidx.compose.ui.graphics.Color.Unspecified // 👈 This keeps original image color
+    )
 }
+

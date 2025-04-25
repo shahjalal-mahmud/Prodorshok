@@ -5,19 +5,45 @@ import android.widget.Toast
 import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.compose.foundation.BorderStroke
-import androidx.compose.material3.OutlinedTextFieldDefaults
 import androidx.compose.foundation.background
-import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.clickable
+import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.heightIn
+import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.Email
-import androidx.compose.material.icons.filled.Lock
 import androidx.compose.material.icons.filled.MoreVert
-import androidx.compose.material3.*
-import androidx.compose.runtime.*
+import androidx.compose.material3.ButtonDefaults
+import androidx.compose.material3.Divider
+import androidx.compose.material3.DropdownMenu
+import androidx.compose.material3.DropdownMenuItem
+import androidx.compose.material3.Icon
+import androidx.compose.material3.IconButton
+import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.OutlinedButton
+import androidx.compose.material3.OutlinedTextField
+import androidx.compose.material3.OutlinedTextFieldDefaults
+import androidx.compose.material3.Surface
+import androidx.compose.material3.Text
+import androidx.compose.material3.TextButton
+import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
+import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
@@ -28,15 +54,13 @@ import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
+import com.example.prodorshok.R
+import com.example.prodorshok.ui.components.AssetIcon
 import com.example.prodorshok.ui.viewmodel.AuthViewModel
 import com.google.android.gms.auth.api.identity.BeginSignInRequest
 import com.google.android.gms.auth.api.identity.Identity
-import com.google.android.gms.auth.api.identity.SignInClient
 import com.google.android.gms.common.api.ApiException
 import com.google.firebase.auth.GoogleAuthProvider
-import com.example.prodorshok.R
-import coil.compose.rememberAsyncImagePainter
-import com.example.prodorshok.ui.components.AssetIcon
 
 @Composable
 fun LoginScreen(navController: NavController, authViewModel: AuthViewModel = viewModel()) {
@@ -147,7 +171,7 @@ fun LoginScreen(navController: NavController, authViewModel: AuthViewModel = vie
                 Spacer(modifier = Modifier.height(16.dp))
                 Text(
                     text = "Prodorshok",
-                    style = MaterialTheme.typography.headlineMedium.copy(
+                    style = MaterialTheme.typography.headlineLarge.copy(
                         fontFamily = FontFamily(Font(R.font.rocatwo_bold)),
                         fontWeight = FontWeight.Bold,
                         color = Color(0xFFEDB232)
@@ -158,7 +182,7 @@ fun LoginScreen(navController: NavController, authViewModel: AuthViewModel = vie
                     text = "Your Career, Our Guidance",
                     style = MaterialTheme.typography.bodyLarge.copy(
                         fontFamily = FontFamily(Font(R.font.rocatwo_regular)),
-                        fontWeight = FontWeight.Normal,
+                        fontWeight = FontWeight.SemiBold,
                         color = Color(0xFFEDB232)
                     )
                 )
@@ -177,8 +201,8 @@ fun LoginScreen(navController: NavController, authViewModel: AuthViewModel = vie
                         label = { Text("Email or Phone") },
                         leadingIcon = {
                             AssetIcon(
-                                filename = "email_icon.png", // Use the custom file name for the email icon
-                                modifier = Modifier.size(24.dp) // Adjust size as needed
+                                filename = "email_icon.png",
+                                modifier = Modifier.size(24.dp)
                             )
                         },
                         modifier = Modifier.fillMaxWidth(0.9f),
@@ -207,8 +231,8 @@ fun LoginScreen(navController: NavController, authViewModel: AuthViewModel = vie
                             label = { Text("Password") },
                             leadingIcon = {
                                 AssetIcon(
-                                    filename = "password_icon.png", // Use the custom file name for the password icon
-                                    modifier = Modifier.size(24.dp) // Adjust size as needed
+                                    filename = "password_icon.png",
+                                    modifier = Modifier.size(24.dp)
                                 )
                             },
                             visualTransformation = PasswordVisualTransformation(),
@@ -249,30 +273,61 @@ fun LoginScreen(navController: NavController, authViewModel: AuthViewModel = vie
 
                     Spacer(modifier = Modifier.height(8.dp))
 
-                    Button(
-                        onClick = {
-                            authViewModel.loginUser(
-                                onLoginSuccess = {
-                                    navController.navigate("home") {
-                                        popUpTo("login") { inclusive = true }
-                                    }
-                                },
-                                onLoginFailure = { error ->
-                                    Toast.makeText(context, error, Toast.LENGTH_SHORT).show()
-                                }
-                            )
-                        },
+                    // Login Button
+                    Box(
                         modifier = Modifier
                             .fillMaxWidth()
-                            .height(50.dp),
-                        colors = ButtonDefaults.buttonColors(containerColor = Color(0xFF1A4F40)),
-                        shape = RoundedCornerShape(25.dp)
+                            .height(50.dp)
+                            .clip(RoundedCornerShape(25.dp))
+                            .background(
+                                brush = Brush.linearGradient(
+                                    colors = listOf(Color(0xFF4C8479), Color(0xFF2B5F56)),
+                                    start = Offset.Zero,
+                                    end = Offset.Infinite
+                                )
+                            )
+                            .clickable {
+                                authViewModel.loginUser(
+                                    onLoginSuccess = {
+                                        navController.navigate("home") {
+                                            popUpTo("login") { inclusive = true }
+                                        }
+                                    },
+                                    onLoginFailure = { error ->
+                                        Toast.makeText(context, error, Toast.LENGTH_SHORT).show()
+                                    }
+                                )
+                            },
+                        contentAlignment = Alignment.Center
                     ) {
-                        Text("Login", color = Color.White)
+                        Text(
+                            text = "Login",
+                            color = Color.White,
+                            style = MaterialTheme.typography.bodyLarge
+                        )
                     }
 
-                    Spacer(modifier = Modifier.height(8.dp))
+                    // OR Divider
+                    Spacer(modifier = Modifier.height(12.dp))
 
+                    Row(
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .padding(horizontal = 16.dp),
+                        verticalAlignment = Alignment.CenterVertically
+                    ) {
+                        Divider(modifier = Modifier.weight(1f), color = Color.Gray)
+                        Text(
+                            text = "  or  ",
+                            color = Color.Gray,
+                            style = MaterialTheme.typography.bodyMedium
+                        )
+                        Divider(modifier = Modifier.weight(1f), color = Color.Gray)
+                    }
+
+                    Spacer(modifier = Modifier.height(12.dp))
+
+                    // Create Account Button
                     OutlinedButton(
                         onClick = { navController.navigate("signup") },
                         modifier = Modifier
