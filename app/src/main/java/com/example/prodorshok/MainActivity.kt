@@ -5,8 +5,7 @@ import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
-import androidx.compose.runtime.Composable
-import com.example.prodorshok.ui.screens.Navigation
+import com.example.prodorshok.ui.navigation.Navigation
 import com.example.prodorshok.ui.theme.ProdorshokTheme
 
 class MainActivity : ComponentActivity() {

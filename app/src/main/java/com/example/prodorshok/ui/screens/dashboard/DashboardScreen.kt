@@ -1,6 +1,6 @@
 // ui/screens/DashboardScreen.kt
 
-package com.example.prodorshok.ui.screens
+package com.example.prodorshok.ui.screens.dashboard
 
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
@@ -13,7 +13,6 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import androidx.navigation.NavHostController
 
 @Composable
 fun DashboardScreen(onOptionClick: (String) -> Unit) {

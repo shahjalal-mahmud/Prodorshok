@@ -1,6 +1,6 @@
 @file:OptIn(ExperimentalMaterial3Api::class)
 
-package com.example.prodorshok.ui.screens
+package com.example.prodorshok.ui.screens.profile
 
 import android.net.Uri
 import android.widget.Toast

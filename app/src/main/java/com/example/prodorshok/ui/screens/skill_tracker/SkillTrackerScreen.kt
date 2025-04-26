@@ -1,4 +1,4 @@
-package com.example.prodorshok.ui.screens
+package com.example.prodorshok.ui.screens.skill_tracker
 
 import androidx.compose.foundation.layout.*
 import androidx.compose.material3.*
@@ -9,7 +9,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 
 @Composable
-fun CoursesScreen() {
+fun SkillTrackerScreen() {
     Column(
         modifier = Modifier
             .fillMaxSize()
@@ -18,11 +18,11 @@ fun CoursesScreen() {
         verticalArrangement = Arrangement.Center
     ) {
         Text(
-            text = "📚 Recommended Courses",
+            text = "🧠 Skill Tracker",
             fontSize = 24.sp,
             style = MaterialTheme.typography.titleLarge
         )
         Spacer(modifier = Modifier.height(16.dp))
-        Text(text = "This page will show curated course recommendations based on user goals and interests.")
+        Text(text = "This page will help users track their learning progress and completed skills.")
     }
 }

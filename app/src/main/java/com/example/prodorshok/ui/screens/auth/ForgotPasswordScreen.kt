@@ -1,4 +1,4 @@
-package com.example.prodorshok.ui.screens
+package com.example.prodorshok.ui.screens.auth
 
 import android.widget.Toast
 import androidx.compose.foundation.layout.*
@@ -10,7 +10,7 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
-import com.example.prodorshok.ui.viewmodel.AuthViewModel
+import com.example.prodorshok.viewmodel.auth.AuthViewModel
 
 @Composable
 fun ForgotPasswordScreen(navController: NavController, authViewModel: AuthViewModel = viewModel()) {

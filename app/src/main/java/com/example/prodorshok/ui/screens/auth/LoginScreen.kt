@@ -1,4 +1,4 @@
-package com.example.prodorshok.ui.screens
+package com.example.prodorshok.ui.screens.auth
 
 import android.app.Activity
 import android.widget.Toast
@@ -57,7 +57,7 @@ import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
 import com.example.prodorshok.R
 import com.example.prodorshok.ui.components.AssetIcon
-import com.example.prodorshok.ui.viewmodel.AuthViewModel
+import com.example.prodorshok.viewmodel.auth.AuthViewModel
 import com.google.android.gms.auth.api.identity.BeginSignInRequest
 import com.google.android.gms.auth.api.identity.Identity
 import com.google.android.gms.common.api.ApiException

@@ -1,6 +1,5 @@
-package com.example.prodorshok.ui.screens
+package com.example.prodorshok.ui.screens.splash
 
-import android.util.Log
 import androidx.compose.animation.core.*
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background

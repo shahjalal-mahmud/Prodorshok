@@ -1,4 +1,4 @@
-package com.example.prodorshok.ui.screens
+package com.example.prodorshok.ui.screens.auth
 
 import android.widget.Toast
 import androidx.compose.foundation.background
@@ -28,7 +28,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
-import com.example.prodorshok.ui.viewmodel.AuthViewModel
+import com.example.prodorshok.viewmodel.auth.AuthViewModel
 
 @Composable
 fun SignUpScreen(navController: NavController, authViewModel: AuthViewModel = viewModel()) {

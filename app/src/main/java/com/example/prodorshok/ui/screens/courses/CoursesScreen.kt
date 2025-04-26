@@ -1,4 +1,4 @@
-package com.example.prodorshok.ui.screens
+package com.example.prodorshok.ui.screens.courses
 
 import androidx.compose.foundation.layout.*
 import androidx.compose.material3.*
@@ -9,7 +9,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 
 @Composable
-fun RoadmapScreen() {
+fun CoursesScreen() {
     Column(
         modifier = Modifier
             .fillMaxSize()
@@ -18,11 +18,11 @@ fun RoadmapScreen() {
         verticalArrangement = Arrangement.Center
     ) {
         Text(
-            text = "🎯 Personalized Roadmap",
+            text = "📚 Recommended Courses",
             fontSize = 24.sp,
             style = MaterialTheme.typography.titleLarge
         )
         Spacer(modifier = Modifier.height(16.dp))
-        Text(text = "This is where users will get their career roadmap based on profile and interests.")
+        Text(text = "This page will show curated course recommendations based on user goals and interests.")
     }
 }

@@ -1,4 +1,4 @@
-package com.example.prodorshok.ui.screens
+package com.example.prodorshok.ui.screens.career_news
 
 import androidx.compose.foundation.layout.*
 import androidx.compose.material3.*
@@ -9,7 +9,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 
 @Composable
-fun SkillTrackerScreen() {
+fun CareerNewsScreen() {
     Column(
         modifier = Modifier
             .fillMaxSize()
@@ -18,11 +18,11 @@ fun SkillTrackerScreen() {
         verticalArrangement = Arrangement.Center
     ) {
         Text(
-            text = "🧠 Skill Tracker",
+            text = "📰 Career News / Tips",
             fontSize = 24.sp,
             style = MaterialTheme.typography.titleLarge
         )
         Spacer(modifier = Modifier.height(16.dp))
-        Text(text = "This page will help users track their learning progress and completed skills.")
+        Text(text = "Stay updated with the latest career advice, tips, and job market trends.")
     }
 }
