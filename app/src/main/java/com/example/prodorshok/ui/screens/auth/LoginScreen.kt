@@ -103,7 +103,7 @@ fun LoginScreen(
             )
     ) {
         Image(
-            painter = painterResource(id = R.drawable.top_wave),
+            painter = painterResource(id = R.drawable.yellow_top_wave),
             contentDescription = "Top Background",
             contentScale = ContentScale.Crop,
             modifier = Modifier
@@ -147,9 +147,7 @@ fun LoginScreen(
                 Box(
                     modifier = Modifier
                         .size(180.dp)
-                        .background(color = Color.Black.copy(alpha = 0.1f), shape = CircleShape)
                 )
-
                 Spacer(modifier = Modifier.height(16.dp))
                 Text(
                     text = "Prodorshok",
@@ -258,27 +256,17 @@ fun LoginScreen(
                 ),
             ) {
 
-                // Gradient bottom card shape with buttons
+                // Solid color bottom card shape with buttons
                 Surface(
                     modifier = Modifier
                         .fillMaxWidth()
                         .heightIn(min = 285.dp), // Keep height controlled here
                     shape = RoundedCornerShape(topStart = 30.dp, topEnd = 30.dp),
                     shadowElevation = 8.dp,
-                    color = Color.Transparent
+                    color = Color(0xFFFFCD4E) // Solid color #ffcd4e
                 ) {
                     Column(
                         modifier = Modifier
-                            .background(
-                                brush = Brush.verticalGradient(
-                                    colors = listOf(
-                                        Color(0xFFFF9539),
-                                        Color(0xFFE86A2C),
-                                        Color(0xFFFF4500)
-                                    )
-                                ),
-                                shape = RoundedCornerShape(topStart = 30.dp, topEnd = 30.dp)
-                            )
                             .fillMaxWidth()
                             .heightIn(min = 285.dp) // Exact height control here too
                             .padding(horizontal = 24.dp)
@@ -287,7 +275,7 @@ fun LoginScreen(
                     ) {
 
                         TextButton(onClick = { navController.navigate("forgot_password") }) {
-                            Text("Forgot Password?", color = Color.White)
+                            Text("Forgot Password?", color = Color.Black)
                         }
 
                         Spacer(modifier = Modifier.height(8.dp))
@@ -331,7 +319,7 @@ fun LoginScreen(
                             } else {
                                 Text(
                                     text = "Login",
-                                    color = Color.White,
+                                    color = Color.Black,
                                     style = MaterialTheme.typography.bodyLarge
                                 )
                             }
@@ -346,13 +334,13 @@ fun LoginScreen(
                                 .padding(horizontal = 16.dp),
                             verticalAlignment = Alignment.CenterVertically
                         ) {
-                            Divider(modifier = Modifier.weight(1f), color = Color.White)
+                            Divider(modifier = Modifier.weight(1f), color = Color.Black)
                             Text(
                                 text = "  or  ",
-                                color = Color.White,
+                                color = Color.Black,
                                 style = MaterialTheme.typography.bodyMedium
                             )
-                            Divider(modifier = Modifier.weight(1f), color = Color.White)
+                            Divider(modifier = Modifier.weight(1f), color = Color.Black)
                         }
 
                         Spacer(modifier = Modifier.height(12.dp))
@@ -399,12 +387,12 @@ fun LoginScreen(
                             Text(
                                 text = "Don't have an account? ",
                                 style = MaterialTheme.typography.bodySmall,
-                                color = Color.White
+                                color = Color.Black
                             )
                             Text(
                                 text = "Create an Account",
                                 style = MaterialTheme.typography.bodySmall,
-                                color = Color.White,
+                                color = Color.Black,
                                 fontWeight = FontWeight.Bold,
                                 modifier = Modifier.clickable {
                                     navController.navigate("signup")
