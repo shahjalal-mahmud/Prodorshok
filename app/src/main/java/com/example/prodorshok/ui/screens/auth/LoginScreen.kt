@@ -103,7 +103,7 @@ fun LoginScreen(
             )
     ) {
         Image(
-            painter = painterResource(id = R.drawable.top_wave),
+            painter = painterResource(id = R.drawable.pinki_top_wave),
             contentDescription = "Top Background",
             contentScale = ContentScale.Crop,
             modifier = Modifier
@@ -147,7 +147,6 @@ fun LoginScreen(
                 Box(
                     modifier = Modifier
                         .size(180.dp)
-                        .background(color = Color.Black.copy(alpha = 0.1f), shape = CircleShape)
                 )
 
                 Spacer(modifier = Modifier.height(16.dp))
@@ -270,12 +269,13 @@ fun LoginScreen(
                     Column(
                         modifier = Modifier
                             .background(
-                                brush = Brush.verticalGradient(
+                                brush = Brush.linearGradient(
                                     colors = listOf(
-                                        Color(0xFFFF9539),
-                                        Color(0xFFE86A2C),
-                                        Color(0xFFFF4500)
-                                    )
+                                        Color(0xFFFFC6AF), // #ffc6af
+                                        Color(0xFFFF2D65)  // #ff2d65
+                                    ),
+                                    start = Offset(0f, 0f), // Start at the top-left
+                                    end = Offset(1f, 1f)    // End at the bottom-right (180° angle)
                                 ),
                                 shape = RoundedCornerShape(topStart = 30.dp, topEnd = 30.dp)
                             )
