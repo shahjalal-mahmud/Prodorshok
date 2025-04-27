@@ -5,6 +5,7 @@ import androidx.compose.runtime.Composable
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
+import com.example.prodorshok.ui.components.AutoSmartBackHandler
 import com.example.prodorshok.ui.screens.career_news.CareerNewsScreen
 import com.example.prodorshok.ui.screens.courses.CoursesScreen
 import com.example.prodorshok.ui.screens.mentorship.MentorshipScreen
@@ -18,10 +19,14 @@ import com.example.prodorshok.ui.screens.home.HomeScreen
 import com.example.prodorshok.ui.screens.profile.ProfilePage
 import com.example.prodorshok.ui.screens.profile.ProfileSetupScreen
 import com.example.prodorshok.ui.screens.splash.WelcomeScreen
+import com.example.prodorshok.ui.components.AutoSmartBackHandler
 
 @Composable
 fun Navigation(startGoogleSignIn: () -> Unit) {
     val navController = rememberNavController()
+
+    // Call AutoSmartBackHandler to manage back button behavior
+    AutoSmartBackHandler(navController)
 
     NavHost(navController = navController, startDestination = "welcome") {
         composable("welcome") { WelcomeScreen(navController) }
@@ -29,7 +34,8 @@ fun Navigation(startGoogleSignIn: () -> Unit) {
             LoginScreen(navController, startGoogleSignIn) // Pass the startGoogleSignIn function here
         }
         composable("signup") {
-            SignUpScreen(navController, startGoogleSignIn) }
+            SignUpScreen(navController, startGoogleSignIn)
+        }
         composable("forgot_password") { ForgotPasswordScreen(navController) }
         composable("home") { HomeScreen(navController) }
         composable("profile_setup") { ProfileSetupScreen(navController) }
