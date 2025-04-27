@@ -19,6 +19,7 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.heightIn
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
@@ -115,7 +116,8 @@ fun LoginScreen(
 
                 DropdownMenu(
                     expanded = expanded,
-                    onDismissRequest = { expanded = false }
+                    onDismissRequest = { expanded = false },
+                    modifier = Modifier.width(180.dp) // Optional: adjust width
                 ) {
                     DropdownMenuItem(
                         text = { Text("Need Help?") },
@@ -127,6 +129,15 @@ fun LoginScreen(
                     )
                     DropdownMenuItem(
                         text = { Text("Give Feedback") },
+                        onClick = { /* TODO */ }
+                    )
+                    Divider()
+                    DropdownMenuItem(
+                        text = { Text("Settings") },
+                        onClick = { /* TODO */ }
+                    )
+                    DropdownMenuItem(
+                        text = { Text("Privacy Policy") },
                         onClick = { /* TODO */ }
                     )
                 }

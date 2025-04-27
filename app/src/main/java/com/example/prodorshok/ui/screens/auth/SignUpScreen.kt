@@ -7,6 +7,8 @@ import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.automirrored.filled.ArrowBack
+import androidx.compose.material.icons.filled.ArrowBack
 import androidx.compose.material.icons.filled.Close
 import androidx.compose.material.icons.filled.Email
 import androidx.compose.material.icons.filled.Lock
@@ -38,9 +40,9 @@ import com.example.prodorshok.viewmodel.auth.AuthViewModel
 fun SignUpScreen(
     navController: NavController,
     startGoogleSignIn: () -> Unit,
-    authViewModel: AuthViewModel = viewModel()) {
+    authViewModel: AuthViewModel = viewModel()
+) {
     val context = LocalContext.current
-
     val email by remember { authViewModel.email }
     val password by remember { authViewModel.password }
     val confirmPassword by remember { authViewModel.confirmPassword }
@@ -50,89 +52,83 @@ fun SignUpScreen(
     var agreeToTerms by remember { mutableStateOf(false) }
 
     Box(modifier = Modifier.fillMaxSize()) {
-        // Top Menu (Icon and Dropdown)
-        Box(
+        // Top Menu (Three Dots and Back Button)
+        Row(
             modifier = Modifier
                 .fillMaxWidth()
-                .padding(top = 16.dp, start = 16.dp, end = 16.dp)
+                .padding(top = 24.dp, start = 24.dp, end = 16.dp),
+            horizontalArrangement = Arrangement.SpaceBetween, // Space between menu and back
+            verticalAlignment = Alignment.Top
         ) {
+            // Three-Dot Menu (Top Left)
             var expanded by remember { mutableStateOf(false) }
 
-            // Back Button (cross-shaped icon)
-            IconButton(
-                onClick = { navController.navigate("login") },
-                modifier = Modifier.align(Alignment.TopEnd)
-            ) {
-                Icon(
-                    imageVector = Icons.Default.Close,
-                    contentDescription = "Back",
-                    tint = Color.White
-                )
-            }
-
-            // Dropdown Menu (Three-Dot Icon)
-            Row(
-                modifier = Modifier.align(Alignment.TopStart),
-                horizontalArrangement = Arrangement.Start
-            ) {
+            Box {
                 IconButton(
                     onClick = { expanded = true },
                     modifier = Modifier.size(40.dp)
-                    ) {
-                    Icon(Icons.Default.MoreVert, contentDescription = "Menu", tint = Color.White)
+                ) {
+                    Icon(Icons.Default.MoreVert, contentDescription = "Menu", tint = Color.Black)
                 }
 
                 DropdownMenu(
                     expanded = expanded,
-                    onDismissRequest = { expanded = false }
+                    onDismissRequest = { expanded = false },
+                    modifier = Modifier.width(180.dp) // Optional: adjust width
                 ) {
                     DropdownMenuItem(
                         text = { Text("Need Help?") },
-                        onClick = { /* TODO: Add help functionality */ }
+                        onClick = { /* TODO */ }
                     )
                     DropdownMenuItem(
                         text = { Text("Contact Us") },
-                        onClick = { /* TODO: Add contact functionality */ }
+                        onClick = { /* TODO */ }
                     )
                     DropdownMenuItem(
                         text = { Text("Give Feedback") },
-                        onClick = { /* TODO: Add feedback functionality */ }
+                        onClick = { /* TODO */ }
+                    )
+                    Divider()
+                    DropdownMenuItem(
+                        text = { Text("Settings") },
+                        onClick = { /* TODO */ }
+                    )
+                    DropdownMenuItem(
+                        text = { Text("Privacy Policy") },
+                        onClick = { /* TODO */ }
                     )
                 }
             }
+
+            // Back Button (Now Top Right with Cross Icon)
+            IconButton(
+                onClick = { navController.popBackStack() },
+                modifier = Modifier.size(40.dp)
+            ) {
+                Icon(Icons.Default.Close, contentDescription = "Close", tint = Color.Black)
+            }
         }
 
-        // Background and SignUp Form (Your existing layout below)
-        Box(
-            modifier = Modifier
-                .fillMaxWidth()
-                .height(230.dp)
-                .clip(RoundedCornerShape(bottomStart = 44.dp, bottomEnd = 44.dp))
-                .background(
-                    brush = Brush.verticalGradient(
-                        colors = listOf(Color(0xFFA9C7C3), Color(0xFF4C8479))
-                    )
-                )
-        )
-
+        // SignUp Form
         Column(
             modifier = Modifier
                 .fillMaxSize()
                 .padding(horizontal = 32.dp),
             horizontalAlignment = Alignment.Start,
         ) {
-            Spacer(modifier = Modifier.height(64.dp)) // Push text downward from top
+            Spacer(modifier = Modifier.height(64.dp))
 
             Text(
                 text = "Let’s\nCreate\nYour\nAccount",
-                color = Color.White,
+                color = Color.Black,
                 fontWeight = FontWeight.Bold,
                 fontSize = 36.sp,
                 lineHeight = 32.sp
             )
 
-            Spacer(modifier = Modifier.height(24.dp)) // Bottom padding between text and inputs
+    Spacer(modifier = Modifier.height(24.dp)) // Bottom padding between text and inputs
 
+            // Input Fields for Full Name, Email, Password, Confirm Password
             RoundedInputField(
                 value = fullName,
                 onValueChange = { fullName = it },
@@ -152,7 +148,7 @@ fun SignUpScreen(
                 onValueChange = { authViewModel.password.value = it },
                 label = "Password",
                 icon = Icons.Default.Lock,
-                isPassword = true // Enable password visibility toggle
+                isPassword = true
             )
 
             RoundedInputField(
@@ -160,19 +156,21 @@ fun SignUpScreen(
                 onValueChange = { authViewModel.confirmPassword.value = it },
                 label = "Retype Password",
                 icon = Icons.Default.Lock,
-                isPassword = true // Enable password visibility toggle
+                isPassword = true
             )
 
-            Spacer(modifier = Modifier.height(4.dp))
+            Spacer(modifier = Modifier.height(8.dp)) // Space before the Terms checkbox
 
+            // Checkbox for Terms and Conditions
             Row(verticalAlignment = Alignment.CenterVertically) {
                 Checkbox(checked = agreeToTerms, onCheckedChange = { agreeToTerms = it })
                 Text(text = "I agree to the ", color = Color.Gray)
                 Text(text = "Terms & Privacy", color = Color.Black, style = MaterialTheme.typography.labelMedium)
             }
 
-            Spacer(modifier = Modifier.height(16.dp))
+            Spacer(modifier = Modifier.height(16.dp)) // Space before the Sign-Up button
 
+            // Sign Up Button
             Box(
                 modifier = Modifier
                     .fillMaxWidth()
@@ -185,29 +183,21 @@ fun SignUpScreen(
                     )
                     .clickable {
                         if (!agreeToTerms) {
-                            Toast.makeText(
-                                context,
-                                "Please agree to the Terms & Privacy",
-                                Toast.LENGTH_SHORT
-                            ).show()
+                            Toast.makeText(context, "Please agree to the Terms & Privacy", Toast.LENGTH_SHORT).show()
                             return@clickable
                         }
                         if (password != confirmPassword) {
-                            Toast.makeText(context, "Passwords do not match", Toast.LENGTH_SHORT)
-                                .show()
+                            Toast.makeText(context, "Passwords do not match", Toast.LENGTH_SHORT).show()
                             return@clickable
                         }
                         authViewModel.signUpUser(
                             onSignUpSuccess = {
-                                Toast.makeText(context, "Account Created!", Toast.LENGTH_SHORT)
-                                    .show()
+                                Toast.makeText(context, "Account Created!", Toast.LENGTH_SHORT).show()
                                 navController.navigate("login") {
                                     popUpTo("signup") { inclusive = true }
                                 }
                             },
-                            onSignUpFailure = { error ->
-                                Toast.makeText(context, error, Toast.LENGTH_SHORT).show()
-                            }
+                            onSignUpFailure = { error -> Toast.makeText(context, error, Toast.LENGTH_SHORT).show() }
                         )
                     },
                 contentAlignment = Alignment.Center
@@ -215,7 +205,7 @@ fun SignUpScreen(
                 Text("Sign Up", color = Color.White)
             }
 
-            Spacer(modifier = Modifier.height(12.dp))
+            Spacer(modifier = Modifier.height(12.dp)) // Space before Continue with Google button
 
             // Continue with Google Button
             OutlinedButton(
@@ -249,16 +239,30 @@ fun SignUpScreen(
                 }
             }
 
-            Spacer(modifier = Modifier.height(16.dp))
+            Spacer(modifier = Modifier.height(16.dp)) // Space before Login Text
 
-            TextButton(onClick = { navController.navigate("login") }) {
+            // Already have an account? Login text
+            Row(
+                modifier = Modifier.fillMaxWidth(),
+                horizontalArrangement = Arrangement.Start
+            ) {
                 Text(
-                    text = "Have an account? Tap here to Login",
+                    text = "Already have an account? ",
                     style = MaterialTheme.typography.bodySmall,
                     color = Color.Gray
                 )
+                Text(
+                    text = "Tap here to Login",
+                    style = MaterialTheme.typography.bodySmall,
+                    color = Color.Black,
+                    fontWeight = FontWeight.Bold,
+                    modifier = Modifier.clickable {
+                        navController.navigate("login")
+                    }
+                )
             }
 
+            // Loading indicator
             if (isLoading) {
                 Spacer(modifier = Modifier.height(16.dp))
                 CircularProgressIndicator()
