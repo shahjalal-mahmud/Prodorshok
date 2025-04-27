@@ -34,6 +34,7 @@ import androidx.compose.ui.unit.sp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
 import com.example.prodorshok.ui.components.AssetIcon
+import com.example.prodorshok.ui.components.AuthTopMenu
 import com.example.prodorshok.viewmodel.auth.AuthViewModel
 
 @Composable
@@ -52,62 +53,25 @@ fun SignUpScreen(
     var agreeToTerms by remember { mutableStateOf(false) }
 
     Box(modifier = Modifier.fillMaxSize()) {
-        // Top Menu (Three Dots and Back Button)
-        Row(
-            modifier = Modifier
-                .fillMaxWidth()
-                .padding(top = 24.dp, start = 24.dp, end = 16.dp),
-            horizontalArrangement = Arrangement.SpaceBetween, // Space between menu and back
-            verticalAlignment = Alignment.Top
-        ) {
-            // Three-Dot Menu (Top Left)
-            var expanded by remember { mutableStateOf(false) }
 
-            Box {
-                IconButton(
-                    onClick = { expanded = true },
-                    modifier = Modifier.size(40.dp)
-                ) {
-                    Icon(Icons.Default.MoreVert, contentDescription = "Menu", tint = Color.Black)
+        // ✨ Reusable Top Menu
+        AuthTopMenu(
+            navController = navController,
+            onMenuItemClick = { menuItem ->
+                when (menuItem) {
+                    "Need Help" -> {
+                        // TODO: Handle Need Help click
+                    }
+                    "Contact Us" -> {
+                        // TODO: Handle Contact Us click
+                    }
+                    "Give Feedback" -> {
+                        // TODO: Handle Give Feedback click
+                    }
                 }
-
-                DropdownMenu(
-                    expanded = expanded,
-                    onDismissRequest = { expanded = false },
-                    modifier = Modifier.width(180.dp) // Optional: adjust width
-                ) {
-                    DropdownMenuItem(
-                        text = { Text("Need Help?") },
-                        onClick = { /* TODO */ }
-                    )
-                    DropdownMenuItem(
-                        text = { Text("Contact Us") },
-                        onClick = { /* TODO */ }
-                    )
-                    DropdownMenuItem(
-                        text = { Text("Give Feedback") },
-                        onClick = { /* TODO */ }
-                    )
-                    Divider()
-                    DropdownMenuItem(
-                        text = { Text("Settings") },
-                        onClick = { /* TODO */ }
-                    )
-                    DropdownMenuItem(
-                        text = { Text("Privacy Policy") },
-                        onClick = { /* TODO */ }
-                    )
-                }
-            }
-
-            // Back Button (Now Top Right with Cross Icon)
-            IconButton(
-                onClick = { navController.popBackStack() },
-                modifier = Modifier.size(40.dp)
-            ) {
-                Icon(Icons.Default.Close, contentDescription = "Close", tint = Color.Black)
-            }
-        }
+            },
+            iconTintColor = Color.Black
+        )
 
         // SignUp Form
         Column(

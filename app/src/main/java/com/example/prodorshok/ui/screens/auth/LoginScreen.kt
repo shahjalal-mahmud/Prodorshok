@@ -69,6 +69,7 @@ import androidx.navigation.NavController
 import com.example.prodorshok.R
 import com.example.prodorshok.auth.GoogleAuthClient
 import com.example.prodorshok.ui.components.AssetIcon
+import com.example.prodorshok.ui.components.AuthTopMenu
 import com.example.prodorshok.viewmodel.auth.AuthViewModel
 
 @Composable
@@ -85,6 +86,7 @@ fun LoginScreen(
     val password by remember { authViewModel.password }
     val isLoading by remember { authViewModel.isLoading }
     val errorMessage by remember { authViewModel.errorMessage }
+
     // Password Visibility State
     val passwordVisibility = remember { mutableStateOf(false) }
 
@@ -98,10 +100,8 @@ fun LoginScreen(
                         Color(0xFFFFFFFF)
                     )
                 )
-            ),
-
-    )
-    {
+            )
+    ) {
         Image(
             painter = painterResource(id = R.drawable.top_wave),
             contentDescription = "Top Background",
@@ -111,6 +111,24 @@ fun LoginScreen(
                 .height(220.dp)
                 .align(Alignment.TopCenter)
         )
+        // ✨ Reusable Top Menu
+        AuthTopMenu(
+            navController = navController,
+            onMenuItemClick = { menuItem ->
+                when (menuItem) {
+                    "Need Help" -> {
+                        // TODO: Handle Need Help click
+                    }
+                    "Contact Us" -> {
+                        // TODO: Handle Contact Us click
+                    }
+                    "Give Feedback" -> {
+                        // TODO: Handle Give Feedback click
+                    }
+                }
+            },
+            iconTintColor = Color.White
+        )
 
         Column(
             modifier = Modifier
@@ -118,45 +136,6 @@ fun LoginScreen(
                 .padding(24.dp),
             verticalArrangement = Arrangement.SpaceBetween
         ) {
-            // Top Menu (Icon and Dropdown)
-            Row(
-                modifier = Modifier.fillMaxWidth(),
-                horizontalArrangement = Arrangement.Start
-            ) {
-                var expanded by remember { mutableStateOf(false) }
-
-                IconButton(onClick = { expanded = true }) {
-                    Icon(Icons.Default.MoreVert, contentDescription = "Menu", tint = Color.White)
-                }
-
-                DropdownMenu(
-                    expanded = expanded,
-                    onDismissRequest = { expanded = false },
-                    modifier = Modifier.width(180.dp) // Optional: adjust width
-                ) {
-                    DropdownMenuItem(
-                        text = { Text("Need Help?") },
-                        onClick = { /* TODO */ }
-                    )
-                    DropdownMenuItem(
-                        text = { Text("Contact Us") },
-                        onClick = { /* TODO */ }
-                    )
-                    DropdownMenuItem(
-                        text = { Text("Give Feedback") },
-                        onClick = { /* TODO */ }
-                    )
-                    Divider()
-                    DropdownMenuItem(
-                        text = { Text("Settings") },
-                        onClick = { /* TODO */ }
-                    )
-                    DropdownMenuItem(
-                        text = { Text("Privacy Policy") },
-                        onClick = { /* TODO */ }
-                    )
-                }
-            }
 
             // Main content: Logo, Text, Input fields
             Column(
