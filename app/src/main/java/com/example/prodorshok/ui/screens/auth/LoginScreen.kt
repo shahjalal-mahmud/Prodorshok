@@ -6,6 +6,7 @@ import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.core.tween
 import androidx.compose.animation.slideInVertically
 import androidx.compose.foundation.BorderStroke
+import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
@@ -54,7 +55,9 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.Font
 import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.font.FontWeight
@@ -91,12 +94,24 @@ fun LoginScreen(
             .background(
                 brush = Brush.verticalGradient(
                     listOf(
-                        Color(0xFF0F4C3A),
-                        Color(0xFF1C6758)
+                        Color(0xFFFFFFFF),
+                        Color(0xFFFFFFFF)
                     )
                 )
             ),
-    ) {
+
+    )
+    {
+        Image(
+            painter = painterResource(id = R.drawable.top_wave),
+            contentDescription = "Top Background",
+            contentScale = ContentScale.Crop,
+            modifier = Modifier
+                .fillMaxWidth()
+                .height(220.dp)
+                .align(Alignment.TopCenter)
+        )
+
         Column(
             modifier = Modifier
                 .fillMaxSize()
@@ -153,7 +168,7 @@ fun LoginScreen(
                 Box(
                     modifier = Modifier
                         .size(180.dp)
-                        .background(color = Color.White.copy(alpha = 0.1f), shape = CircleShape)
+                        .background(color = Color.Black.copy(alpha = 0.1f), shape = CircleShape)
                 )
 
                 Spacer(modifier = Modifier.height(16.dp))
@@ -162,7 +177,7 @@ fun LoginScreen(
                     style = MaterialTheme.typography.headlineLarge.copy(
                         fontFamily = FontFamily(Font(R.font.rocatwo_bold)),
                         fontWeight = FontWeight.Bold,
-                        color = Color(0xFFEDB232)
+                        color = Color.Black
                     )
                 )
 
@@ -171,7 +186,7 @@ fun LoginScreen(
                     style = MaterialTheme.typography.bodyLarge.copy(
                         fontFamily = FontFamily(Font(R.font.rocatwo_regular)),
                         fontWeight = FontWeight.SemiBold,
-                        color = Color(0xFFEDB232)
+                        color = Color.Black
                     )
                 )
 
@@ -196,13 +211,13 @@ fun LoginScreen(
                         },
                         modifier = Modifier.fillMaxWidth(0.9f),
                         colors = OutlinedTextFieldDefaults.colors(
-                            focusedTextColor = Color.White,
-                            unfocusedTextColor = Color.LightGray,
-                            focusedBorderColor = Color.White,
-                            unfocusedBorderColor = Color.LightGray,
-                            cursorColor = Color.White,
-                            focusedLabelColor = Color.White,
-                            unfocusedLabelColor = Color.LightGray
+                            focusedTextColor = Color.Black,
+                            unfocusedTextColor = Color.DarkGray, // A bit darker to stand out on white
+                            focusedBorderColor = Color(0xFF9B2FDA), // Purple border for focus state
+                            unfocusedBorderColor = Color(0xFF9B2FDA), // Matching unfocused border color
+                            cursorColor = Color(0xFF9B2FDA), // Purple cursor color for consistency
+                            focusedLabelColor = Color(0xFF9B2FDA), // Purple label color when focused
+                            unfocusedLabelColor = Color.Gray // Subtle gray for unfocused label
                         )
                     )
 
@@ -238,13 +253,13 @@ fun LoginScreen(
                             visualTransformation = if (passwordVisibility.value) VisualTransformation.None else PasswordVisualTransformation(),
                             modifier = Modifier.fillMaxWidth(0.9f),
                             colors = OutlinedTextFieldDefaults.colors(
-                                focusedTextColor = Color.White,
-                                unfocusedTextColor = Color.LightGray,
-                                focusedBorderColor = Color.White,
-                                unfocusedBorderColor = Color.LightGray,
-                                cursorColor = Color.White,
-                                focusedLabelColor = Color.White,
-                                unfocusedLabelColor = Color.LightGray
+                                focusedTextColor = Color.Black,
+                                unfocusedTextColor = Color.DarkGray, // A bit darker to stand out on white
+                                focusedBorderColor = Color(0xFF9B2FDA), // Purple border for focus state
+                                unfocusedBorderColor = Color(0xFF9B2FDA), // Matching unfocused border color
+                                cursorColor = Color(0xFF9B2FDA), // Purple cursor color for consistency
+                                focusedLabelColor = Color(0xFF9B2FDA), // Purple label color when focused
+                                unfocusedLabelColor = Color.Gray // Subtle gray for unfocused label
                             )
                         )
                     }
@@ -264,25 +279,36 @@ fun LoginScreen(
                 ),
             ) {
 
-                // White bottom card shape with buttons
+                // Gradient bottom card shape with buttons
                 Surface(
                     modifier = Modifier
                         .fillMaxWidth()
-                        .heightIn(min = 285.dp),
-                    color = Color.White,
+                        .heightIn(min = 285.dp), // Keep height controlled here
                     shape = RoundedCornerShape(topStart = 30.dp, topEnd = 30.dp),
-                    shadowElevation = 8.dp
+                    shadowElevation = 8.dp,
+                    color = Color.Transparent
                 ) {
                     Column(
                         modifier = Modifier
+                            .background(
+                                brush = Brush.verticalGradient(
+                                    colors = listOf(
+                                        Color(0xFFFF9539),
+                                        Color(0xFFE86A2C),
+                                        Color(0xFFFF4500)
+                                    )
+                                ),
+                                shape = RoundedCornerShape(topStart = 30.dp, topEnd = 30.dp)
+                            )
                             .fillMaxWidth()
+                            .heightIn(min = 285.dp) // Exact height control here too
                             .padding(horizontal = 24.dp)
                             .padding(top = 8.dp, bottom = 24.dp),
                         horizontalAlignment = Alignment.CenterHorizontally
                     ) {
 
                         TextButton(onClick = { navController.navigate("forgot_password") }) {
-                            Text("Forgot Password?", color = Color(0xFF2B524A))
+                            Text("Forgot Password?", color = Color.White)
                         }
 
                         Spacer(modifier = Modifier.height(8.dp))
@@ -294,13 +320,15 @@ fun LoginScreen(
                                 .height(50.dp)
                                 .clip(RoundedCornerShape(25.dp))
                                 .background(
-                                    brush = Brush.linearGradient(
-                                        colors = listOf(Color(0xFF4C8479), Color(0xFF2B5F56)),
-                                        start = Offset.Zero,
-                                        end = Offset.Infinite
+                                    brush = Brush.verticalGradient(
+                                        colors = listOf(
+                                            Color(0xFFB661E7),
+                                            Color(0xFF8A16CC),
+                                            Color(0xFF45006D)
+                                        )
                                     )
                                 )
-                                .clickable(enabled = !isLoading) { // Disable if loading
+                                .clickable(enabled = !isLoading) {
                                     authViewModel.loginUser(
                                         onLoginSuccess = {
                                             navController.navigate("home") {
@@ -308,7 +336,8 @@ fun LoginScreen(
                                             }
                                         },
                                         onLoginFailure = { error ->
-                                            Toast.makeText(context, error, Toast.LENGTH_SHORT).show()
+                                            Toast.makeText(context, error, Toast.LENGTH_SHORT)
+                                                .show()
                                         }
                                     )
                                 },
@@ -329,22 +358,22 @@ fun LoginScreen(
                             }
                         }
 
-                        // OR Divider
                         Spacer(modifier = Modifier.height(12.dp))
 
+                        // OR Divider
                         Row(
                             modifier = Modifier
                                 .fillMaxWidth()
                                 .padding(horizontal = 16.dp),
                             verticalAlignment = Alignment.CenterVertically
                         ) {
-                            Divider(modifier = Modifier.weight(1f), color = Color.Gray)
+                            Divider(modifier = Modifier.weight(1f), color = Color.White)
                             Text(
                                 text = "  or  ",
-                                color = Color.Gray,
+                                color = Color.White,
                                 style = MaterialTheme.typography.bodyMedium
                             )
-                            Divider(modifier = Modifier.weight(1f), color = Color.Gray)
+                            Divider(modifier = Modifier.weight(1f), color = Color.White)
                         }
 
                         Spacer(modifier = Modifier.height(12.dp))
@@ -356,8 +385,8 @@ fun LoginScreen(
                                 .fillMaxWidth()
                                 .height(50.dp),
                             shape = RoundedCornerShape(25.dp),
-                            border = BorderStroke(1.dp, Color(0xFF4C8479)),
-                            colors = ButtonDefaults.outlinedButtonColors(
+                            border = BorderStroke(1.dp, Color(0xFF9B2FDA)),
+                                    colors = ButtonDefaults.outlinedButtonColors(
                                 containerColor = Color.White,
                                 contentColor = Color.Black
                             )
@@ -391,12 +420,12 @@ fun LoginScreen(
                             Text(
                                 text = "Don't have an account? ",
                                 style = MaterialTheme.typography.bodySmall,
-                                color = Color.Gray
+                                color = Color.White
                             )
                             Text(
                                 text = "Create an Account",
                                 style = MaterialTheme.typography.bodySmall,
-                                color = Color.Black,
+                                color = Color.White,
                                 fontWeight = FontWeight.Bold,
                                 modifier = Modifier.clickable {
                                     navController.navigate("signup")
