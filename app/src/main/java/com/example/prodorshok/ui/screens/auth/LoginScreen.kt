@@ -274,8 +274,8 @@ fun LoginScreen(
                                         Color(0xFFFFC6AF), // #ffc6af
                                         Color(0xFFFF2D65)  // #ff2d65
                                     ),
-                                    start = Offset(0f, 0f), // Start at the top-left
-                                    end = Offset(1f, 1f)    // End at the bottom-right (180° angle)
+                                    start = Offset(0f, 0f), // Start at the left
+                                    end = Offset(1f, 0f)    // End at the right (180° angle)
                                 ),
                                 shape = RoundedCornerShape(topStart = 30.dp, topEnd = 30.dp)
                             )
