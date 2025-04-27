@@ -1,6 +1,7 @@
 package com.example.prodorshok.ui.screens.auth
 
 import android.widget.Toast
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
@@ -69,7 +70,12 @@ fun ForgotPasswordScreen(navController: NavController, authViewModel: AuthViewMo
         Spacer(modifier = Modifier.height(8.dp))
 
         TextButton(onClick = { navController.popBackStack() }) {
-            Text("Back to Login")
+            Text(
+                text = "Back to Login",
+                modifier = Modifier.clickable {
+                    navController.navigate("login")
+                }
+                )
         }
     }
 }
