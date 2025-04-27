@@ -22,7 +22,7 @@ import androidx.navigation.NavController
 import com.airbnb.lottie.compose.*
 import com.google.firebase.auth.FirebaseAuth
 import kotlinx.coroutines.delay
-import androidx.compose.ui.platform.LocalDensity // <-- Import this
+import androidx.compose.ui.platform.LocalDensity
 import com.example.prodorshok.R
 
 @Composable

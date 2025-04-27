@@ -1,10 +1,10 @@
 package com.example.prodorshok.ui.screens.auth
 
-import android.app.Activity
 import android.widget.Toast
-import androidx.activity.compose.rememberLauncherForActivityResult
-import androidx.activity.result.IntentSenderRequest
-import androidx.activity.result.contract.ActivityResultContracts
+import androidx.activity.ComponentActivity
+import androidx.compose.animation.AnimatedVisibility
+import androidx.compose.animation.core.tween
+import androidx.compose.animation.slideInVertically
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
@@ -22,8 +22,13 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Email
+import androidx.compose.material.icons.filled.Lock
 import androidx.compose.material.icons.filled.MoreVert
+import androidx.compose.material.icons.filled.Visibility
+import androidx.compose.material.icons.filled.VisibilityOff
 import androidx.compose.material3.ButtonDefaults
+import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.Divider
 import androidx.compose.material3.DropdownMenu
 import androidx.compose.material3.DropdownMenuItem
@@ -37,6 +42,7 @@ import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -52,72 +58,31 @@ import androidx.compose.ui.text.font.Font
 import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.PasswordVisualTransformation
+import androidx.compose.ui.text.input.VisualTransformation
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
 import com.example.prodorshok.R
+import com.example.prodorshok.auth.GoogleAuthClient
 import com.example.prodorshok.ui.components.AssetIcon
 import com.example.prodorshok.viewmodel.auth.AuthViewModel
-import com.google.android.gms.auth.api.identity.BeginSignInRequest
-import com.google.android.gms.auth.api.identity.Identity
-import com.google.android.gms.common.api.ApiException
-import com.google.firebase.auth.GoogleAuthProvider
-import androidx.compose.animation.*
-import androidx.compose.animation.core.tween
-import androidx.compose.runtime.LaunchedEffect
 
 @Composable
-fun LoginScreen(navController: NavController, authViewModel: AuthViewModel = viewModel()) {
+fun LoginScreen(
+    navController: NavController,
+    startGoogleSignIn: () -> Unit,
+    authViewModel: AuthViewModel = viewModel()
+) {
     val context = LocalContext.current
-    val activity = context as Activity
-
-    var oneTapClient = remember { Identity.getSignInClient(context) }
-    var signInRequest = remember {
-        BeginSignInRequest.builder()
-            .setGoogleIdTokenRequestOptions(
-                BeginSignInRequest.GoogleIdTokenRequestOptions.builder()
-                    .setSupported(true)
-                    .setServerClientId("833137499868-t0ia0qhtl68iu4rbaa222i5c6sq70rbr.apps.googleusercontent.com")
-                    .setFilterByAuthorizedAccounts(false)
-                    .build()
-            )
-            .setAutoSelectEnabled(true)
-            .build()
-    }
-
-    val googleSignInLauncher = rememberLauncherForActivityResult(
-        contract = ActivityResultContracts.StartIntentSenderForResult()
-    ) { result ->
-        try {
-            val credential = oneTapClient.getSignInCredentialFromIntent(result.data)
-            val idToken = credential.googleIdToken
-            if (idToken != null) {
-                val firebaseCredential = GoogleAuthProvider.getCredential(idToken, null)
-                authViewModel.firebaseAuthWithGoogle(
-                    credential = firebaseCredential,
-                    onLoginSuccess = {
-                        navController.navigate("home") {
-                            popUpTo("login") { inclusive = true }
-                        }
-                    },
-                    onLoginFailure = {
-                        Toast.makeText(context, it, Toast.LENGTH_SHORT).show()
-                    }
-                )
-            } else {
-                Toast.makeText(context, "No ID token!", Toast.LENGTH_SHORT).show()
-            }
-        } catch (e: ApiException) {
-            Toast.makeText(context, "Google Sign-In failed: ${e.message}", Toast.LENGTH_SHORT)
-                .show()
-        }
-    }
+    val activity = context as? ComponentActivity
+    val googleAuthClient = GoogleAuthClient(context, activity!!)
 
     val email by remember { authViewModel.email }
     val password by remember { authViewModel.password }
     val isLoading by remember { authViewModel.isLoading }
     val errorMessage by remember { authViewModel.errorMessage }
-    val successMessage by remember { authViewModel.successMessage }
+    // Password Visibility State
+    val passwordVisibility = remember { mutableStateOf(false) }
 
     Box(
         modifier = Modifier
@@ -212,8 +177,9 @@ fun LoginScreen(navController: NavController, authViewModel: AuthViewModel = vie
                         onValueChange = { authViewModel.email.value = it },
                         label = { Text("Email or Phone") },
                         leadingIcon = {
-                            AssetIcon(
-                                filename = "email_icon.png",
+                            Icon(
+                                imageVector = Icons.Filled.Email, // Use the built-in Material Icon for email
+                                contentDescription = "Email Icon",
                                 modifier = Modifier.size(24.dp)
                             )
                         },
@@ -232,8 +198,7 @@ fun LoginScreen(navController: NavController, authViewModel: AuthViewModel = vie
                     Spacer(modifier = Modifier.height(12.dp))
 
                     Column(
-                        modifier = Modifier
-                            .fillMaxWidth(),
+                        modifier = Modifier.fillMaxWidth(),
                         horizontalAlignment = Alignment.CenterHorizontally
                     ) {
                         // Password Field
@@ -242,12 +207,24 @@ fun LoginScreen(navController: NavController, authViewModel: AuthViewModel = vie
                             onValueChange = { authViewModel.password.value = it },
                             label = { Text("Password") },
                             leadingIcon = {
-                                AssetIcon(
-                                    filename = "password_icon.png",
+                                Icon(
+                                    imageVector = Icons.Filled.Lock,
+                                    contentDescription = "Password Icon",
                                     modifier = Modifier.size(24.dp)
                                 )
                             },
-                            visualTransformation = PasswordVisualTransformation(),
+                            trailingIcon = {
+                                // Toggle password visibility on click
+                                IconButton(onClick = {
+                                    passwordVisibility.value = !passwordVisibility.value
+                                }) {
+                                    Icon(
+                                        imageVector = if (passwordVisibility.value) Icons.Filled.Visibility else Icons.Filled.VisibilityOff,
+                                        contentDescription = if (passwordVisibility.value) "Hide Password" else "Show Password"
+                                    )
+                                }
+                            },
+                            visualTransformation = if (passwordVisibility.value) VisualTransformation.None else PasswordVisualTransformation(),
                             modifier = Modifier.fillMaxWidth(0.9f),
                             colors = OutlinedTextFieldDefaults.colors(
                                 focusedTextColor = Color.White,
@@ -261,7 +238,6 @@ fun LoginScreen(navController: NavController, authViewModel: AuthViewModel = vie
                         )
                     }
                 }
-
             }
             var showCard by remember { mutableStateOf(false) }
 
@@ -313,7 +289,7 @@ fun LoginScreen(navController: NavController, authViewModel: AuthViewModel = vie
                                         end = Offset.Infinite
                                     )
                                 )
-                                .clickable {
+                                .clickable(enabled = !isLoading) { // Disable if loading
                                     authViewModel.loginUser(
                                         onLoginSuccess = {
                                             navController.navigate("home") {
@@ -321,18 +297,25 @@ fun LoginScreen(navController: NavController, authViewModel: AuthViewModel = vie
                                             }
                                         },
                                         onLoginFailure = { error ->
-                                            Toast.makeText(context, error, Toast.LENGTH_SHORT)
-                                                .show()
+                                            Toast.makeText(context, error, Toast.LENGTH_SHORT).show()
                                         }
                                     )
                                 },
                             contentAlignment = Alignment.Center
                         ) {
-                            Text(
-                                text = "Login",
-                                color = Color.White,
-                                style = MaterialTheme.typography.bodyLarge
-                            )
+                            if (isLoading) {
+                                CircularProgressIndicator(
+                                    color = Color.White,
+                                    strokeWidth = 2.dp,
+                                    modifier = Modifier.size(24.dp)
+                                )
+                            } else {
+                                Text(
+                                    text = "Login",
+                                    color = Color.White,
+                                    style = MaterialTheme.typography.bodyLarge
+                                )
+                            }
                         }
 
                         // OR Divider
@@ -357,22 +340,7 @@ fun LoginScreen(navController: NavController, authViewModel: AuthViewModel = vie
 
                         // Continue with Google Button
                         OutlinedButton(
-                            onClick = {
-                                oneTapClient.beginSignIn(signInRequest)
-                                    .addOnSuccessListener(activity) { result ->
-                                        val request =
-                                            IntentSenderRequest.Builder(result.pendingIntent.intentSender)
-                                                .build()
-                                        googleSignInLauncher.launch(request)
-                                    }
-                                    .addOnFailureListener { e ->
-                                        Toast.makeText(
-                                            context,
-                                            "Google Sign-In failed: ${e.localizedMessage}",
-                                            Toast.LENGTH_SHORT
-                                        ).show()
-                                    }
-                            },
+                            onClick = { startGoogleSignIn() },
                             modifier = Modifier
                                 .fillMaxWidth()
                                 .height(50.dp),
@@ -401,6 +369,7 @@ fun LoginScreen(navController: NavController, authViewModel: AuthViewModel = vie
                                 )
                             }
                         }
+
                         Spacer(modifier = Modifier.height(16.dp))
 
                         // Don't have an account? Create one text

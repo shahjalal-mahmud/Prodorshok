@@ -20,20 +20,21 @@ import com.example.prodorshok.ui.screens.profile.ProfileSetupScreen
 import com.example.prodorshok.ui.screens.splash.WelcomeScreen
 
 @Composable
-fun Navigation() {
+fun Navigation(startGoogleSignIn: () -> Unit) {
     val navController = rememberNavController()
 
     NavHost(navController = navController, startDestination = "welcome") {
         composable("welcome") { WelcomeScreen(navController) }
-        composable("login") { LoginScreen(navController) }
-        composable("signup") { SignUpScreen(navController) }
+        composable("login") {
+            LoginScreen(navController, startGoogleSignIn) // Pass the startGoogleSignIn function here
+        }
+        composable("signup") {
+            SignUpScreen(navController, startGoogleSignIn) }
         composable("forgot_password") { ForgotPasswordScreen(navController) }
         composable("home") { HomeScreen(navController) }
         composable("profile_setup") { ProfileSetupScreen(navController) }
         composable("dashboard") {
-            DashboardScreen { route ->
-                navController.navigate(route)
-            }
+            DashboardScreen { route -> navController.navigate(route) }
         }
         composable("roadmap") { RoadmapScreen() }
         composable("mentorship") { MentorshipScreen() }
@@ -41,7 +42,5 @@ fun Navigation() {
         composable("skills") { SkillTrackerScreen() }
         composable("news") { CareerNewsScreen() }
         composable("profile") { ProfilePage(navController) }
-
     }
 }
-

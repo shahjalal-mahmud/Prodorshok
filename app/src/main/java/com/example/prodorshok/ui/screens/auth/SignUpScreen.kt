@@ -1,6 +1,7 @@
 package com.example.prodorshok.ui.screens.auth
 
 import android.widget.Toast
+import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
@@ -12,6 +13,8 @@ import androidx.compose.material.icons.filled.Lock
 import androidx.compose.material.icons.filled.MoreVert
 import androidx.compose.material.icons.filled.Person
 import androidx.compose.material.icons.filled.Phone
+import androidx.compose.material.icons.filled.Visibility
+import androidx.compose.material.icons.filled.VisibilityOff
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
@@ -28,10 +31,14 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
+import com.example.prodorshok.ui.components.AssetIcon
 import com.example.prodorshok.viewmodel.auth.AuthViewModel
 
 @Composable
-fun SignUpScreen(navController: NavController, authViewModel: AuthViewModel = viewModel()) {
+fun SignUpScreen(
+    navController: NavController,
+    startGoogleSignIn: () -> Unit,
+    authViewModel: AuthViewModel = viewModel()) {
     val context = LocalContext.current
 
     val email by remember { authViewModel.email }
@@ -40,7 +47,6 @@ fun SignUpScreen(navController: NavController, authViewModel: AuthViewModel = vi
     val isLoading by remember { authViewModel.isLoading }
 
     var fullName by remember { mutableStateOf("") }
-    var phoneNumber by remember { mutableStateOf("") }
     var agreeToTerms by remember { mutableStateOf(false) }
 
     Box(modifier = Modifier.fillMaxSize()) {
@@ -127,11 +133,35 @@ fun SignUpScreen(navController: NavController, authViewModel: AuthViewModel = vi
 
             Spacer(modifier = Modifier.height(24.dp)) // Bottom padding between text and inputs
 
-            RoundedInputField(value = fullName, onValueChange = { fullName = it }, label = "Full Name", icon = Icons.Default.Person)
-            RoundedInputField(value = email, onValueChange = { authViewModel.email.value = it }, label = "Email Address", icon = Icons.Default.Email)
-            RoundedInputField(value = phoneNumber, onValueChange = { phoneNumber = it }, label = "Phone Number", icon = Icons.Default.Phone)
-            RoundedInputField(value = password, onValueChange = { authViewModel.password.value = it }, label = "Password", icon = Icons.Default.Lock, isPassword = true)
-            RoundedInputField(value = confirmPassword, onValueChange = { authViewModel.confirmPassword.value = it }, label = "Retype Password", icon = Icons.Default.Lock, isPassword = true)
+            RoundedInputField(
+                value = fullName,
+                onValueChange = { fullName = it },
+                label = "Full Name",
+                icon = Icons.Default.Person
+            )
+
+            RoundedInputField(
+                value = email,
+                onValueChange = { authViewModel.email.value = it },
+                label = "Email Address",
+                icon = Icons.Default.Email
+            )
+
+            RoundedInputField(
+                value = password,
+                onValueChange = { authViewModel.password.value = it },
+                label = "Password",
+                icon = Icons.Default.Lock,
+                isPassword = true // Enable password visibility toggle
+            )
+
+            RoundedInputField(
+                value = confirmPassword,
+                onValueChange = { authViewModel.confirmPassword.value = it },
+                label = "Retype Password",
+                icon = Icons.Default.Lock,
+                isPassword = true // Enable password visibility toggle
+            )
 
             Spacer(modifier = Modifier.height(4.dp))
 
@@ -185,6 +215,40 @@ fun SignUpScreen(navController: NavController, authViewModel: AuthViewModel = vi
                 Text("Sign Up", color = Color.White)
             }
 
+            Spacer(modifier = Modifier.height(12.dp))
+
+            // Continue with Google Button
+            OutlinedButton(
+                onClick = { startGoogleSignIn() },
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .height(50.dp),
+                shape = RoundedCornerShape(25.dp),
+                border = BorderStroke(1.dp, Color(0xFF4C8479)),
+                colors = ButtonDefaults.outlinedButtonColors(
+                    containerColor = Color.White,
+                    contentColor = Color.Black
+                )
+            ) {
+                Row(
+                    verticalAlignment = Alignment.CenterVertically,
+                    horizontalArrangement = Arrangement.Center,
+                    modifier = Modifier.fillMaxWidth()
+                ) {
+                    AssetIcon(
+                        filename = "google_icon.png",
+                        modifier = Modifier
+                            .size(40.dp)
+                            .padding(end = 8.dp)
+                    )
+                    Text(
+                        text = " Continue with Google",
+                        color = Color.Black,
+                        style = MaterialTheme.typography.bodyMedium
+                    )
+                }
+            }
+
             Spacer(modifier = Modifier.height(16.dp))
 
             TextButton(onClick = { navController.navigate("login") }) {
@@ -211,20 +275,36 @@ fun RoundedInputField(
     icon: ImageVector,
     isPassword: Boolean = false
 ) {
+    // State to control password visibility
+    val passwordVisibility = remember { mutableStateOf(false) }
+
     OutlinedTextField(
         value = value,
         onValueChange = onValueChange,
         label = { Text(label) },
         leadingIcon = { Icon(imageVector = icon, contentDescription = label) },
-        visualTransformation = if (isPassword) PasswordVisualTransformation() else VisualTransformation.None,
+        // If isPassword is true, toggle between masked and visible text
+        visualTransformation = if (isPassword && !passwordVisibility.value) PasswordVisualTransformation() else VisualTransformation.None,
         shape = RoundedCornerShape(50.dp),
         modifier = Modifier
             .fillMaxWidth()
             .padding(vertical = 4.dp),
+        trailingIcon = {
+            if (isPassword) {
+                IconButton(onClick = { passwordVisibility.value = !passwordVisibility.value }) {
+                    Icon(
+                        imageVector = if (passwordVisibility.value) Icons.Filled.Visibility else Icons.Filled.VisibilityOff,
+                        modifier = Modifier.size(24.dp),
+                        contentDescription = if (passwordVisibility.value) "Hide Password" else "Show Password"
+                    )
+                }
+            }
+        },
         colors = OutlinedTextFieldDefaults.colors(
             focusedBorderColor = Color(0xFF2B5F56),
             unfocusedBorderColor = Color(0xFF2B5F56)
         )
     )
 }
+
 
