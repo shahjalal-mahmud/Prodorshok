@@ -30,9 +30,9 @@ fun OnboardingScreen(navController: NavController) {
 
     // Automatically cycle through slides
     LaunchedEffect(Unit) {
-        delay(10000)
-        currentSlide = 1
         delay(3500)
+        currentSlide = 1
+        delay(30000)
         currentSlide = 2
         delay(3500)
         currentSlide = 3
