@@ -28,7 +28,7 @@ fun SplashScreen(navController: NavController) {
 
     // Navigate after a short delay (to allow branding time without jank)
     LaunchedEffect(Unit) {
-        delay(10000) // Shorter delay for faster user experience
+        delay(3000) // Shorter delay for faster user experience
 
         val onboardingCompleted = OnboardingPreference.hasCompletedOnboarding(context)
 
