@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <!-- Base application theme -->
+    <style name="Theme.Prodorshok" parent="android:Theme.Material.Light.NoActionBar">
+
+        <!-- Set Montserrat as the default font for the app -->
+        <item name="android:fontFamily">@font/font_montserrat</item>
+
+        <!-- Customize other theme properties as needed -->
+
+    </style>
+
+</resources>

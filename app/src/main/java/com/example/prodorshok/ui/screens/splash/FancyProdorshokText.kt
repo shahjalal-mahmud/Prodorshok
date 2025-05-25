@@ -1,0 +1,37 @@
+package com.example.prodorshok.ui.screens.splash
+
+import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.padding
+import androidx.compose.material3.Text
+import androidx.compose.runtime.Composable
+import androidx.compose.ui.Alignment
+import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.text.font.Font
+import androidx.compose.ui.text.font.FontFamily
+import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.style.TextAlign
+import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
+import com.example.prodorshok.R
+
+@Composable
+fun FancyProdorshokText()  {
+    Box(
+        modifier = Modifier
+            .fillMaxSize()
+            .padding(top = 100.dp),
+        contentAlignment = Alignment.TopCenter
+    ) {
+        Text(
+            text = "PRODORSHOK",
+            fontSize = 24.sp,
+            fontWeight = FontWeight.Bold,
+            color = Color.Black,
+            fontFamily = FontFamily(Font(R.font.rocatwo_bold)),
+            textAlign = TextAlign.Center,
+            letterSpacing = 2.sp
+        )
+    }
+}
