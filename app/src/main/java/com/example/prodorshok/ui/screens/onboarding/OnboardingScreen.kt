@@ -36,6 +36,8 @@ fun OnboardingScreen(navController: NavController) {
         currentSlide = 2
         delay(3500)
         currentSlide = 3
+        delay(3500)
+        currentSlide = 4
     }
 
     Surface(
@@ -50,11 +52,12 @@ fun OnboardingScreen(navController: NavController) {
                     0 -> Slide1Content()
                     1 -> Slide2Content()
                     2 -> Slide3Content()
-                    3 -> Slide4Content()
+                    3 -> Slide32Content()
+                    4 -> Slide4Content()
                 }
             }
 
-            if (currentSlide == 3) {
+            if (currentSlide == 4) {
                 Button(
                     onClick = {
                         completeOnboarding(context, navController)
