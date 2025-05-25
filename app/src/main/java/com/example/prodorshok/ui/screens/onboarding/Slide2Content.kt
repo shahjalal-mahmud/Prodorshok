@@ -89,6 +89,7 @@ fun Slide2Content() {
                         color = Color.Black
                     ),
                     textAlign = TextAlign.Center,
+                    modifier = Modifier.offset(y = (-8).dp)  // <-- shift text 10dp upward
                 )
             }
         }

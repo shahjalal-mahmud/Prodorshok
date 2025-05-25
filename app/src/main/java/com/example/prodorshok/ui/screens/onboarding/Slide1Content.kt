@@ -65,8 +65,8 @@ fun Slide1Content() {
             Box(
                 contentAlignment = Alignment.Center,
                 modifier = Modifier
-                    .width(200.dp)
-                    .height(120.dp)
+                    .width(190.dp)
+                    .height(110.dp)
                     .align(Alignment.TopCenter)
                     .offset(x = 150.dp, y = 170.dp) // Adjust based on Lottie’s transparent top space
             ) {
@@ -78,10 +78,11 @@ fun Slide1Content() {
                 Text(
                     text = "Lost in career\nconfusion",
                     style = MaterialTheme.typography.titleLarge.copy(
-                        fontSize = 24.sp,
+                        fontSize = 20.sp,
                         color = Color.Black
                     ),
                     textAlign = TextAlign.Center,
+                    modifier = Modifier.offset(y = (-8).dp)  // <-- shift text 10dp upward
                 )
             }
         }

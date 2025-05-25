@@ -32,7 +32,7 @@ fun OnboardingScreen(navController: NavController) {
     LaunchedEffect(Unit) {
         delay(3500)
         currentSlide = 1
-        delay(30000)
+        delay(3500)
         currentSlide = 2
         delay(3500)
         currentSlide = 3
