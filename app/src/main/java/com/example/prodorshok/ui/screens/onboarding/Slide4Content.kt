@@ -19,21 +19,19 @@ fun Slide4Content() {
     Column(
         modifier = Modifier
             .fillMaxSize()
-            .padding(horizontal = 24.dp, vertical = 16.dp)
+            .padding(horizontal = 24.dp, vertical = 24.dp)
             .verticalScroll(rememberScrollState()),
         verticalArrangement = Arrangement.Top
     ) {
-        // Title Text
         Text(
             text = "From Confusion to Clarity — With Prodorshok",
             fontSize = 22.sp,
             modifier = Modifier
                 .fillMaxWidth()
-                .padding(bottom = 16.dp), // Controlled spacing below title
+                .padding(top = 24.dp, bottom = 24.dp),
             textAlign = TextAlign.Center
         )
 
-        // Onboarding Content
         OnboardingBox(
             lottieFile = "lottie/career_path.lottie",
             text = "Discover the right career path",
@@ -41,7 +39,7 @@ fun Slide4Content() {
         )
 
         OnboardingBox(
-            lottieFile = "lottie/unclear_paths.lottie",   // Need to replace this
+            lottieFile = "lottie/unclear_paths.lottie",
             text = "Get a personalized roadmap",
             animationFirst = false
         )

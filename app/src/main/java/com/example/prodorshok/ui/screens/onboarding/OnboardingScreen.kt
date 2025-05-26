@@ -5,9 +5,7 @@ import androidx.compose.animation.Crossfade
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
-import androidx.compose.material3.Button
 import androidx.compose.material3.Surface
-import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
@@ -21,6 +19,7 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
 import com.example.prodorshok.data.preferences.OnboardingPreference
+import com.example.prodorshok.ui.components.common.ContinueToLoginButton
 import kotlinx.coroutines.delay
 
 @Composable
@@ -58,16 +57,14 @@ fun OnboardingScreen(navController: NavController) {
             }
 
             if (currentSlide == 4) {
-                Button(
+                ContinueToLoginButton(
                     onClick = {
                         completeOnboarding(context, navController)
                     },
                     modifier = Modifier
                         .align(Alignment.BottomCenter)
                         .padding(bottom = 32.dp)
-                ) {
-                    Text("Continue to login")
-                }
+                )
             }
         }
     }
