@@ -26,23 +26,29 @@ fun SplashScreen(navController: NavController) {
     val auth = FirebaseAuth.getInstance()
     val context = LocalContext.current
 
-    // Navigate after a short delay (to allow branding time without jank)
     LaunchedEffect(Unit) {
-        delay(3000) // Shorter delay for faster user experience
+        delay(2000)
 
         val onboardingCompleted = OnboardingPreference.hasCompletedOnboarding(context)
+        val isLoggedIn = auth.currentUser != null
 
-        if (!onboardingCompleted) {
-            navController.navigate("onboarding") {
-                popUpTo("splash") { inclusive = true }
+        when {
+            !onboardingCompleted -> {
+                navController.navigate("onboarding") {
+                    popUpTo("splash") { inclusive = true }
+                }
             }
-        } else if (auth.currentUser != null) {
-            navController.navigate("home") {
-                popUpTo("splash") { inclusive = true }
+
+            isLoggedIn -> {
+                navController.navigate("home") {
+                    popUpTo("splash") { inclusive = true }
+                }
             }
-        } else {
-            navController.navigate("login") {
-                popUpTo("splash") { inclusive = true }
+
+            else -> {
+                navController.navigate("login") {
+                    popUpTo("splash") { inclusive = true }
+                }
             }
         }
     }

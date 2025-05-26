@@ -1,13 +1,25 @@
 package com.example.prodorshok.ui.components.auth
 
-import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.size
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Email
 import androidx.compose.material.icons.filled.Lock
 import androidx.compose.material.icons.filled.Visibility
 import androidx.compose.material.icons.filled.VisibilityOff
-import androidx.compose.material3.*
-import androidx.compose.runtime.*
+import androidx.compose.material3.Icon
+import androidx.compose.material3.IconButton
+import androidx.compose.material3.OutlinedTextField
+import androidx.compose.material3.OutlinedTextFieldDefaults
+import androidx.compose.material3.Text
+import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -39,7 +51,7 @@ fun AuthInputFields(
                     imageVector = Icons.Filled.Email,
                     contentDescription = "Email Icon",
                     modifier = Modifier.size(24.dp),
-                    tint = Color(0xFF9B2FDA)
+                    tint = Color(0xFF1268f6)
                 )
             },
             modifier = Modifier.fillMaxWidth(0.9f),
@@ -47,10 +59,10 @@ fun AuthInputFields(
             colors = OutlinedTextFieldDefaults.colors(
                 focusedTextColor = Color.Black,
                 unfocusedTextColor = Color.DarkGray,
-                focusedBorderColor = Color(0xFF9B2FDA),
-                unfocusedBorderColor = Color(0xFF9B2FDA),
-                cursorColor = Color(0xFF9B2FDA),
-                focusedLabelColor = Color(0xFF9B2FDA),
+                focusedBorderColor = Color(0xFF1268F6),
+                unfocusedBorderColor = Color(0xFF1268F6),
+                cursorColor = Color(0xFF1268F6),
+                focusedLabelColor = Color(0xFF1268F6),
                 unfocusedLabelColor = Color.Gray
             )
         )
@@ -67,7 +79,7 @@ fun AuthInputFields(
                     imageVector = Icons.Filled.Lock,
                     contentDescription = "Password Icon",
                     modifier = Modifier.size(24.dp),
-                    tint = Color(0xFF9B2FDA)
+                    tint = Color(0xFF1268f6)
                 )
             },
             trailingIcon = {
@@ -75,7 +87,7 @@ fun AuthInputFields(
                     Icon(
                         imageVector = if (passwordVisible) Icons.Filled.Visibility else Icons.Filled.VisibilityOff,
                         contentDescription = if (passwordVisible) "Hide Password" else "Show Password",
-                        tint = Color(0xFF9B2FDA)
+                        tint = Color(0xFF1268f6)
                     )
                 }
             },
@@ -85,10 +97,10 @@ fun AuthInputFields(
             colors = OutlinedTextFieldDefaults.colors(
                 focusedTextColor = Color.Black,
                 unfocusedTextColor = Color.DarkGray,
-                focusedBorderColor = Color(0xFF9B2FDA),
-                unfocusedBorderColor = Color(0xFF9B2FDA),
-                cursorColor = Color(0xFF9B2FDA),
-                focusedLabelColor = Color(0xFF9B2FDA),
+                focusedBorderColor = Color(0xFF1268F6),
+                unfocusedBorderColor = Color(0xFF1268F6),
+                cursorColor = Color(0xFF1268F6),
+                focusedLabelColor = Color(0xFF1268F6),
                 unfocusedLabelColor = Color.Gray
             )
         )

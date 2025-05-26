@@ -1,6 +1,7 @@
 package com.example.prodorshok.ui.screens.auth
 
 import android.widget.Toast
+import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -29,6 +30,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.Font
 import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.font.FontWeight
@@ -64,10 +66,7 @@ fun LoginScreen(
             .fillMaxSize()
             .background(
                 brush = Brush.verticalGradient(
-                    listOf(
-                        Color(0xFFFFFFFF),
-                        Color(0xFFFFFFFF)
-                    )
+                    colors = listOf(Color.White, Color.White)
                 )
             )
     ) {
@@ -80,24 +79,21 @@ fun LoginScreen(
                 .padding(24.dp),
             verticalArrangement = Arrangement.SpaceBetween
         ) {
-
-            // Top: Logo and Input fields
+            // Top: Logo and Input Section
             Column(
+                modifier = Modifier
+                    .weight(1f)
+                    .padding(top = 24.dp)
+                    .fillMaxWidth(),
                 horizontalAlignment = Alignment.CenterHorizontally,
-                modifier = Modifier.weight(1f),
                 verticalArrangement = Arrangement.Center
             ) {
-                Box(modifier = Modifier.size(180.dp)) // Logo placeholder
-
-                Spacer(modifier = Modifier.height(16.dp))
-
-                Text(
-                    text = "Prodorshok",
-                    style = MaterialTheme.typography.headlineLarge.copy(
-                        fontFamily = FontFamily(Font(R.font.rocatwo_bold)),
-                        fontWeight = FontWeight.Bold,
-                        color = Color.Black
-                    )
+                // ✅ Logo in the background, behind TopBackgroundImage
+                Image(
+                    painter = painterResource(id = R.drawable.prodorshok_logo),
+                    contentDescription = "App Logo",
+                    modifier = Modifier
+                        .size(200.dp)
                 )
 
                 Text(

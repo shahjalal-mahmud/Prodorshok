@@ -12,6 +12,7 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
@@ -26,8 +27,6 @@ import com.google.android.gms.auth.api.signin.GoogleSignInClient
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions
 import com.google.android.gms.common.api.ApiException
 import com.google.firebase.auth.GoogleAuthProvider
-import androidx.compose.runtime.getValue
-import com.example.prodorshok.data.preferences.OnboardingPreference
 
 class MainActivity : ComponentActivity() {
 
@@ -40,12 +39,8 @@ class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        // Load onboarding state before Compose
-        startDestination = if (OnboardingPreference.hasCompletedOnboarding(this)) {
-            "login"
-        } else {
-            "splash"
-        }
+        // ✅ Always start from splash
+        startDestination = "splash"
 
         setupGoogleSignIn()
 
