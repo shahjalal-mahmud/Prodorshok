@@ -5,21 +5,19 @@ import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.BoxWithConstraints
 import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.heightIn
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.widthIn
-import androidx.compose.material3.MaterialTheme
+import androidx.compose.foundation.layout.width
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.draw.scale
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
+import androidx.compose.ui.unit.TextUnit
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.airbnb.lottie.LottieComposition
@@ -45,70 +43,56 @@ fun OnboardingBox(
     BoxWithConstraints(
         modifier = Modifier
             .fillMaxWidth()
-            .heightIn(min = 180.dp, max = 250.dp)
-            .padding(vertical = 12.dp, horizontal = 2.dp) // Reduced horizontal padding here
+            .padding(vertical = 4.dp) // Reduced vertical padding between rows
     ) {
-        val boxHeight = maxHeight
-        val boxWidth = maxWidth
-        val spacing = if (boxWidth < 400.dp) 8.dp else 16.dp
+        val screenWidth = maxWidth
+
+        val textFontSize = if (screenWidth < 360.dp) 14.sp else 18.sp
 
         Row(
-            modifier = Modifier.fillMaxSize(),
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(horizontal = 8.dp),
             verticalAlignment = Alignment.CenterVertically,
-            horizontalArrangement = Arrangement.spacedBy(spacing)
+            horizontalArrangement = Arrangement.spacedBy(8.dp)
         ) {
+            val animationModifier = Modifier
+                .weight(1f)
+                .padding(4.dp)
+
+            val textModifier = Modifier
+                .weight(1f)
+                .padding(4.dp)
+
             if (animationFirst) {
-                AnimationBox(
-                    modifier = Modifier.weight(1f),
-                    composition = composition,
-                    progress = progress,
-                    maxHeight = boxHeight
-                )
-                TextBox(
-                    modifier = Modifier.weight(1f),
-                    text = text,
-                    maxWidth = boxWidth / 2 // roughly half width for text
-                )
+                AnimationContent(composition, progress, animationModifier)
+                TextContent(text, textFontSize, textModifier)
             } else {
-                TextBox(
-                    modifier = Modifier.weight(1f),
-                    text = text,
-                    maxWidth = boxWidth / 2
-                )
-                AnimationBox(
-                    modifier = Modifier.weight(1f),
-                    composition = composition,
-                    progress = progress,
-                    maxHeight = boxHeight
-                )
+                TextContent(text, textFontSize, textModifier)
+                AnimationContent(composition, progress, animationModifier)
             }
         }
     }
 }
 
-@SuppressLint("UnusedBoxWithConstraintsScope")
+
+        @SuppressLint("UnusedBoxWithConstraintsScope")
 @Composable
-fun AnimationBox(
-    modifier: Modifier = Modifier,
+private fun AnimationContent(
     composition: LottieComposition?,
     progress: Float,
-    maxHeight: androidx.compose.ui.unit.Dp
+    modifier: Modifier = Modifier
 ) {
     BoxWithConstraints(
-        modifier = modifier.fillMaxHeight(),
+        modifier = modifier,
         contentAlignment = Alignment.Center
     ) {
-        // Scale factor smaller on small screens
-        val scaleFactor = when {
-            maxHeight < 180.dp -> 1.0f
-            maxHeight < 220.dp -> 1.15f
-            else -> 1.3f
-        }
+        val side = maxWidth.coerceAtMost(maxHeight) // Use the smallest to ensure square box
+
         Box(
             modifier = Modifier
-                .fillMaxHeight()
-                .scale(scaleFactor)
-                .padding(4.dp),
+                .width(side)
+                .height(side), // Square box
             contentAlignment = Alignment.Center
         ) {
             LottieAnimation(
@@ -120,31 +104,22 @@ fun AnimationBox(
     }
 }
 
+
 @Composable
-fun TextBox(
-    modifier: Modifier = Modifier,
+private fun TextContent(
     text: String,
-    maxWidth: androidx.compose.ui.unit.Dp
+    fontSize: TextUnit,
+    modifier: Modifier = Modifier
 ) {
     Box(
-        modifier = modifier
-            .fillMaxHeight()
-            .widthIn(max = maxWidth),
+        modifier = modifier,
         contentAlignment = Alignment.Center
     ) {
-        // Responsive font size based on maxWidth
-        val fontSize = when {
-            maxWidth < 180.dp -> 16.sp
-            maxWidth < 250.dp -> 18.sp
-            else -> 20.sp
-        }
         Text(
             text = text,
             fontSize = fontSize,
             fontWeight = FontWeight.Medium,
-            color = MaterialTheme.colorScheme.onBackground,
-            textAlign = TextAlign.Center,
-            modifier = Modifier.padding(horizontal = 8.dp)
+            textAlign = TextAlign.Center
         )
     }
 }

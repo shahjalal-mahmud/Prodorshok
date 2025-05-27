@@ -26,9 +26,9 @@ fun Slide4Content() {
         val screenWidth = maxWidth
 
         val horizontalPadding = screenWidth * 0.06f
-        val verticalPadding = screenHeight * 0.03f
+        val verticalPadding = screenHeight * 0.015f // Smaller vertical padding
         val titleFontSize = if (screenWidth < 360.dp) 18.sp else 22.sp
-        val titleTopBottomPadding = screenHeight * 0.001f // Reduced padding
+        val titleTopBottomPadding = screenHeight * 0.015f
 
         Column(
             modifier = Modifier
@@ -42,7 +42,7 @@ fun Slide4Content() {
                 fontSize = titleFontSize,
                 modifier = Modifier
                     .fillMaxWidth()
-                    .padding(top = titleTopBottomPadding, bottom = titleTopBottomPadding), // Updated
+                    .padding(top = titleTopBottomPadding, bottom = titleTopBottomPadding),
                 textAlign = TextAlign.Center
             )
 
