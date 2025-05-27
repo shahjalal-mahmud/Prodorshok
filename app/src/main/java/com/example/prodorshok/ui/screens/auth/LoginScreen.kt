@@ -1,12 +1,12 @@
 package com.example.prodorshok.ui.screens.auth
 
+import android.annotation.SuppressLint
 import android.widget.Toast
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.BoxWithConstraints
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
@@ -46,6 +46,7 @@ import com.example.prodorshok.ui.components.common.ReusableAnimatedCard
 import com.example.prodorshok.ui.components.common.TopBackgroundImage
 import com.example.prodorshok.viewmodel.auth.AuthViewModel
 
+@SuppressLint("UnusedBoxWithConstraintsScope")
 @Composable
 fun LoginScreen(
     navController: NavController,
@@ -61,39 +62,39 @@ fun LoginScreen(
     var showCard by remember { mutableStateOf(false) }
     LaunchedEffect(Unit) { showCard = true }
 
-    Box(
+    BoxWithConstraints(
         modifier = Modifier
             .fillMaxSize()
-            .background(
-                brush = Brush.verticalGradient(
-                    colors = listOf(Color.White, Color.White)
-                )
-            )
+            .background(brush = Brush.verticalGradient(colors = listOf(Color.White, Color.White)))
     ) {
+        val screenWidth = maxWidth
+        val screenHeight = maxHeight
+
+        val logoSize = if (screenWidth < 360.dp) 120.dp else if (screenWidth < 480.dp) 160.dp else 200.dp
+        val cardHeight = screenHeight * 0.38f // dynamic height instead of fixed 285.dp
+
         // Top background image
         TopBackgroundImage(imageRes = R.drawable.top_wave_blue)
 
         Column(
             modifier = Modifier
                 .fillMaxSize()
-                .padding(24.dp),
+                .padding(16.dp), // reduced padding for small screens
             verticalArrangement = Arrangement.SpaceBetween
         ) {
-            // Top: Logo and Input Section
+            // Top Section
             Column(
                 modifier = Modifier
                     .weight(1f)
-                    .padding(top = 24.dp)
+                    .padding(top = 16.dp)
                     .fillMaxWidth(),
                 horizontalAlignment = Alignment.CenterHorizontally,
                 verticalArrangement = Arrangement.Center
             ) {
-                // ✅ Logo in the background, behind TopBackgroundImage
                 Image(
                     painter = painterResource(id = R.drawable.prodorshok_logo),
                     contentDescription = "App Logo",
-                    modifier = Modifier
-                        .size(200.dp)
+                    modifier = Modifier.size(logoSize)
                 )
 
                 Text(
@@ -105,7 +106,7 @@ fun LoginScreen(
                     )
                 )
 
-                Spacer(modifier = Modifier.height(24.dp))
+                Spacer(modifier = Modifier.height(16.dp))
 
                 AuthInputFields(
                     email = email,
@@ -115,75 +116,71 @@ fun LoginScreen(
                 )
             }
 
-            // Using ReusableAnimatedCard here
+            // Animated Card
             ReusableAnimatedCard(
-                visible = showCard,  // Control visibility based on logic (e.g., `isLoading`)
+                visible = showCard,
                 enterFromTop = false,
                 cardColor = Color(0xFFFFCD4E),
                 cardShape = RoundedCornerShape(topStart = 30.dp, topEnd = 30.dp),
-                contentPadding = PaddingValues(top = 8.dp, bottom = 24.dp, start = 24.dp, end = 24.dp)
-            ){Column(
-                    modifier = Modifier
-                        .height(285.dp),
-                horizontalAlignment = Alignment.CenterHorizontally
+                basePadding = 16.dp // optional, based on your design
             ) {
-                TextButton(onClick = { navController.navigate("forgot_password") }) {
-                    Text("Forgot Password?", color = Color.Black)
-                }
-
-                Spacer(modifier = Modifier.height(8.dp))
-
-                LoginButton(
-                    isLoading = isLoading,
-                    onClick = {
-                        authViewModel.loginUser(
-                            onLoginSuccess = {
-                                navController.navigate("home") {
-                                    popUpTo("login") { inclusive = true }
-                                }
-                            },
-                            onLoginFailure = { error ->
-                                Toast.makeText(context, error, Toast.LENGTH_SHORT).show()
-                            }
-                        )
+                Column(
+                    modifier = Modifier.height(cardHeight),
+                    horizontalAlignment = Alignment.CenterHorizontally
+                ) {
+                    TextButton(onClick = { navController.navigate("forgot_password") }) {
+                        Text("Forgot Password?", color = Color.Black)
                     }
-                )
 
-                Spacer(modifier = Modifier.height(12.dp))
+                    Spacer(modifier = Modifier.height(8.dp))
 
-                Row(
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .padding(horizontal = 16.dp),
-                    verticalAlignment = Alignment.CenterVertically
-                ) {
-                    Divider(modifier = Modifier.weight(1f), color = Color.Black)
-                    Text(
-                        text = "  or  ",
-                        color = Color.Black,
-                        style = MaterialTheme.typography.bodyMedium
+                    LoginButton(
+                        isLoading = isLoading,
+                        onClick = {
+                            authViewModel.loginUser(
+                                onLoginSuccess = {
+                                    navController.navigate("home") {
+                                        popUpTo("login") { inclusive = true }
+                                    }
+                                },
+                                onLoginFailure = { error ->
+                                    Toast.makeText(context, error, Toast.LENGTH_SHORT).show()
+                                }
+                            )
+                        }
                     )
-                    Divider(modifier = Modifier.weight(1f), color = Color.Black)
-                }
 
-                Spacer(modifier = Modifier.height(12.dp))
+                    Spacer(modifier = Modifier.height(12.dp))
 
-                ContinueWithGoogleButton(
-                    onClick = { startGoogleSignIn() }
-                )
+                    Row(
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .padding(horizontal = 16.dp),
+                        verticalAlignment = Alignment.CenterVertically
+                    ) {
+                        Divider(modifier = Modifier.weight(1f), color = Color.Black)
+                        Text(
+                            text = "  or  ",
+                            color = Color.Black,
+                            style = MaterialTheme.typography.bodyMedium
+                        )
+                        Divider(modifier = Modifier.weight(1f), color = Color.Black)
+                    }
 
-                Spacer(modifier = Modifier.height(16.dp))
+                    Spacer(modifier = Modifier.height(12.dp))
 
-                Row(
-                    modifier = Modifier.fillMaxWidth(),
-                    horizontalArrangement = Arrangement.Start
-                ) {
-                    AuthPromptText(
-                        onActionClick = { navController.navigate("signup") }
-                    )
+                    ContinueWithGoogleButton(onClick = startGoogleSignIn)
+
+                    Spacer(modifier = Modifier.height(16.dp))
+
+                    Row(
+                        modifier = Modifier.fillMaxWidth(),
+                        horizontalArrangement = Arrangement.Start
+                    ) {
+                        AuthPromptText(onActionClick = { navController.navigate("signup") })
+                    }
                 }
             }
-        }
         }
     }
 }

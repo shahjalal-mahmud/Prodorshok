@@ -16,6 +16,8 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalConfiguration
+import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 
 @Composable
@@ -26,9 +28,18 @@ fun ReusableAnimatedCard(
     cardShape: RoundedCornerShape = RoundedCornerShape(30.dp),
     cardColor: Color = Color(0xFFFFCD4E),
     gradientBrush: Brush? = null,
-    contentPadding: PaddingValues = PaddingValues(24.dp),
+    basePadding: Dp = 24.dp,
     content: @Composable ColumnScope.() -> Unit
 ) {
+    val screenWidth = LocalConfiguration.current.screenWidthDp
+
+    // Adjust padding based on screen size
+    val contentPadding = when {
+        screenWidth < 360 -> PaddingValues(basePadding / 2)
+        screenWidth < 600 -> PaddingValues(basePadding)
+        else -> PaddingValues(basePadding * 1.5f)
+    }
+
     AnimatedVisibility(
         visible = visible,
         enter = slideInVertically(
@@ -38,8 +49,7 @@ fun ReusableAnimatedCard(
         modifier = modifier
     ) {
         Surface(
-            modifier = Modifier
-                .fillMaxWidth(),
+            modifier = Modifier.fillMaxWidth(0.95f),
             shape = cardShape,
             shadowElevation = 8.dp,
             color = if (gradientBrush == null) cardColor else Color.Transparent

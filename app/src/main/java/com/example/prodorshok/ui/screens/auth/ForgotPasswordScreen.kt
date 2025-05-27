@@ -4,7 +4,6 @@ import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
@@ -96,7 +95,7 @@ fun ForgotPasswordScreen(
                 )
             ),
             cardShape = RoundedCornerShape(topStart = 30.dp, topEnd = 30.dp),
-            contentPadding = PaddingValues(top = 8.dp, bottom = 24.dp, start = 24.dp, end = 24.dp),
+            basePadding = 24.dp, // Let the composable decide actual padding responsively
             modifier = Modifier
                 .align(Alignment.BottomCenter)
                 .padding(24.dp)

@@ -1,5 +1,7 @@
 package com.example.prodorshok.ui.components.auth
 
+import android.annotation.SuppressLint
+import androidx.compose.foundation.layout.BoxWithConstraints
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -27,6 +29,7 @@ import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.text.input.VisualTransformation
 import androidx.compose.ui.unit.dp
 
+@SuppressLint("UnusedBoxWithConstraintsScope")
 @Composable
 fun AuthInputFields(
     email: String,
@@ -36,73 +39,74 @@ fun AuthInputFields(
 ) {
     var passwordVisible by remember { mutableStateOf(false) }
 
-    Column(
-        modifier = Modifier
-            .fillMaxWidth(),
-        horizontalAlignment = Alignment.CenterHorizontally
-    ) {
-        // Email Input Field
-        OutlinedTextField(
-            value = email,
-            onValueChange = onEmailChange,
-            label = { Text("Email or Phone") },
-            leadingIcon = {
-                Icon(
-                    imageVector = Icons.Filled.Email,
-                    contentDescription = "Email Icon",
-                    modifier = Modifier.size(24.dp),
-                    tint = Color(0xFF1268f6)
-                )
-            },
-            modifier = Modifier.fillMaxWidth(0.9f),
-            singleLine = true,
-            colors = OutlinedTextFieldDefaults.colors(
-                focusedTextColor = Color.Black,
-                unfocusedTextColor = Color.DarkGray,
-                focusedBorderColor = Color(0xFF1268F6),
-                unfocusedBorderColor = Color(0xFF1268F6),
-                cursorColor = Color(0xFF1268F6),
-                focusedLabelColor = Color(0xFF1268F6),
-                unfocusedLabelColor = Color.Gray
-            )
-        )
+    BoxWithConstraints(modifier = Modifier.fillMaxWidth()) {
+        val inputWidthFraction = if (maxWidth < 360.dp) 0.95f else 0.9f
 
-        Spacer(modifier = Modifier.height(12.dp))
-
-        // Password Input Field
-        OutlinedTextField(
-            value = password,
-            onValueChange = onPasswordChange,
-            label = { Text("Password") },
-            leadingIcon = {
-                Icon(
-                    imageVector = Icons.Filled.Lock,
-                    contentDescription = "Password Icon",
-                    modifier = Modifier.size(24.dp),
-                    tint = Color(0xFF1268f6)
-                )
-            },
-            trailingIcon = {
-                IconButton(onClick = { passwordVisible = !passwordVisible }) {
+        Column(
+            modifier = Modifier.fillMaxWidth(),
+            horizontalAlignment = Alignment.CenterHorizontally
+        ) {
+            OutlinedTextField(
+                value = email,
+                onValueChange = onEmailChange,
+                label = { Text("Email or Phone") },
+                leadingIcon = {
                     Icon(
-                        imageVector = if (passwordVisible) Icons.Filled.Visibility else Icons.Filled.VisibilityOff,
-                        contentDescription = if (passwordVisible) "Hide Password" else "Show Password",
-                        tint = Color(0xFF1268f6)
+                        imageVector = Icons.Filled.Email,
+                        contentDescription = "Email Icon",
+                        tint = Color(0xFF1268f6),
+                        modifier = Modifier.size(24.dp)
                     )
-                }
-            },
-            visualTransformation = if (passwordVisible) VisualTransformation.None else PasswordVisualTransformation(),
-            modifier = Modifier.fillMaxWidth(0.9f),
-            singleLine = true,
-            colors = OutlinedTextFieldDefaults.colors(
-                focusedTextColor = Color.Black,
-                unfocusedTextColor = Color.DarkGray,
-                focusedBorderColor = Color(0xFF1268F6),
-                unfocusedBorderColor = Color(0xFF1268F6),
-                cursorColor = Color(0xFF1268F6),
-                focusedLabelColor = Color(0xFF1268F6),
-                unfocusedLabelColor = Color.Gray
+                },
+                modifier = Modifier.fillMaxWidth(inputWidthFraction),
+                singleLine = true,
+                colors = OutlinedTextFieldDefaults.colors(
+                    focusedTextColor = Color.Black,
+                    unfocusedTextColor = Color.DarkGray,
+                    focusedBorderColor = Color(0xFF1268F6),
+                    unfocusedBorderColor = Color(0xFF1268F6),
+                    cursorColor = Color(0xFF1268F6),
+                    focusedLabelColor = Color(0xFF1268F6),
+                    unfocusedLabelColor = Color.Gray
+                )
             )
-        )
+
+            Spacer(modifier = Modifier.height(12.dp))
+
+            OutlinedTextField(
+                value = password,
+                onValueChange = onPasswordChange,
+                label = { Text("Password") },
+                leadingIcon = {
+                    Icon(
+                        imageVector = Icons.Filled.Lock,
+                        contentDescription = "Password Icon",
+                        tint = Color(0xFF1268f6),
+                        modifier = Modifier.size(24.dp)
+                    )
+                },
+                trailingIcon = {
+                    IconButton(onClick = { passwordVisible = !passwordVisible }) {
+                        Icon(
+                            imageVector = if (passwordVisible) Icons.Filled.Visibility else Icons.Filled.VisibilityOff,
+                            contentDescription = if (passwordVisible) "Hide Password" else "Show Password",
+                            tint = Color(0xFF1268f6)
+                        )
+                    }
+                },
+                visualTransformation = if (passwordVisible) VisualTransformation.None else PasswordVisualTransformation(),
+                modifier = Modifier.fillMaxWidth(inputWidthFraction),
+                singleLine = true,
+                colors = OutlinedTextFieldDefaults.colors(
+                    focusedTextColor = Color.Black,
+                    unfocusedTextColor = Color.DarkGray,
+                    focusedBorderColor = Color(0xFF1268F6),
+                    unfocusedBorderColor = Color(0xFF1268F6),
+                    cursorColor = Color(0xFF1268F6),
+                    focusedLabelColor = Color(0xFF1268F6),
+                    unfocusedLabelColor = Color.Gray
+                )
+            )
+        }
     }
 }

@@ -24,6 +24,7 @@ import androidx.compose.ui.draw.alpha
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
@@ -39,6 +40,22 @@ fun AuthButton(
     enabled: Boolean = true,
     onClick: () -> Unit
 ) {
+    val configuration = LocalConfiguration.current
+    val screenWidth = configuration.screenWidthDp
+
+    // Adjust button height and text size based on screen width
+    val buttonHeight = when {
+        screenWidth < 360 -> 44.dp
+        screenWidth < 600 -> 50.dp
+        else -> 60.dp
+    }
+
+    val fontSize = when {
+        screenWidth < 360 -> MaterialTheme.typography.labelMedium.fontSize
+        screenWidth < 600 -> MaterialTheme.typography.labelLarge.fontSize
+        else -> MaterialTheme.typography.titleMedium.fontSize
+    }
+
     val alpha = if (isLoading) 0.6f else 1f
     val brush = when (gradientOrientation) {
         GradientOrientation.HORIZONTAL -> Brush.horizontalGradient(colors = gradientColors)
@@ -48,28 +65,25 @@ fun AuthButton(
     Box(
         modifier = Modifier
             .fillMaxWidth()
-            .height(50.dp)
+            .height(buttonHeight)
             .clip(RoundedCornerShape(50.dp))
             .background(brush)
             .alpha(alpha)
-            .clickable(
-                enabled = enabled && !isLoading,
-                onClick = onClick
-            ),
+            .clickable(enabled = enabled && !isLoading, onClick = onClick),
         contentAlignment = Alignment.Center
     ) {
         if (isLoading) {
             CircularProgressIndicator(
                 color = Color.White,
                 strokeWidth = 2.dp,
-                modifier = Modifier.size(22.dp)
+                modifier = Modifier.size(buttonHeight * 0.4f)
             )
         } else {
             Text(
                 text = text,
                 color = Color.White,
                 fontWeight = FontWeight.Bold,
-                style = MaterialTheme.typography.labelLarge
+                fontSize = fontSize
             )
         }
     }
@@ -130,11 +144,31 @@ fun ContinueWithGoogleButton(
     onClick: () -> Unit,
     modifier: Modifier = Modifier
 ) {
+    val screenWidth = LocalConfiguration.current.screenWidthDp
+
+    val buttonHeight = when {
+        screenWidth < 360 -> 44.dp
+        screenWidth < 600 -> 50.dp
+        else -> 60.dp
+    }
+
+    val fontSize = when {
+        screenWidth < 360 -> MaterialTheme.typography.bodySmall.fontSize
+        screenWidth < 600 -> MaterialTheme.typography.bodyMedium.fontSize
+        else -> MaterialTheme.typography.bodyLarge.fontSize
+    }
+
+    val iconSize = when {
+        screenWidth < 360 -> 28.dp
+        screenWidth < 600 -> 36.dp
+        else -> 42.dp
+    }
+
     OutlinedButton(
         onClick = onClick,
         modifier = modifier
             .fillMaxWidth()
-            .height(50.dp),
+            .height(buttonHeight),
         shape = RoundedCornerShape(25.dp),
         border = BorderStroke(1.dp, Color.Black),
         colors = ButtonDefaults.outlinedButtonColors(
@@ -150,17 +184,18 @@ fun ContinueWithGoogleButton(
             AssetIcon(
                 filename = "google_icon.png",
                 modifier = Modifier
-                    .size(40.dp)
+                    .size(iconSize)
                     .padding(end = 8.dp)
             )
             Text(
-                text = " Continue with Google",
+                text = "Continue with Google",
                 color = Color.Black,
-                style = MaterialTheme.typography.bodyMedium
+                fontSize = fontSize
             )
         }
     }
 }
+
 
 @Composable
 fun ResetPasswordButton(

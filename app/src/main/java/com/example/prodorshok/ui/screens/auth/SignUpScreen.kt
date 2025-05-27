@@ -7,7 +7,6 @@ import androidx.compose.animation.slideInVertically
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
@@ -80,8 +79,7 @@ fun SignUpScreen(
                 enterFromTop = true,
                 cardColor = Color(0xFFFFCD4E),
                 cardShape = RoundedCornerShape(bottomStart = 30.dp, bottomEnd = 30.dp),
-                contentPadding = PaddingValues(top = 12.dp, start = 12.dp, end = 12.dp, bottom = 24.dp)
-
+                basePadding = 12.dp // Adjusted base padding
             ) {
                 Column(
                     modifier = Modifier
