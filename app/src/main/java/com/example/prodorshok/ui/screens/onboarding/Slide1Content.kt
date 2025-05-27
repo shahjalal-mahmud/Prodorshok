@@ -1,8 +1,10 @@
 package com.example.prodorshok.ui.screens.onboarding
 
+import android.annotation.SuppressLint
 import androidx.compose.animation.ExperimentalAnimationApi
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.BoxWithConstraints
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
@@ -10,6 +12,7 @@ import androidx.compose.foundation.layout.offset
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
 import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
@@ -32,6 +35,7 @@ import com.example.prodorshok.R
 import com.example.prodorshok.ui.components.animation.PopInAnimation
 import kotlinx.coroutines.delay
 
+@SuppressLint("UnusedBoxWithConstraintsScope") // We actually use maxWidth/maxHeight
 @OptIn(ExperimentalAnimationApi::class)
 @Composable
 fun Slide1Content() {
@@ -42,48 +46,65 @@ fun Slide1Content() {
         visible = true
     }
 
-    Box(
+    BoxWithConstraints(
         modifier = Modifier
             .fillMaxSize()
-            .padding(horizontal = 16.dp)
     ) {
-        // Lottie animation in background
-        val composition by rememberLottieComposition(
-            LottieCompositionSpec.Asset("lottie/confusion.lottie")
-        )
-        LottieAnimation(
-            composition = composition,
-            iterations = LottieConstants.IterateForever,
-            modifier = Modifier
-                .fillMaxWidth()
-                .height(600.dp)
-                .align(Alignment.Center)
-        )
+        val screenHeight = maxHeight
+        val screenWidth = maxWidth
 
-        // Text bubble positioned over Lottie (no gap)
-        PopInAnimation(visible) {
+        // Wrap everything in a white background Surface to override dark mode
+        Surface(
+            modifier = Modifier.fillMaxSize(),
+            color = Color.White
+        ) {
             Box(
-                contentAlignment = Alignment.Center,
                 modifier = Modifier
-                    .width(190.dp)
-                    .height(110.dp)
-                    .align(Alignment.TopCenter)
-                    .offset(x = 150.dp, y = 170.dp) // Adjust based on Lottie’s transparent top space
+                    .fillMaxSize()
+                    .padding(horizontal = 16.dp)
             ) {
-                Image(
-                    painter = painterResource(id = R.drawable.text_bubble),
-                    contentDescription = "Text Bubble",
-                    modifier = Modifier.fillMaxSize()
+                // Lottie animation (responsive)
+                val composition by rememberLottieComposition(
+                    LottieCompositionSpec.Asset("lottie/confusion.lottie")
                 )
-                Text(
-                    text = "Lost in career\nconfusion",
-                    style = MaterialTheme.typography.titleLarge.copy(
-                        fontSize = 20.sp,
-                        color = Color.Black
-                    ),
-                    textAlign = TextAlign.Center,
-                    modifier = Modifier.offset(y = (-8).dp)  // <-- shift text 10dp upward
+                LottieAnimation(
+                    composition = composition,
+                    iterations = LottieConstants.IterateForever,
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .height(screenHeight * 0.6f)
+                        .align(Alignment.Center)
                 )
+
+                // Text bubble
+                PopInAnimation(visible) {
+                    Box(
+                        contentAlignment = Alignment.Center,
+                        modifier = Modifier
+                            .width(screenWidth * 0.45f)
+                            .height(screenHeight * 0.13f)
+                            .align(Alignment.TopStart)
+                            .offset(
+                                x = screenWidth * 0.4f,
+                                y = screenHeight * 0.24f
+                            )
+                    ) {
+                        Image(
+                            painter = painterResource(id = R.drawable.text_bubble),
+                            contentDescription = "Text Bubble",
+                            modifier = Modifier.fillMaxSize()
+                        )
+                        Text(
+                            text = "Lost in career\nconfusion",
+                            style = MaterialTheme.typography.titleLarge.copy(
+                                fontSize = 20.sp,
+                                color = Color.Black
+                            ),
+                            textAlign = TextAlign.Center,
+                            modifier = Modifier.offset(y = (-8).dp)
+                        )
+                    }
+                }
             }
         }
     }

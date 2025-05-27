@@ -1,8 +1,10 @@
 package com.example.prodorshok.ui.screens.onboarding
 
+import android.annotation.SuppressLint
 import androidx.compose.animation.ExperimentalAnimationApi
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.BoxWithConstraints
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
@@ -33,6 +35,7 @@ import com.example.prodorshok.R
 import com.example.prodorshok.ui.components.animation.PopInAnimation
 import kotlinx.coroutines.delay
 
+@SuppressLint("UnusedBoxWithConstraintsScope")
 @OptIn(ExperimentalAnimationApi::class)
 @Composable
 fun Slide2Content() {
@@ -43,19 +46,23 @@ fun Slide2Content() {
         visible = true
     }
 
-    Box(
+    BoxWithConstraints(
         modifier = Modifier
             .fillMaxSize()
             .padding(horizontal = 16.dp)
     ) {
+        val screenHeight = maxHeight
+        val screenWidth = maxWidth
+
         // Lottie animation in background
         val composition by rememberLottieComposition(
             LottieCompositionSpec.Asset("lottie/tensed_boy.lottie")
         )
+
         Box(
             modifier = Modifier
                 .fillMaxWidth()
-                .height(500.dp) // Set desired height
+                .height(screenHeight * 0.55f)
                 .align(Alignment.Center)
         ) {
             LottieAnimation(
@@ -63,19 +70,22 @@ fun Slide2Content() {
                 iterations = LottieConstants.IterateForever,
                 modifier = Modifier
                     .fillMaxSize()
-                    .scale(1.75f) // Zoom in: try 1.5x or 2f
+                    .scale(1.6f)
             )
         }
 
-        // Text bubble positioned over Lottie (no gap)
+        // Text bubble positioned over Lottie (responsive)
         PopInAnimation(visible) {
             Box(
                 contentAlignment = Alignment.Center,
                 modifier = Modifier
-                    .width(200.dp)
-                    .height(120.dp)
+                    .width(screenWidth * 0.45f)
+                    .height(screenHeight * 0.15f)
                     .align(Alignment.TopCenter)
-                    .offset(x = 150.dp, y = 180.dp) // Adjust based on Lottie’s transparent top space
+                    .offset(
+                        x = screenWidth * 0.45f, // ~150dp based on screen width
+                        y = screenHeight * 0.25f  // ~180dp based on screen height
+                    )
             ) {
                 Image(
                     painter = painterResource(id = R.drawable.text_bubble),
@@ -89,7 +99,7 @@ fun Slide2Content() {
                         color = Color.Black
                     ),
                     textAlign = TextAlign.Center,
-                    modifier = Modifier.offset(y = (-8).dp)  // <-- shift text 10dp upward
+                    modifier = Modifier.offset(y = (-8).dp)
                 )
             }
         }

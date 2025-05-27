@@ -1,6 +1,8 @@
 package com.example.prodorshok.ui.screens.onboarding
 
+import android.annotation.SuppressLint
 import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.BoxWithConstraints
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -14,40 +16,53 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 
+@SuppressLint("UnusedBoxWithConstraintsScope")
 @Composable
 fun Slide4Content() {
-    Column(
-        modifier = Modifier
-            .fillMaxSize()
-            .padding(horizontal = 24.dp, vertical = 24.dp)
-            .verticalScroll(rememberScrollState()),
-        verticalArrangement = Arrangement.Top
+    BoxWithConstraints(
+        modifier = Modifier.fillMaxSize()
     ) {
-        Text(
-            text = "From Confusion to Clarity — With Prodorshok",
-            fontSize = 22.sp,
+        val screenHeight = maxHeight
+        val screenWidth = maxWidth
+
+        val horizontalPadding = screenWidth * 0.06f
+        val verticalPadding = screenHeight * 0.03f
+        val titleFontSize = if (screenWidth < 360.dp) 18.sp else 22.sp
+        val titleTopBottomPadding = screenHeight * 0.001f // Reduced padding
+
+        Column(
             modifier = Modifier
-                .fillMaxWidth()
-                .padding(top = 24.dp, bottom = 24.dp),
-            textAlign = TextAlign.Center
-        )
+                .fillMaxSize()
+                .padding(horizontal = horizontalPadding, vertical = verticalPadding)
+                .verticalScroll(rememberScrollState()),
+            verticalArrangement = Arrangement.Top
+        ) {
+            Text(
+                text = "From Confusion to Clarity — With Prodorshok",
+                fontSize = titleFontSize,
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(top = titleTopBottomPadding, bottom = titleTopBottomPadding), // Updated
+                textAlign = TextAlign.Center
+            )
 
-        OnboardingBox(
-            lottieFile = "lottie/career_path.lottie",
-            text = "Discover the right career path",
-            animationFirst = true
-        )
+            OnboardingBox(
+                lottieFile = "lottie/career_path.lottie",
+                text = "Discover the right career path",
+                animationFirst = true
+            )
 
-        OnboardingBox(
-            lottieFile = "lottie/unclear_paths.lottie",
-            text = "Get a personalized roadmap",
-            animationFirst = false
-        )
+            OnboardingBox(
+                lottieFile = "lottie/unclear_paths.lottie",
+                text = "Get a personalized roadmap",
+                animationFirst = false
+            )
 
-        OnboardingBox(
-            lottieFile = "lottie/talk_to_mentors.lottie",
-            text = "Talk to mentors",
-            animationFirst = true
-        )
+            OnboardingBox(
+                lottieFile = "lottie/talk_to_mentors.lottie",
+                text = "Talk to mentors",
+                animationFirst = true
+            )
+        }
     }
 }

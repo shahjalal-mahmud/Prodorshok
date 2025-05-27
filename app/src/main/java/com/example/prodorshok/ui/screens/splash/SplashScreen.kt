@@ -1,6 +1,8 @@
 package com.example.prodorshok.ui.screens.splash
 
+import android.annotation.SuppressLint
 import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.BoxWithConstraints
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
@@ -21,6 +23,7 @@ import com.example.prodorshok.data.preferences.OnboardingPreference
 import com.google.firebase.auth.FirebaseAuth
 import kotlinx.coroutines.delay
 
+@SuppressLint("UnusedBoxWithConstraintsScope") // We actually use maxWidth/maxHeight
 @Composable
 fun SplashScreen(navController: NavController) {
     val auth = FirebaseAuth.getInstance()
@@ -53,26 +56,32 @@ fun SplashScreen(navController: NavController) {
         }
     }
 
-    // Updated UI layout with no background
-    Box(
-        modifier = Modifier.fillMaxSize(),
+    // Responsive layout
+    BoxWithConstraints(
+        modifier = Modifier.fillMaxSize()
     ) {
-        // Rocket Lottie at the bottom
-        val composition by rememberLottieComposition(
-            LottieCompositionSpec.Asset("lottie/rocket.lottie")
-        )
+        val screenHeight = maxHeight
 
-        LottieAnimation(
-            composition = composition,
-            iterations = LottieConstants.IterateForever,
-            modifier = Modifier
-                .fillMaxWidth()
-                .align(Alignment.BottomCenter)
-                .padding(bottom = 48.dp)
-                .height(600.dp) // Adjust height based on your Lottie design
-        )
+        Box(
+            modifier = Modifier.fillMaxSize()
+        ) {
+            // Lottie animation (responsive)
+            val composition by rememberLottieComposition(
+                LottieCompositionSpec.Asset("lottie/rocket.lottie")
+            )
 
-        // Prodorshok text in the center
-        FancyProdorshokText()
+            LottieAnimation(
+                composition = composition,
+                iterations = LottieConstants.IterateForever,
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .align(Alignment.BottomCenter)
+                    .padding(bottom = 48.dp)
+                    .height(screenHeight * 0.45f) // responsive height
+            )
+
+            // Centered App Name
+            FancyProdorshokText()
+        }
     }
 }
