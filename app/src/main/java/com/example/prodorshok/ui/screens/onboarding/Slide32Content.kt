@@ -92,10 +92,11 @@ fun Slide32Content() {
                     contentDescription = "Text Bubble",
                     modifier = Modifier.fillMaxSize()
                 )
+                val fontSize = (screenWidth.value * 0.05).sp // Responsive font size
                 Text(
                     text = "I wish someone had\nguided me earlier",
                     style = MaterialTheme.typography.titleLarge.copy(
-                        fontSize = 20.sp,
+                        fontSize = fontSize,
                         color = Color.Black
                     ),
                     textAlign = TextAlign.Center,

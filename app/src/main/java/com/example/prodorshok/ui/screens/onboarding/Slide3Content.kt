@@ -92,10 +92,11 @@ fun Slide3Content() {
                     contentDescription = "Text Bubble",
                     modifier = Modifier.fillMaxSize()
                 )
+                val fontSize = (screenWidth.value * 0.05).sp // Responsive font size
                 Text(
                     text = "There’s no clear\nroadmap to follow",
                     style = MaterialTheme.typography.titleLarge.copy(
-                        fontSize = 20.sp,
+                        fontSize = fontSize,
                         color = Color.Black
                     ),
                     textAlign = TextAlign.Center,
