@@ -7,6 +7,7 @@ import androidx.compose.animation.slideOutHorizontally
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.navigation.NavGraphBuilder
 import androidx.navigation.NavHostController
@@ -15,7 +16,6 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.navArgument
-import com.example.prodorshok.ui.screens.chat_ai.ChatWithAiScreen
 import com.example.prodorshok.ui.screens.auth.CheckYourMailScreen
 import com.example.prodorshok.ui.screens.auth.ForgotPasswordScreen
 import com.example.prodorshok.ui.screens.auth.LoginScreen
@@ -25,6 +25,7 @@ import com.example.prodorshok.ui.screens.career_guidance.CoursesScreen
 import com.example.prodorshok.ui.screens.career_guidance.MentorshipScreen
 import com.example.prodorshok.ui.screens.career_guidance.RoadmapScreen
 import com.example.prodorshok.ui.screens.career_guidance.SkillTrackerScreen
+import com.example.prodorshok.ui.screens.chat_ai.ChatWithAiScreen
 import com.example.prodorshok.ui.screens.contact_us.ContactUsScreen
 import com.example.prodorshok.ui.screens.dashboard.DashboardScreen
 import com.example.prodorshok.ui.screens.feedback.FeedbackListScreen
@@ -36,14 +37,13 @@ import com.example.prodorshok.ui.screens.mentors.OneOnOneSessionScreen
 import com.example.prodorshok.ui.screens.mentors.TalkWithMentorScreen
 import com.example.prodorshok.ui.screens.need_help.NeedHelpScreen
 import com.example.prodorshok.ui.screens.onboarding.OnboardingScreen
+import com.example.prodorshok.ui.screens.premium.PremiumScreen
 import com.example.prodorshok.ui.screens.profile.ProfilePage
 import com.example.prodorshok.ui.screens.profile.ProfileSetupScreen
 import com.example.prodorshok.ui.screens.splash.SplashScreen
 import com.example.prodorshok.ui.screens.terms.TermsAndPrivacyScreen
 import com.example.prodorshok.ui.utils.AutoSmartBackHandler
 import com.example.prodorshok.viewmodel.auth.AuthViewModel
-import androidx.compose.runtime.getValue
-import com.example.prodorshok.ui.screens.premium.PremiumScreen
 
 @OptIn(ExperimentalAnimationApi::class)
 @Composable
@@ -57,17 +57,14 @@ fun Navigation(
     AutoSmartBackHandler(navController)
 
     Scaffold(
-           bottomBar = {
-               // hide bottom bar on splash/onboarding/auth screens
-               val hideBottomBarRoutes = listOf(
-                   "splash", "onboarding", "login", "signup", "forgot_password", "profile_setup"
-               )
-               val currentRoute by navController.currentBackStackEntryAsState()
-               val routeName = currentRoute?.destination?.route
-               if (routeName != null && !hideBottomBarRoutes.contains(routeName)) {
-                   BottomBar(navController)
-               }
-           }
+        bottomBar = {
+            val bottomBarRoutes = bottomNavItems.map { it.route }
+            val currentRoute by navController.currentBackStackEntryAsState()
+            val routeName = currentRoute?.destination?.route
+            if (routeName in bottomBarRoutes) {
+                BottomBar(navController)
+            }
+        }
     ) { innerPadding ->
         NavHost(
             navController = navController,
