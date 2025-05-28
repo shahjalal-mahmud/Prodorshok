@@ -72,7 +72,7 @@ fun OnboardingScreen(navController: NavController) {
 
 
 private fun completeOnboarding(context: Context, navController: NavController) {
-    OnboardingPreference.setOnboardingCompleted(context, false)
+    OnboardingPreference.setOnboardingCompleted(context, true)
     navController.navigate("login") {
         popUpTo("splash") { inclusive = true }
     }

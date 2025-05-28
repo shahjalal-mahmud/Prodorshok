@@ -69,10 +69,8 @@ fun LoginScreen(
             .background(brush = Brush.verticalGradient(colors = listOf(Color.White, Color.White)))
     ) {
         val screenWidth = maxWidth
-        val screenHeight = maxHeight
 
         val logoSize = if (screenWidth < 360.dp) 120.dp else if (screenWidth < 480.dp) 160.dp else 200.dp
-        val cardHeight = screenHeight * 0.38f // dynamic height instead of fixed 285.dp
 
         // Top background image
         TopBackgroundImage(imageRes = R.drawable.top_wave_blue)

@@ -11,9 +11,11 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.wrapContentHeight
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Email
+import androidx.compose.material.icons.filled.Person
 import androidx.compose.material3.Icon
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Text
@@ -27,7 +29,6 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
@@ -49,14 +50,7 @@ fun ForgotPasswordScreen(
 ) {
     val context = LocalContext.current
     val email by authViewModel::email
-
-    val configuration = LocalConfiguration.current
-    val screenHeight = configuration.screenHeightDp
-
-    val cardHeight = when {
-        screenHeight < 600 -> 400.dp
-        else -> 450.dp
-    }
+    var fullName by remember { mutableStateOf("") }
 
     var showCard by remember { mutableStateOf(false) }
     LaunchedEffect(Unit) { showCard = true }
@@ -66,18 +60,17 @@ fun ForgotPasswordScreen(
             .fillMaxSize()
             .background(Color.White)
     ) {
-        // Top background image
+        // Top background wave image
         TopBackgroundImage(imageRes = R.drawable.top_wave_blue)
 
+        // Top content with image and texts, slightly down from top
         Column(
             modifier = Modifier
-                .fillMaxWidth()
-                .padding(horizontal = 24.dp)
-                .align(Alignment.TopCenter),
-            horizontalAlignment = Alignment.CenterHorizontally
+                .fillMaxSize()
+                .padding(top = 200.dp, start = 24.dp, end = 24.dp),
+            horizontalAlignment = Alignment.CenterHorizontally,
+            verticalArrangement = Arrangement.Top
         ) {
-            Spacer(modifier = Modifier.height(112.dp))
-
             AssetIcon(
                 filename = "forgot_password.png",
                 modifier = Modifier.size(120.dp)
@@ -92,7 +85,7 @@ fun ForgotPasswordScreen(
             AuthSubtitleText("No worries, we'll send you\nreset instructions")
         }
 
-        // Responsive Animated Card
+        // Bottom Animated Card (Responsive height)
         ReusableAnimatedCard(
             visible = showCard,
             enterFromTop = false,
@@ -107,7 +100,8 @@ fun ForgotPasswordScreen(
             basePadding = 24.dp,
             modifier = Modifier
                 .align(Alignment.BottomCenter)
-                .height(cardHeight)
+                .wrapContentHeight()
+                .fillMaxWidth()
         ) {
             OutlinedTextField(
                 value = email,
@@ -115,6 +109,19 @@ fun ForgotPasswordScreen(
                 label = { Text("Email") },
                 leadingIcon = {
                     Icon(Icons.Default.Email, contentDescription = "Email Icon")
+                },
+                modifier = Modifier.fillMaxWidth(),
+                singleLine = true
+            )
+
+            Spacer(modifier = Modifier.height(12.dp))
+
+            OutlinedTextField(
+                value = fullName,
+                onValueChange = { authViewModel.name = it },
+                label = { Text("Full Name") },
+                leadingIcon = {
+                    Icon(Icons.Default.Person, contentDescription = "Person Icon")
                 },
                 modifier = Modifier.fillMaxWidth(),
                 singleLine = true
