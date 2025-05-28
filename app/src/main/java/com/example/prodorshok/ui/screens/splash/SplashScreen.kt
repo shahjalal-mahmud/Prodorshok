@@ -20,6 +20,7 @@ import com.airbnb.lottie.compose.LottieCompositionSpec
 import com.airbnb.lottie.compose.LottieConstants
 import com.airbnb.lottie.compose.rememberLottieComposition
 import com.example.prodorshok.data.preferences.OnboardingPreference
+import com.example.prodorshok.ui.navigation.Screen
 import com.google.firebase.auth.FirebaseAuth
 import kotlinx.coroutines.delay
 
@@ -43,7 +44,7 @@ fun SplashScreen(navController: NavController) {
             }
 
             isLoggedIn -> {
-                navController.navigate("home") {
+                navController.navigate(Screen.Dashboard.route) {
                     popUpTo("splash") { inclusive = true }
                 }
             }
