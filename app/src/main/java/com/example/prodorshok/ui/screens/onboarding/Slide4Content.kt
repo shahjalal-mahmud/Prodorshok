@@ -48,19 +48,19 @@ fun Slide4Content() {
 
             OnboardingBox(
                 lottieFile = "lottie/career_path.lottie",
-                text = "Discover the right career path",
+                text = "1. Discover the right career path",
                 animationFirst = true
             )
 
             OnboardingBox(
                 lottieFile = "lottie/unclear_paths.lottie",
-                text = "Get a personalized roadmap",
+                text = "2. Get a personalized roadmap",
                 animationFirst = false
             )
 
             OnboardingBox(
                 lottieFile = "lottie/talk_to_mentors.lottie",
-                text = "Talk to mentors",
+                text = "3. Talk to mentors",
                 animationFirst = true
             )
         }

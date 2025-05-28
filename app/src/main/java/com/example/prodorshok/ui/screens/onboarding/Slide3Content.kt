@@ -94,7 +94,7 @@ fun Slide3Content() {
                 )
                 val fontSize = (screenWidth.value * 0.05).sp // Responsive font size
                 Text(
-                    text = "There’s no clear\nroadmap to follow",
+                    text = "There’s no clear\nroadmap to follow!",
                     style = MaterialTheme.typography.titleLarge.copy(
                         fontSize = fontSize,
                         color = Color.Black

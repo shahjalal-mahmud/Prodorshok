@@ -27,6 +27,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
@@ -48,6 +49,14 @@ fun ForgotPasswordScreen(
 ) {
     val context = LocalContext.current
     val email by authViewModel::email
+
+    val configuration = LocalConfiguration.current
+    val screenHeight = configuration.screenHeightDp
+
+    val cardHeight = when {
+        screenHeight < 600 -> 400.dp
+        else -> 450.dp
+    }
 
     var showCard by remember { mutableStateOf(false) }
     LaunchedEffect(Unit) { showCard = true }
@@ -71,8 +80,7 @@ fun ForgotPasswordScreen(
 
             AssetIcon(
                 filename = "forgot_password.png",
-                modifier = Modifier
-                    .size(120.dp)
+                modifier = Modifier.size(120.dp)
             )
 
             Spacer(modifier = Modifier.height(16.dp))
@@ -84,57 +92,58 @@ fun ForgotPasswordScreen(
             AuthSubtitleText("No worries, we'll send you\nreset instructions")
         }
 
+        // Responsive Animated Card
         ReusableAnimatedCard(
             visible = showCard,
             enterFromTop = false,
             gradientBrush = Brush.verticalGradient(
                 colors = listOf(
                     Color(0xFFFFD54F),
-                    Color(0xFFFFC107),
-                    Color(0xFFFFB300)
+                    Color(0xFFFFCD4E),
+                    Color(0xFFFFCD4E)
                 )
             ),
             cardShape = RoundedCornerShape(topStart = 30.dp, topEnd = 30.dp),
-            basePadding = 24.dp, // Let the composable decide actual padding responsively
+            basePadding = 24.dp,
             modifier = Modifier
                 .align(Alignment.BottomCenter)
-                .padding(24.dp)
-                .height(450.dp)
+                .height(cardHeight)
         ) {
-                    OutlinedTextField(
-                        value = email,
-                        onValueChange = { authViewModel.email = it },
-                        label = { Text("Email") },
-                        leadingIcon = {
-                            Icon(Icons.Default.Email, contentDescription = "Email Icon")
-                        },
-                        modifier = Modifier.fillMaxWidth(),
-                        singleLine = true
-                    )
+            OutlinedTextField(
+                value = email,
+                onValueChange = { authViewModel.email = it },
+                label = { Text("Email") },
+                leadingIcon = {
+                    Icon(Icons.Default.Email, contentDescription = "Email Icon")
+                },
+                modifier = Modifier.fillMaxWidth(),
+                singleLine = true
+            )
 
-                    Spacer(modifier = Modifier.height(24.dp))
+            Spacer(modifier = Modifier.height(24.dp))
 
-                    ResetPasswordButton(
-                        email = email,
-                        isLoading = authViewModel.isLoading,
-                        context = context,
-                        navController = navController,
-                        authViewModel = authViewModel,
-                        currentSuccess = "Password reset email sent!",
-                        currentError = "Failed to send reset email."
-                    )
+            ResetPasswordButton(
+                email = email,
+                isLoading = authViewModel.isLoading,
+                context = context,
+                navController = navController,
+                authViewModel = authViewModel,
+                currentSuccess = "Password reset email sent!",
+                currentError = "Failed to send reset email."
+            )
 
-                    Spacer(modifier = Modifier.height(16.dp))
-                    Row(
-                        modifier = Modifier.fillMaxWidth(),
-                        horizontalArrangement = Arrangement.Center
-                    ) {
-                        AuthPromptText(
-                            prompt = "Back to ",
-                            actionText = "Login",
-                            onActionClick = { navController.navigate("login") }
-                        )
-                    }
-                }
+            Spacer(modifier = Modifier.height(16.dp))
+
+            Row(
+                modifier = Modifier.fillMaxWidth(),
+                horizontalArrangement = Arrangement.Center
+            ) {
+                AuthPromptText(
+                    prompt = "Back to ",
+                    actionText = "Login",
+                    onActionClick = { navController.navigate("login") }
+                )
             }
+        }
     }
+}

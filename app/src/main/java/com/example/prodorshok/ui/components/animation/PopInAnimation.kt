@@ -17,9 +17,9 @@ fun PopInAnimation(
     AnimatedVisibility(
         visible = visible,
         enter = scaleIn(
-            animationSpec = tween(durationMillis = 500, delayMillis = delayMillis)
+            animationSpec = tween(durationMillis = 10, delayMillis = delayMillis)
         ) + fadeIn(
-            animationSpec = tween(durationMillis = 500, delayMillis = delayMillis)
+            animationSpec = tween(durationMillis = 10, delayMillis = delayMillis)
         )
     ) {
         content()

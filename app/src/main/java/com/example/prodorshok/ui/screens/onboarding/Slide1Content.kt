@@ -98,7 +98,7 @@ fun Slide1Content() {
                         val fontSize = (screenWidth.value * 0.05).sp // Responsive font size
 
                         Text(
-                            text = "Lost in career\nconfusion",
+                            text = "Lost in career\nconfusion?",
                             style = MaterialTheme.typography.titleLarge.copy(
                                 fontSize = fontSize,
                                 color = Color.Black

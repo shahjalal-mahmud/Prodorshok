@@ -94,7 +94,7 @@ fun Slide2Content() {
                 )
                 val fontSize = (screenWidth.value * 0.05).sp // Responsive font size
                 Text(
-                    text = "Don’t know where\nto even begin.",
+                    text = "Don’t know where\nto even begin?",
                     style = MaterialTheme.typography.titleLarge.copy(
                         fontSize = fontSize,
                         color = Color.Black
