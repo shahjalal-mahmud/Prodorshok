@@ -13,12 +13,16 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Email
 import androidx.compose.material.icons.filled.Lock
 import androidx.compose.material.icons.filled.Person
 import androidx.compose.material3.Checkbox
+import androidx.compose.material3.CheckboxDefaults
 import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
@@ -29,6 +33,7 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
@@ -59,18 +64,19 @@ fun SignUpScreen(
     var fullName by remember { mutableStateOf("") }
     var agreeToTerms by remember { mutableStateOf(false) }
 
+    val configuration = LocalConfiguration.current
+    val screenHeight = configuration.screenHeightDp
+
+    val scrollState = rememberScrollState()
+
     Box(modifier = Modifier.fillMaxSize()) {
-
         var showTopCard by remember { mutableStateOf(false) }
-
-        LaunchedEffect(Unit) {
-            showTopCard = true
-        }
+        LaunchedEffect(Unit) { showTopCard = true }
 
         AnimatedVisibility(
             visible = showTopCard,
             enter = slideInVertically(
-                initialOffsetY = { fullHeight -> -fullHeight }, // Slide from top
+                initialOffsetY = { fullHeight -> -fullHeight },
                 animationSpec = tween(durationMillis = 800)
             )
         ) {
@@ -79,15 +85,13 @@ fun SignUpScreen(
                 enterFromTop = true,
                 cardColor = Color(0xFFFFCD4E),
                 cardShape = RoundedCornerShape(bottomStart = 30.dp, bottomEnd = 30.dp),
-                basePadding = 12.dp // Adjusted base padding
+                basePadding = 12.dp
             ) {
                 Column(
-                    modifier = Modifier
-                        .height(220.dp),
+                    modifier = Modifier.height(if (screenHeight < 600) 180.dp else 220.dp),
                     horizontalAlignment = Alignment.Start,
                     verticalArrangement = Arrangement.Top
                 ) {
-                    // Reusable 3-dot menu
                     AuthTopMenu(
                         navController = navController,
                         onMenuItemClick = { menuItem ->
@@ -99,10 +103,7 @@ fun SignUpScreen(
                         },
                         iconTintColor = Color.Black
                     )
-
                     Spacer(modifier = Modifier.height(8.dp))
-
-                    // Title Text
                     AuthTitleText(
                         text = "Let's Create \nYour \nAccount",
                         modifier = Modifier
@@ -114,16 +115,15 @@ fun SignUpScreen(
             }
         }
 
-        // SignUp Form
         Column(
             modifier = Modifier
                 .fillMaxSize()
-                .padding(top = 250.dp, start = 32.dp, end = 32.dp),
+                .padding(top = if (screenHeight < 600) 200.dp else 250.dp, start = 24.dp, end = 24.dp)
+                .verticalScroll(scrollState),
             horizontalAlignment = Alignment.Start,
         ) {
-            Spacer(modifier = Modifier.height(24.dp)) // Bottom padding between text and inputs
+            Spacer(modifier = Modifier.height(24.dp))
 
-            // Input Fields for Full Name, Email, Password, Confirm Password
             RoundedInputField(
                 value = fullName,
                 onValueChange = { fullName = it },
@@ -154,11 +154,23 @@ fun SignUpScreen(
                 isPassword = true
             )
 
-            Spacer(modifier = Modifier.height(8.dp)) // Space before the Terms checkbox
+            Spacer(modifier = Modifier.height(8.dp))
 
-            // Checkbox for Terms and Conditions
-            Row(verticalAlignment = Alignment.CenterVertically) {
-                Checkbox(checked = agreeToTerms, onCheckedChange = { agreeToTerms = it })
+            Row(
+                modifier = Modifier
+                    .fillMaxWidth(),
+                verticalAlignment = Alignment.CenterVertically
+            ) {
+                Checkbox(
+                    checked = agreeToTerms,
+                    onCheckedChange = { agreeToTerms = it },
+                    colors = CheckboxDefaults.colors(
+                        checkedColor = Color(0xFFFFCD4E)
+                    )
+                )
+
+                Spacer(modifier = Modifier.width(8.dp)) // Spacing between checkbox and text
+
                 AuthPromptText(
                     prompt = "I agree to the ",
                     actionText = "Terms & Privacy",
@@ -166,9 +178,8 @@ fun SignUpScreen(
                 )
             }
 
-            Spacer(modifier = Modifier.height(16.dp)) // Space before the Sign-Up button
+            Spacer(modifier = Modifier.height(16.dp))
 
-            // Sign Up Button
             SignUpButton(
                 name = name,
                 isLoading = isLoading,
@@ -179,7 +190,7 @@ fun SignUpScreen(
                 },
                 onSignUpClick = { name ->
                     authViewModel.signUpUser(
-                        name = name,  // Pass name to signUpUser
+                        name = name,
                         onSignUpSuccess = {
                             Toast.makeText(context, "Account Created!", Toast.LENGTH_SHORT).show()
                             navController.navigate("login") {
@@ -193,18 +204,16 @@ fun SignUpScreen(
                 }
             )
 
-            Spacer(modifier = Modifier.height(12.dp)) // Space before Continue with Google button
+            Spacer(modifier = Modifier.height(12.dp))
 
-            // Continue with Google Button
-            ContinueWithGoogleButton(
-                onClick = { startGoogleSignIn() }
-            )
+            ContinueWithGoogleButton(onClick = { startGoogleSignIn() })
 
-            Spacer(modifier = Modifier.height(16.dp)) // Space before Login Text
+            Spacer(modifier = Modifier.height(16.dp))
 
-            // Already have an account? Login text
             Row(
-                modifier = Modifier.fillMaxWidth(),
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(start = 12.dp),
                 horizontalArrangement = Arrangement.Start
             ) {
                 AuthPromptText(
@@ -214,11 +223,12 @@ fun SignUpScreen(
                 )
             }
 
-            // Loading indicator
             if (isLoading) {
                 Spacer(modifier = Modifier.height(16.dp))
                 CircularProgressIndicator()
             }
+
+            Spacer(modifier = Modifier.height(48.dp)) // Extra space for bottom padding on small screens
         }
     }
 }

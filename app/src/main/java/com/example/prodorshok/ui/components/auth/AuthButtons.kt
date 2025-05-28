@@ -38,6 +38,7 @@ fun AuthButton(
     gradientColors: List<Color>,
     gradientOrientation: GradientOrientation = GradientOrientation.HORIZONTAL,
     enabled: Boolean = true,
+    textColor: Color = Color.White, // Default is white
     onClick: () -> Unit
 ) {
     val configuration = LocalConfiguration.current
@@ -81,7 +82,7 @@ fun AuthButton(
         } else {
             Text(
                 text = text,
-                color = Color.White,
+                color = textColor, // Use dynamic text color
                 fontWeight = FontWeight.Bold,
                 fontSize = fontSize
             )
@@ -107,6 +108,7 @@ fun SignUpButton(
         text = "Sign Up",
         isLoading = isLoading,
         gradientColors = listOf(Color(0xFFFFCD4E), Color(0xFFFFCD4E)),
+        textColor = Color.Black, // <-- Set text color here
         onClick = {
             if (!agreeToTerms) {
                 onValidationFailed("Please agree to the Terms & Privacy")
