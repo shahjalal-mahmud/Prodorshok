@@ -1,8 +1,9 @@
 package com.example.prodorshok.ui.components.drawer
 
+import android.widget.Toast
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
-import androidx.compose.material3.Divider
+import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.ModalDrawerSheet
 import androidx.compose.material3.Text
@@ -10,19 +11,21 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
+import com.google.firebase.auth.FirebaseAuth
 
 @Composable
 fun AppDrawer(
     navController: NavController,
-    onCloseDrawer: () -> Unit
+    onCloseDrawer: () -> Unit,
 ) {
+    val auth = FirebaseAuth.getInstance()
     ModalDrawerSheet(modifier = Modifier.width(280.dp)) {
         Text(
             text = "Prodorshok Menu",
             style = MaterialTheme.typography.titleLarge,
             modifier = Modifier.padding(16.dp)
         )
-        Divider()
+        HorizontalDivider()
 
         DrawerItem("🏠 Home") {
             navController.navigate("home")
@@ -71,6 +74,18 @@ fun AppDrawer(
 
         DrawerItem("News") {
             navController.navigate("news")
+            onCloseDrawer()
+        }
+        // Add a divider before the logout button
+        HorizontalDivider()
+
+        // Add the logout button
+        DrawerItem("🚪 Logout") {
+            auth.signOut()
+            Toast.makeText(navController.context, "You have logged out.", Toast.LENGTH_SHORT).show()
+            navController.navigate("login") {
+                popUpTo("login") { inclusive = true }
+            }
             onCloseDrawer()
         }
     }

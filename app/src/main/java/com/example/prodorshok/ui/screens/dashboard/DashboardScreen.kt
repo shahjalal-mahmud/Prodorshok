@@ -39,7 +39,7 @@ fun DashboardScreen(
     userName: String,
     onNotificationClick: () -> Unit,
     onFeatureClick: (Feature) -> Unit,
-    navController: NavController
+    navController: NavController,
 ) {
     val drawerState = rememberDrawerState(DrawerValue.Closed)
     val scope = rememberCoroutineScope()

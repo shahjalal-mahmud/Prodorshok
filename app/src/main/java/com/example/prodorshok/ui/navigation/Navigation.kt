@@ -51,7 +51,7 @@ fun Navigation(
     startDestination: String,
     navController: NavHostController,
     startGoogleSignIn: () -> Unit,
-    authViewModel: AuthViewModel
+    authViewModel: AuthViewModel,
 ) {
     // Manage back button behavior
     AutoSmartBackHandler(navController)
