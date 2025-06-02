@@ -45,6 +45,7 @@ import com.example.prodorshok.ui.components.auth.LoginButton
 import com.example.prodorshok.ui.components.common.AuthPromptText
 import com.example.prodorshok.ui.components.common.ReusableAnimatedCard
 import com.example.prodorshok.ui.components.common.TopBackgroundImage
+import com.example.prodorshok.ui.navigation.Screen
 import com.example.prodorshok.viewmodel.auth.AuthViewModel
 
 @SuppressLint("UnusedBoxWithConstraintsScope")
@@ -140,7 +141,7 @@ fun LoginScreen(
                         onClick = {
                             authViewModel.loginUser(
                                 onLoginSuccess = {
-                                    navController.navigate("home") {
+                                    navController.navigate(Screen.Dashboard.route) {
                                         popUpTo("login") { inclusive = true }
                                     }
                                 },

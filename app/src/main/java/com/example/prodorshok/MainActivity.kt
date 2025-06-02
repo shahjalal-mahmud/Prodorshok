@@ -51,7 +51,7 @@ class MainActivity : ComponentActivity() {
 
     private fun setupGoogleSignIn() {
         val gso = GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
-            .requestIdToken("833137499868-t0ia0qhtl68iu4rbaa222i5c6sq70rbr.apps.googleusercontent.com")
+            .requestIdToken(getString(R.string.default_web_client_id))
             .requestEmail()
             .build()
 
