@@ -15,7 +15,6 @@ import androidx.compose.foundation.layout.wrapContentHeight
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Email
-import androidx.compose.material.icons.filled.Person
 import androidx.compose.material3.Icon
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Text
@@ -29,8 +28,10 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
 import com.example.prodorshok.R
@@ -49,8 +50,11 @@ fun ForgotPasswordScreen(
     authViewModel: AuthViewModel = viewModel()
 ) {
     val context = LocalContext.current
+    val configuration = LocalConfiguration.current
+    val screenHeight = configuration.screenHeightDp.dp
+    val screenWidth = configuration.screenWidthDp.dp
+
     val email by authViewModel::email
-    var fullName by remember { mutableStateOf("") }
 
     var showCard by remember { mutableStateOf(false) }
     LaunchedEffect(Unit) { showCard = true }
@@ -60,32 +64,41 @@ fun ForgotPasswordScreen(
             .fillMaxSize()
             .background(Color.White)
     ) {
-        // Top background wave image
+        // Top background image
         TopBackgroundImage(imageRes = R.drawable.top_wave_blue)
 
-        // Top content with image and texts, slightly down from top
+        // Top Column with image and texts
         Column(
             modifier = Modifier
                 .fillMaxSize()
-                .padding(top = 200.dp, start = 24.dp, end = 24.dp),
-            horizontalAlignment = Alignment.CenterHorizontally,
-            verticalArrangement = Arrangement.Top
+                .padding(
+                    top = screenHeight * 0.22f,
+                    start = screenWidth * 0.06f,
+                    end = screenWidth * 0.06f
+                ),
+            horizontalAlignment = Alignment.CenterHorizontally
         ) {
             AssetIcon(
                 filename = "forgot_password.png",
-                modifier = Modifier.size(120.dp)
+                modifier = Modifier.size(screenWidth * 0.3f)
             )
 
-            Spacer(modifier = Modifier.height(16.dp))
+            Spacer(modifier = Modifier.height(screenHeight * 0.02f))
 
-            AuthTitleText("Forgot\nPassword?")
+            AuthTitleText(
+                text = "Forgot\nPassword?",
+                fontSize = (screenWidth.value * 0.065).sp
+            )
 
-            Spacer(modifier = Modifier.height(8.dp))
+            Spacer(modifier = Modifier.height(screenHeight * 0.01f))
 
-            AuthSubtitleText("No worries, we'll send you\nreset instructions")
+            AuthSubtitleText(
+                text = "No worries, we'll send you\nreset instructions",
+                fontSize = (screenWidth.value * 0.042).sp
+            )
         }
 
-        // Bottom Animated Card (Responsive height)
+        // Bottom Animated Card
         ReusableAnimatedCard(
             visible = showCard,
             enterFromTop = false,
@@ -97,7 +110,7 @@ fun ForgotPasswordScreen(
                 )
             ),
             cardShape = RoundedCornerShape(topStart = 30.dp, topEnd = 30.dp),
-            basePadding = 24.dp,
+            basePadding = screenWidth * 0.06f,
             modifier = Modifier
                 .align(Alignment.BottomCenter)
                 .wrapContentHeight()
@@ -106,28 +119,21 @@ fun ForgotPasswordScreen(
             OutlinedTextField(
                 value = email,
                 onValueChange = { authViewModel.email = it },
-                label = { Text("Email") },
+                label = {
+                    Text("Email", fontSize = (screenWidth.value * 0.04).sp)
+                },
                 leadingIcon = {
-                    Icon(Icons.Default.Email, contentDescription = "Email Icon")
+                    Icon(
+                        Icons.Default.Email,
+                        contentDescription = "Email Icon",
+                        modifier = Modifier.size(screenWidth * 0.06f)
+                    )
                 },
                 modifier = Modifier.fillMaxWidth(),
                 singleLine = true
             )
 
-            Spacer(modifier = Modifier.height(12.dp))
-
-            OutlinedTextField(
-                value = fullName,
-                onValueChange = { authViewModel.name = it },
-                label = { Text("Full Name") },
-                leadingIcon = {
-                    Icon(Icons.Default.Person, contentDescription = "Person Icon")
-                },
-                modifier = Modifier.fillMaxWidth(),
-                singleLine = true
-            )
-
-            Spacer(modifier = Modifier.height(24.dp))
+            Spacer(modifier = Modifier.height(screenHeight * 0.03f))
 
             ResetPasswordButton(
                 email = email,
@@ -139,7 +145,7 @@ fun ForgotPasswordScreen(
                 currentError = "Failed to send reset email."
             )
 
-            Spacer(modifier = Modifier.height(16.dp))
+            Spacer(modifier = Modifier.height(screenHeight * 0.015f))
 
             Row(
                 modifier = Modifier.fillMaxWidth(),
@@ -148,7 +154,8 @@ fun ForgotPasswordScreen(
                 AuthPromptText(
                     prompt = "Back to ",
                     actionText = "Login",
-                    onActionClick = { navController.navigate("login") }
+                    onActionClick = { navController.navigate("login") },
+                    fontSize = (screenWidth.value * 0.04).sp
                 )
             }
         }

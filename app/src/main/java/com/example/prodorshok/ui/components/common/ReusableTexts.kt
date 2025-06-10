@@ -2,31 +2,33 @@ package com.example.prodorshok.ui.components.common
 
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Row
-import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
+import androidx.compose.ui.unit.TextUnit
 import androidx.compose.ui.unit.sp
 
 @Composable
 fun AuthPromptText(
     prompt: String = "Don't have an account?",
     actionText: String = "Create an Account",
-    onActionClick: () -> Unit
+    onActionClick: () -> Unit,
+    fontSize: TextUnit = 14.sp,
+    color: Color = Color.Black
 ) {
     Row {
         Text(
             text = prompt,
-            style = MaterialTheme.typography.bodySmall,
-            color = Color.Black
+            fontSize = fontSize,
+            color = color
         )
         Text(
             text = actionText,
-            style = MaterialTheme.typography.bodySmall,
-            color = Color.Black,
+            fontSize = fontSize,
+            color = color,
             fontWeight = FontWeight.Bold,
             modifier = Modifier.clickable { onActionClick() }
         )
@@ -37,29 +39,35 @@ fun AuthPromptText(
 fun AuthTitleText(
     text: String,
     modifier: Modifier = Modifier,
-    textAlign: TextAlign = TextAlign.Center
+    textAlign: TextAlign = TextAlign.Center,
+    fontSize: TextUnit = 40.sp, // 👈 default value
+    lineHeight: TextUnit = 44.sp
 ) {
     Text(
         text = text,
-        fontSize = 40.sp,
+        fontSize = fontSize,
         fontWeight = FontWeight.Bold,
-        lineHeight = 44.sp,
+        lineHeight = lineHeight,
         textAlign = textAlign,
         modifier = modifier
     )
 }
 
 @Composable
-fun AuthSubtitleText(text: String) {
+fun AuthSubtitleText(
+    text: String,
+    fontSize: TextUnit = 18.sp,
+    lineHeight: TextUnit = 24.sp,
+    color: Color = Color(0xFF555555)
+) {
     Text(
         text = text,
-        fontSize = 18.sp,
-        color = Color(0xFF555555),
-        lineHeight = 24.sp,
+        fontSize = fontSize,
+        lineHeight = lineHeight,
+        color = color,
         textAlign = TextAlign.Center
     )
 }
-
 @Composable
 fun BodyTextSmall(
     text: String,
