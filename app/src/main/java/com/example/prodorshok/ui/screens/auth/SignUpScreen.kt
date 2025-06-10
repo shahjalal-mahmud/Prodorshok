@@ -37,6 +37,7 @@ import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
 import com.example.prodorshok.ui.components.auth.AuthTopMenu
@@ -66,6 +67,11 @@ fun SignUpScreen(
 
     val configuration = LocalConfiguration.current
     val screenHeight = configuration.screenHeightDp
+    val screenWidth = configuration.screenWidthDp
+
+    val titleFontSize = (screenWidth * 0.08).sp
+    val promptFontSize = (screenWidth * 0.035).sp
+    val topPadding = if (screenHeight < 600) 200.dp else 250.dp
 
     val scrollState = rememberScrollState()
 
@@ -109,7 +115,9 @@ fun SignUpScreen(
                         modifier = Modifier
                             .fillMaxWidth()
                             .padding(start = 36.dp),
-                        textAlign = TextAlign.Start
+                        textAlign = TextAlign.Start,
+                        fontSize = titleFontSize,
+                        lineHeight = (titleFontSize.value + 4).sp
                     )
                 }
             }
@@ -118,7 +126,7 @@ fun SignUpScreen(
         Column(
             modifier = Modifier
                 .fillMaxSize()
-                .padding(top = if (screenHeight < 600) 200.dp else 250.dp, start = 24.dp, end = 24.dp)
+                .padding(top = topPadding, start = 24.dp, end = 24.dp)
                 .verticalScroll(scrollState),
             horizontalAlignment = Alignment.Start,
         ) {
@@ -157,8 +165,7 @@ fun SignUpScreen(
             Spacer(modifier = Modifier.height(8.dp))
 
             Row(
-                modifier = Modifier
-                    .fillMaxWidth(),
+                modifier = Modifier.fillMaxWidth(),
                 verticalAlignment = Alignment.CenterVertically
             ) {
                 Checkbox(
@@ -169,12 +176,13 @@ fun SignUpScreen(
                     )
                 )
 
-                Spacer(modifier = Modifier.width(8.dp)) // Spacing between checkbox and text
+                Spacer(modifier = Modifier.width(8.dp))
 
                 AuthPromptText(
                     prompt = "I agree to the ",
                     actionText = "Terms & Privacy",
-                    onActionClick = { navController.navigate("terms") }
+                    onActionClick = { navController.navigate("terms") },
+                    fontSize = promptFontSize
                 )
             }
 
@@ -219,7 +227,8 @@ fun SignUpScreen(
                 AuthPromptText(
                     prompt = "Already have an account? ",
                     actionText = "Tap here to Login",
-                    onActionClick = { navController.navigate("login") }
+                    onActionClick = { navController.navigate("login") },
+                    fontSize = promptFontSize
                 )
             }
 
@@ -228,7 +237,7 @@ fun SignUpScreen(
                 CircularProgressIndicator()
             }
 
-            Spacer(modifier = Modifier.height(48.dp)) // Extra space for bottom padding on small screens
+            Spacer(modifier = Modifier.height(48.dp))
         }
     }
 }
