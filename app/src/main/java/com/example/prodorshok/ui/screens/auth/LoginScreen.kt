@@ -70,23 +70,38 @@ fun LoginScreen(
             .background(brush = Brush.verticalGradient(colors = listOf(Color.White, Color.White)))
     ) {
         val screenWidth = maxWidth
+        val screenHeight = maxHeight
 
-        val logoSize = if (screenWidth < 360.dp) 120.dp else if (screenWidth < 480.dp) 160.dp else 200.dp
+        // Responsive values
+        val logoSize = when {
+            screenWidth < 360.dp -> 100.dp
+            screenWidth < 480.dp -> 140.dp
+            else -> 180.dp
+        }
 
-        // Top background image
+        val horizontalPadding = when {
+            screenWidth < 360.dp -> 12.dp
+            screenWidth < 480.dp -> 16.dp
+            else -> 24.dp
+        }
+
+        val verticalSpacing = when {
+            screenHeight < 600.dp -> 8.dp
+            else -> 16.dp
+        }
+
         TopBackgroundImage(imageRes = R.drawable.top_wave_blue)
 
         Column(
             modifier = Modifier
                 .fillMaxSize()
-                .padding(16.dp), // reduced padding for small screens
+                .padding(horizontal = horizontalPadding),
             verticalArrangement = Arrangement.SpaceBetween
         ) {
-            // Top Section
             Column(
                 modifier = Modifier
                     .weight(1f)
-                    .padding(top = 16.dp)
+                    .padding(top = verticalSpacing)
                     .fillMaxWidth(),
                 horizontalAlignment = Alignment.CenterHorizontally,
                 verticalArrangement = Arrangement.Center
@@ -97,16 +112,18 @@ fun LoginScreen(
                     modifier = Modifier.size(logoSize)
                 )
 
+                Spacer(modifier = Modifier.height(verticalSpacing))
+
                 Text(
                     text = "Your Career, Our Guidance",
-                    style = MaterialTheme.typography.bodyLarge.copy(
+                    style = MaterialTheme.typography.titleMedium.copy(
                         fontFamily = FontFamily(Font(R.font.rocatwo_regular)),
                         fontWeight = FontWeight.SemiBold,
                         color = Color.Black
                     )
                 )
 
-                Spacer(modifier = Modifier.height(16.dp))
+                Spacer(modifier = Modifier.height(verticalSpacing))
 
                 AuthInputFields(
                     email = email,
@@ -116,13 +133,12 @@ fun LoginScreen(
                 )
             }
 
-            // Animated Card
             ReusableAnimatedCard(
                 visible = showCard,
                 enterFromTop = false,
                 cardColor = Color(0xFFFFCD4E),
                 cardShape = RoundedCornerShape(topStart = 30.dp, topEnd = 30.dp),
-                basePadding = 16.dp // optional, based on your design
+                basePadding = horizontalPadding
             ) {
                 Column(
                     modifier = Modifier
@@ -134,7 +150,7 @@ fun LoginScreen(
                         Text("Forgot Password?", color = Color.Black)
                     }
 
-                    Spacer(modifier = Modifier.height(8.dp))
+                    Spacer(modifier = Modifier.height(verticalSpacing))
 
                     LoginButton(
                         isLoading = isLoading,
@@ -152,7 +168,7 @@ fun LoginScreen(
                         }
                     )
 
-                    Spacer(modifier = Modifier.height(12.dp))
+                    Spacer(modifier = Modifier.height(verticalSpacing))
 
                     Row(
                         modifier = Modifier
@@ -169,11 +185,11 @@ fun LoginScreen(
                         Divider(modifier = Modifier.weight(1f), color = Color.Black)
                     }
 
-                    Spacer(modifier = Modifier.height(12.dp))
+                    Spacer(modifier = Modifier.height(verticalSpacing))
 
                     ContinueWithGoogleButton(onClick = startGoogleSignIn)
 
-                    Spacer(modifier = Modifier.height(16.dp))
+                    Spacer(modifier = Modifier.height(verticalSpacing))
 
                     Row(
                         modifier = Modifier.fillMaxWidth(),
