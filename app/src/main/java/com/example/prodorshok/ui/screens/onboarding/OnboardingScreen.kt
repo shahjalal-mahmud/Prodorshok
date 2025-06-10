@@ -3,8 +3,11 @@ package com.example.prodorshok.ui.screens.onboarding
 import android.content.Context
 import androidx.compose.animation.Crossfade
 import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
+import androidx.compose.material3.LinearProgressIndicator
 import androidx.compose.material3.Surface
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
@@ -26,6 +29,7 @@ import kotlinx.coroutines.delay
 fun OnboardingScreen(navController: NavController) {
     val context = LocalContext.current
     var currentSlide by remember { mutableStateOf(0) }
+    val totalSlides = 5
 
     // Automatically cycle through slides
     LaunchedEffect(Unit) {
@@ -43,36 +47,52 @@ fun OnboardingScreen(navController: NavController) {
         modifier = Modifier.fillMaxSize(),
         color = Color.White
     ) {
-        Box(modifier = Modifier.fillMaxSize()) {
+        Column(modifier = Modifier.fillMaxSize()) {
 
-            // Smooth content change without slide effect
-            Crossfade(targetState = currentSlide) { slide ->
-                when (slide) {
-                    0 -> Slide1Content()
-                    1 -> Slide2Content()
-                    2 -> Slide3Content()
-                    3 -> Slide32Content()
-                    4 -> Slide4Content()
+            // Progress Bar at the top
+            LinearProgressIndicator(
+                progress = (currentSlide + 1).toFloat() / totalSlides,
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(horizontal = 16.dp)
+                    .padding(top = 16.dp),
+                color = Color(0xFF3F51B5), // Your app's primary color
+                trackColor = Color(0xFFE0E0E0) // Light gray background
+            )
+
+            // Main Box content
+            Box(
+                modifier = Modifier
+                    .fillMaxSize()
+                    .weight(1f)
+            ) {
+                Crossfade(targetState = currentSlide) { slide ->
+                    when (slide) {
+                        0 -> Slide1Content()
+                        1 -> Slide2Content()
+                        2 -> Slide3Content()
+                        3 -> Slide32Content()
+                        4 -> Slide4Content()
+                    }
                 }
-            }
 
-            if (currentSlide == 4) {
-                ContinueToLoginButton(
-                    onClick = {
-                        completeOnboarding(context, navController)
-                    },
-                    modifier = Modifier
-                        .align(Alignment.BottomCenter)
-                        .padding(bottom = 32.dp)
-                )
+                if (currentSlide == 4) {
+                    ContinueToLoginButton(
+                        onClick = {
+                            completeOnboarding(context, navController)
+                        },
+                        modifier = Modifier
+                            .align(Alignment.BottomCenter)
+                            .padding(bottom = 32.dp)
+                    )
+                }
             }
         }
     }
 }
 
-
 private fun completeOnboarding(context: Context, navController: NavController) {
-    OnboardingPreference.setOnboardingCompleted(context, true)
+    OnboardingPreference.setOnboardingCompleted(context, false)
     navController.navigate("login") {
         popUpTo("splash") { inclusive = true }
     }
