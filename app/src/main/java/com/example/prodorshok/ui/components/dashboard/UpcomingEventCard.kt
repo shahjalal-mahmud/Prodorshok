@@ -1,116 +1,96 @@
 package com.example.prodorshok.ui.components.dashboard
 
-import androidx.compose.foundation.Image
-import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
-import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
-import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
-import androidx.compose.foundation.layout.offset
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.VideoCall
 import androidx.compose.material3.Card
+import androidx.compose.material3.CardDefaults
+import androidx.compose.material3.Icon
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.layout.ContentScale
-import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import com.example.prodorshok.R
 
 @Composable
-fun UpcomingEventCard(date: String, onClick: () -> Unit) {
-    Card(
-        shape = RoundedCornerShape(16.dp),
+fun UpcomingEventCard(date: String, onClickViewAll: () -> Unit) {
+    Column(
         modifier = Modifier
             .fillMaxWidth()
-            .height(180.dp)
-            .clickable(onClick = onClick)
+            .padding(horizontal = 16.dp)
     ) {
-        Box {
-            // Background illustration
-            Image(
-                painter = painterResource(id = R.drawable.bg_event),
-                contentDescription = null,
-                modifier = Modifier.fillMaxSize(),
-                contentScale = ContentScale.Crop
+        // Header
+        Row(
+            modifier = Modifier.fillMaxWidth(),
+            verticalAlignment = Alignment.CenterVertically
+        ) {
+            Text(
+                text = "Upcoming",
+                fontSize = 16.sp,
+                fontWeight = FontWeight.SemiBold,
+                color = Color.Black
             )
-
-            // Gradient overlay at bottom for readability
-            Box(
+            Spacer(modifier = Modifier.weight(1f))
+            Text(
+                text = "View all",
+                fontSize = 14.sp,
+                color = Color(0xFF1E88E5),
                 modifier = Modifier
-                    .fillMaxWidth()
-                    .height(60.dp)
-                    .align(Alignment.BottomCenter)
-                    .background(
-                        Brush.verticalGradient(
-                            colors = listOf(Color.Transparent, Color(0xCC000000))
-                        )
-                    )
+                    .padding(end = 4.dp)
+                    .clickable { onClickViewAll() }
             )
+        }
 
-            // Ribbon: "Upcoming Event" + Date
+        Spacer(modifier = Modifier.height(8.dp))
+
+        // Event Card
+        Card(
+            shape = RoundedCornerShape(12.dp),
+            colors = CardDefaults.cardColors(containerColor = Color(0xFFF5F8FF)),
+            modifier = Modifier.fillMaxWidth()
+        ) {
             Row(
                 modifier = Modifier
-                    .align(Alignment.TopStart)
                     .padding(12.dp)
-                    .background(Color.White.copy(alpha = 0.8f), RoundedCornerShape(8.dp))
-                    .padding(horizontal = 12.dp, vertical = 6.dp),
+                    .fillMaxWidth(),
                 verticalAlignment = Alignment.CenterVertically
             ) {
-                Text(
-                    text = "Upcoming Event",
-                    fontSize = 12.sp,
-                    color = Color.Black
+                Icon(
+                    imageVector = Icons.Default.VideoCall,
+                    contentDescription = "Meeting Icon",
+                    tint = Color(0xFF3366FF),
+                    modifier = Modifier.size(24.dp)
                 )
-                Spacer(Modifier.width(8.dp))
-                Text(
-                    text = date,
-                    fontSize = 12.sp,
-                    fontWeight = FontWeight.Bold,
-                    color = Color(0xFF1E88E5)
-                )
-            }
 
-            // Welcome text
-            Column(
-                modifier = Modifier
-                    .align(Alignment.BottomStart)
-                    .padding(16.dp)
-            ) {
-                Text(
-                    text = "Welcome!",
-                    fontSize = 20.sp,
-                    fontWeight = FontWeight.Bold,
-                    color = Color.White
-                )
-                Text(
-                    text = "Let's organize your career",
-                    fontSize = 14.sp,
-                    color = Color.White
-                )
-            }
+                Spacer(modifier = Modifier.width(12.dp))
 
-            // Small character illustration on the right
-            Image(
-                painter = painterResource(id = R.drawable.ic_event_character),
-                contentDescription = null,
-                modifier = Modifier
-                    .size(80.dp)
-                    .align(Alignment.CenterEnd)
-                    .offset(x = (-16).dp)
-            )
+                Column {
+                    Text(
+                        text = date, // Example: "Today, 2:00 PM"
+                        fontSize = 14.sp,
+                        fontWeight = FontWeight.SemiBold,
+                        color = Color.Black
+                    )
+                    Spacer(modifier = Modifier.height(2.dp))
+                    Text(
+                        text = "1:1 session with mentor",
+                        fontSize = 13.sp,
+                        color = Color.Gray
+                    )
+                }
+            }
         }
     }
 }

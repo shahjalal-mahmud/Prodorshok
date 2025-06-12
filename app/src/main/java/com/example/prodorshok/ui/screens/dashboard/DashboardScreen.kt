@@ -25,6 +25,7 @@ import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
 import com.example.prodorshok.R
 import com.example.prodorshok.ui.components.dashboard.Feature
@@ -56,35 +57,60 @@ fun DashboardScreen(
         Scaffold(
             topBar = {
                 CenterAlignedTopAppBar(
-                    title = { Text("Welcome, $userName") },
+                    title = {
+                        Text(
+                            text = "Welcome, $userName 👋",
+                            fontSize = 18.sp
+                        )
+                    },
                     navigationIcon = {
-                        IconButton(onClick = {
-                            scope.launch { drawerState.open() }
-                        }) {
-                            Icon(Icons.Default.Menu, contentDescription = "Menu")
+                        IconButton(onClick = { scope.launch { drawerState.open() } }) {
+                            Icon(
+                                imageVector = Icons.Default.Menu,
+                                contentDescription = "Menu"
+                            )
                         }
                     },
                     actions = {
                         IconButton(onClick = onNotificationClick) {
-                            Icon(Icons.Default.Notifications, contentDescription = "Notifications")
+                            Icon(
+                                imageVector = Icons.Default.Notifications,
+                                contentDescription = "Notifications"
+                            )
                         }
                     }
                 )
             },
-            containerColor = Color(0xFFF5F7FA),
+            containerColor = Color(0xFFF9FAFB),
             content = { innerPadding ->
                 Column(
                     modifier = Modifier
                         .padding(innerPadding)
                         .fillMaxSize()
-                        .background(Color(0xFFF5F7FA))
-                        .padding(16.dp)
+                        .padding(horizontal = 16.dp)
+                        .background(Color(0xFFF9FAFB))
                 ) {
+                    Spacer(modifier = Modifier.height(16.dp))
+
+                    // Upcoming Events
                     UpcomingEventCard(
-                        date = "27 June, 2025",
-                        onClick = { /* TODO: navigate to events */ }
+                        date = "Today, 2:00 PM",
+                        onClickViewAll = { /* TODO */ }
                     )
-                    Spacer(Modifier.height(24.dp))
+
+                    Spacer(modifier = Modifier.height(28.dp))
+
+                    // Features Header
+                    Text(
+                        text = "Explore Features",
+                        fontSize = 16.sp,
+                        modifier = Modifier.padding(start = 4.dp),
+                        color = Color.Black
+                    )
+
+                    Spacer(modifier = Modifier.height(12.dp))
+
+                    // Feature Grid
                     FeatureGrid(
                         features = listOf(
                             Feature("Chat with AI", R.drawable.ic_chat_ai),
@@ -98,6 +124,8 @@ fun DashboardScreen(
                         ),
                         onFeatureClick = onFeatureClick
                     )
+
+                    Spacer(modifier = Modifier.height(24.dp))
                 }
             }
         )
