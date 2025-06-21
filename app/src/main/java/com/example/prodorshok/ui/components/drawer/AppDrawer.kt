@@ -11,6 +11,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
+import com.example.prodorshok.ui.navigation.Screen
 import com.google.firebase.auth.FirebaseAuth
 
 @Composable
@@ -67,8 +68,8 @@ fun AppDrawer(
             onCloseDrawer()
         }
 
-        DrawerItem("📄 Resume Builder") {
-            navController.navigate("resume_builder")
+        DrawerItem("📄 Career QnA") {
+            navController.navigate(Screen.CareerQnA.route)
             onCloseDrawer()
         }
 

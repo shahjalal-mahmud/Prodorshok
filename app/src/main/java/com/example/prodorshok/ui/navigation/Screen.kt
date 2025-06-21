@@ -13,4 +13,5 @@ sealed class Screen(val route: String) {
     object ResumeBuilder      : Screen("resume_builder")
     object Premium            : Screen("premium")
     object Profile            : Screen("profile")
+    object CareerQnA          : Screen("career_qna")
 }
