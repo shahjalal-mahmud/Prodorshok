@@ -4,16 +4,12 @@ import androidx.compose.animation.ExperimentalAnimationApi
 import androidx.compose.animation.core.tween
 import androidx.compose.animation.slideInHorizontally
 import androidx.compose.animation.slideOutHorizontally
-import androidx.compose.foundation.layout.Box
-import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
-import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
-import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavGraphBuilder
@@ -33,7 +29,6 @@ import com.example.prodorshok.ui.screens.career_guidance.MentorshipScreen
 import com.example.prodorshok.ui.screens.career_guidance.RoadmapScreen
 import com.example.prodorshok.ui.screens.career_guidance.SkillTrackerScreen
 import com.example.prodorshok.ui.screens.career_qna.CareerQnAScreen
-import com.example.prodorshok.ui.screens.career_qna.QuestionType
 import com.example.prodorshok.ui.screens.chat_ai.ChatWithAiScreen
 import com.example.prodorshok.ui.screens.contact_us.ContactUsScreen
 import com.example.prodorshok.ui.screens.dashboard.DashboardScreen
@@ -168,42 +163,28 @@ fun Navigation(
                 val userProfile by profileViewModel.userProfile.collectAsState()
                 val isProfileLoading by profileViewModel.isLoading.collectAsState()
 
-                // 1. Fetch user profile on first load
+                // Step 1: Always fetch profile once on first load
                 LaunchedEffect(Unit) {
                     profileViewModel.fetchUserProfile()
                 }
 
-                // 2. Start the QnA flow when profile is ready and no current question yet
+                // ✅ Step 2: Run conversation trigger only ONCE when profile is ready
                 LaunchedEffect(isProfileLoading) {
-                    if (!isProfileLoading && currentQuestion == null && suggestions == null) {
+                    if (!isProfileLoading) {
                         viewModel.startConversationWithProfile(userProfile)
                     }
                 }
 
-                // 3. Show either loading, QnA, or final suggestions
-                if (suggestions != null) {
-                    CareerQnAScreen(
-                        navController = navController,
-                        currentQuestion = QuestionType.ShortAnswer(""), // or skip the question section
-                        pastQnA = history,
-                        careerSuggestions = suggestions,
-                        onAnswer = {} // disable answering if suggestions shown
-                    )
-                } else {
-                    currentQuestion?.let { question ->
-                        CareerQnAScreen(
-                            navController = navController,
-                            currentQuestion = question,
-                            pastQnA = history,
-                            careerSuggestions = null,
-                            onAnswer = { answer ->
-                                viewModel.submitAnswer(answer)
-                            }
-                        )
-                    } ?: Box(Modifier.fillMaxSize(), contentAlignment = Alignment.Center) {
-                        CircularProgressIndicator()
+                // Step 3: UI display logic
+                CareerQnAScreen(
+                    navController = navController,
+                    currentQuestion = currentQuestion,
+                    pastQnA = history,
+                    careerSuggestions = suggestions,
+                    onAnswer = { answer ->
+                        viewModel.submitAnswer(answer)
                     }
-                }
+                )
             }
         }
     }
