@@ -3,8 +3,10 @@ package com.example.prodorshok.ui.screens.career_qna
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
@@ -16,18 +18,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
-
-data class QnAItem(
-    val question: String,
-    val answer: String
-)
-
-sealed class QuestionType {
-    data class YesNo(val question: String) : QuestionType()
-    data class MultipleChoice(val question: String, val options: List<String>) : QuestionType()
-    data class Checkbox(val question: String, val options: List<String>) : QuestionType()
-    data class ShortAnswer(val question: String) : QuestionType()
-}
+import com.example.prodorshok.domain.careerqna.AIResponseParser
 
 @Composable
 fun CareerQnAScreen(
@@ -37,16 +28,18 @@ fun CareerQnAScreen(
     onAnswer: (String) -> Unit,
     careerSuggestions: String?
 ) {
-    Column(modifier = Modifier.fillMaxSize().padding(16.dp)) {
-
+    Column(
+        modifier = Modifier
+            .fillMaxSize()
+            .padding(16.dp)
+    ) {
         LazyColumn(
-            modifier = Modifier
-                .fillMaxSize()
-                .padding(16.dp),
+            modifier = Modifier.fillMaxSize(),
             verticalArrangement = Arrangement.spacedBy(12.dp),
             contentPadding = PaddingValues(bottom = 24.dp)
         ) {
-            // Past QnA items
+
+            // 🕘 History of QnA
             items(pastQnA) { item ->
                 Column {
                     Text("🤖 ${item.question}", style = MaterialTheme.typography.bodyMedium)
@@ -54,7 +47,7 @@ fun CareerQnAScreen(
                 }
             }
 
-            // Current Question Input
+            // ❓ Render current question
             if (currentQuestion != null && careerSuggestions == null) {
                 item {
                     when (currentQuestion) {
@@ -77,18 +70,38 @@ fun CareerQnAScreen(
                 }
             }
 
-            // Career Suggestions
+            // 💡 Suggestions UI
             if (careerSuggestions != null) {
                 item {
-                    CareerSuggestionCard(suggestion = careerSuggestions)
+                    when (val result = AIResponseParser.parseResponse(careerSuggestions, isSuggestionPhase = true)) {
+                        is AIResponseParser.ParseResult.Suggestions -> {
+                            CareerSuggestionList(suggestions = result.suggestions) {
+                                // TODO: Define what happens when a career card is clicked
+                                println("Clicked: $it")
+                            }
+                        }
+                        else -> {
+                            Text(
+                                text = "⚠️ Could not parse career suggestions.",
+                                style = MaterialTheme.typography.bodyMedium,
+                                modifier = Modifier.padding(top = 16.dp)
+                            )
+                        }
+                    }
                 }
             }
 
-            // Fallback (initial loading / empty state)
+            // ⏳ Initial loading
             if (currentQuestion == null && careerSuggestions == null) {
                 item {
-                    Column(modifier = Modifier.fillMaxWidth(), horizontalAlignment = Alignment.CenterHorizontally) {
+                    Column(
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .padding(top = 48.dp),
+                        horizontalAlignment = Alignment.CenterHorizontally
+                    ) {
                         CircularProgressIndicator()
+                        Spacer(modifier = Modifier.height(8.dp))
                         Text("Loading your first question...")
                     }
                 }
