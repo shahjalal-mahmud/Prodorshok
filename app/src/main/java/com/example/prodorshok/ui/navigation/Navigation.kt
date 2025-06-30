@@ -159,6 +159,7 @@ fun Navigation(
                 val currentQuestion by viewModel.currentQuestion.collectAsState()
                 val history by viewModel.questionHistory.collectAsState()
                 val suggestions by viewModel.careerSuggestions.collectAsState()
+                val isLoadingNextQuestion by viewModel.isLoadingNextQuestion.collectAsState()
 
                 val userProfile by profileViewModel.userProfile.collectAsState()
                 val isProfileLoading by profileViewModel.isLoading.collectAsState()
@@ -181,6 +182,7 @@ fun Navigation(
                     currentQuestion = currentQuestion,
                     pastQnA = history,
                     careerSuggestions = suggestions,
+                    isLoadingNextQuestion = isLoadingNextQuestion,
                     onAnswer = { answer ->
                         viewModel.submitAnswer(answer)
                     }

@@ -38,6 +38,9 @@ class CareerQnAViewModel(app: Application) : AndroidViewModel(app) {
 
     private val historyManager = MessageHistoryManager()
 
+    private val _isLoadingNextQuestion = MutableStateFlow(false)
+    val isLoadingNextQuestion: StateFlow<Boolean> = _isLoadingNextQuestion
+
     fun startConversationWithProfile(profile: UserProfile) {
         val prompt = CareerQnAUseCase.buildInitialPrompt(profile)
 
@@ -67,15 +70,17 @@ class CareerQnAViewModel(app: Application) : AndroidViewModel(app) {
 
         questionCount++
 
-        if (questionCount >= maxQuestions) {
-            requestFinalSuggestions()
-        } else {
+        if (questionCount == maxQuestions) {
+            requestFinalSuggestions() // switch to suggestion mode, stop all future fetchNextQuestion
+        } else if (questionCount < maxQuestions) {
             fetchNextQuestion()
         }
     }
 
     private fun fetchNextQuestion() {
-        if (waitingForSuggestions) return
+        if (waitingForSuggestions || questionCount >= maxQuestions) return
+
+        _isLoadingNextQuestion.value = true
 
         viewModelScope.launch {
             try {
@@ -89,6 +94,7 @@ class CareerQnAViewModel(app: Application) : AndroidViewModel(app) {
                 val response = service.getChatCompletion(request)
                 val botMessage = response.choices.firstOrNull()?.message?.content ?: run {
                     _careerSuggestions.value = "Sorry, no response received. Please try again."
+                    _isLoadingNextQuestion.value = false  // ✅ Reset here too
                     return@launch
                 }
 
@@ -120,6 +126,8 @@ class CareerQnAViewModel(app: Application) : AndroidViewModel(app) {
                         "⚠️ Something went wrong. Please check your internet connection or try again."
                     }
                 }
+            } finally {
+                _isLoadingNextQuestion.value = false  // ✅ Always reset loading state
             }
         }
     }

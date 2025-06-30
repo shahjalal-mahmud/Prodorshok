@@ -9,7 +9,7 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
-import androidx.compose.foundation.lazy.items
+import androidx.compose.foundation.lazy.itemsIndexed
 import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
@@ -26,7 +26,8 @@ fun CareerQnAScreen(
     currentQuestion: QuestionType?,
     pastQnA: List<QnAItem>,
     onAnswer: (String) -> Unit,
-    careerSuggestions: String?
+    careerSuggestions: String?,
+    isLoadingNextQuestion: Boolean  // 🆕 New parameter to control question loading state
 ) {
     Column(
         modifier = Modifier
@@ -38,17 +39,38 @@ fun CareerQnAScreen(
             verticalArrangement = Arrangement.spacedBy(12.dp),
             contentPadding = PaddingValues(bottom = 24.dp)
         ) {
-
-            // 🕘 History of QnA
-            items(pastQnA) { item ->
+            // 🔢 Show QnA history with serial numbers
+            itemsIndexed(pastQnA) { index, item ->
                 Column {
-                    Text("🤖 ${item.question}", style = MaterialTheme.typography.bodyMedium)
-                    Text("🧑 ${item.answer}", style = MaterialTheme.typography.bodySmall)
+                    Text(
+                        text = "🤖 Q${index + 1}: ${item.question}",
+                        style = MaterialTheme.typography.bodyMedium
+                    )
+                    Text(
+                        text = "🧑 ${item.answer}",
+                        style = MaterialTheme.typography.bodySmall
+                    )
                 }
             }
 
-            // ❓ Render current question
-            if (currentQuestion != null && careerSuggestions == null) {
+            // ⏳ Show loading while next question is being fetched
+            if (isLoadingNextQuestion && careerSuggestions == null) {
+                item {
+                    Column(
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .padding(top = 48.dp),
+                        horizontalAlignment = Alignment.CenterHorizontally
+                    ) {
+                        CircularProgressIndicator()
+                        Spacer(modifier = Modifier.height(8.dp))
+                        Text("Thinking about the next question...")
+                    }
+                }
+            }
+
+            // ❓ Render current question only if not loading
+            if (currentQuestion != null && careerSuggestions == null && !isLoadingNextQuestion) {
                 item {
                     when (currentQuestion) {
                         is QuestionType.YesNo -> YesNoQuestion(currentQuestion.question, onAnswer)
@@ -70,16 +92,18 @@ fun CareerQnAScreen(
                 }
             }
 
-            // 💡 Suggestions UI
+            // 💡 Career suggestions
             if (careerSuggestions != null) {
                 item {
-                    when (val result = AIResponseParser.parseResponse(careerSuggestions, isSuggestionPhase = true)) {
+                    when (val result =
+                        AIResponseParser.parseResponse(careerSuggestions, isSuggestionPhase = true)) {
                         is AIResponseParser.ParseResult.Suggestions -> {
                             CareerSuggestionList(suggestions = result.suggestions) {
-                                // TODO: Define what happens when a career card is clicked
+                                // TODO: Handle click on career
                                 println("Clicked: $it")
                             }
                         }
+
                         else -> {
                             Text(
                                 text = "⚠️ Could not parse career suggestions.",
@@ -91,8 +115,8 @@ fun CareerQnAScreen(
                 }
             }
 
-            // ⏳ Initial loading
-            if (currentQuestion == null && careerSuggestions == null) {
+            // ⏳ Initial screen loading
+            if (currentQuestion == null && careerSuggestions == null && pastQnA.isEmpty() && !isLoadingNextQuestion) {
                 item {
                     Column(
                         modifier = Modifier
