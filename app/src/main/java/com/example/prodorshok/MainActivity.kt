@@ -29,12 +29,11 @@ import com.google.android.gms.common.api.ApiException
 import com.google.firebase.auth.GoogleAuthProvider
 
 class MainActivity : ComponentActivity() {
-
-    private lateinit var googleSignInClient: GoogleSignInClient
-    private lateinit var googleSignInLauncher: ActivityResultLauncher<Intent>
+    private lateinit var googleSignInClient: GoogleSignInClient // Used to launch the Google login screen
+    private lateinit var googleSignInLauncher: ActivityResultLauncher<Intent>   // Handles the result when the user finishes Google sign-in
     private val authViewModel: AuthViewModel by viewModels()
 
-    private var startDestination: String = "splash"
+    private var startDestination: String = "splash" // Initial screen name for the navigation
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -42,10 +41,10 @@ class MainActivity : ComponentActivity() {
         // ✅ Always start from splash
         startDestination = "splash"
 
-        setupGoogleSignIn()
+        setupGoogleSignIn()     // Set up Google login behavior
 
         setContent {
-            ProdorshokApp()
+            ProdorshokApp()     // Set the UI using Jetpack Compose
         }
     }
 

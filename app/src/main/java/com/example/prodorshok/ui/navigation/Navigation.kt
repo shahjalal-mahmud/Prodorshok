@@ -1,9 +1,6 @@
 package com.example.prodorshok.ui.navigation
 
 import androidx.compose.animation.ExperimentalAnimationApi
-import androidx.compose.animation.core.tween
-import androidx.compose.animation.slideInHorizontally
-import androidx.compose.animation.slideOutHorizontally
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.Composable
@@ -12,13 +9,13 @@ import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.lifecycle.viewmodel.compose.viewModel
-import androidx.navigation.NavGraphBuilder
 import androidx.navigation.NavHostController
 import androidx.navigation.NavType
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.navArgument
+import com.example.prodorshok.ui.components.animation.animatedComposable
 import com.example.prodorshok.ui.screens.auth.CheckYourMailScreen
 import com.example.prodorshok.ui.screens.auth.ForgotPasswordScreen
 import com.example.prodorshok.ui.screens.auth.LoginScreen
@@ -82,6 +79,7 @@ fun Navigation(
             animatedComposable("login") { LoginScreen(navController, startGoogleSignIn) }
             animatedComposable("signup") { SignUpScreen(navController, startGoogleSignIn) }
             animatedComposable("forgot_password") { ForgotPasswordScreen(navController) }
+
             animatedComposable("home") { HomeScreen(navController) }
             animatedComposable("profile_setup") { ProfileSetupScreen(navController) }
             animatedComposable(Screen.Dashboard.route) {
@@ -189,42 +187,5 @@ fun Navigation(
                 )
             }
         }
-    }
-}
-
-// Helper Extension Function for Animations
-@OptIn(ExperimentalAnimationApi::class)
-private fun NavGraphBuilder.animatedComposable(
-    route: String,
-    content: @Composable () -> Unit
-) {
-    composable(
-        route = route,
-        enterTransition = {
-            slideInHorizontally(
-                initialOffsetX = { 1000 },
-                animationSpec = tween(500)
-            )
-        },
-        exitTransition = {
-            slideOutHorizontally(
-                targetOffsetX = { -1000 },
-                animationSpec = tween(500)
-            )
-        },
-        popEnterTransition = {
-            slideInHorizontally(
-                initialOffsetX = { -1000 },
-                animationSpec = tween(500)
-            )
-        },
-        popExitTransition = {
-            slideOutHorizontally(
-                targetOffsetX = { 1000 },
-                animationSpec = tween(500)
-            )
-        }
-    ) {
-        content()
     }
 }
