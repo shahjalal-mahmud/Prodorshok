@@ -21,6 +21,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
+import com.example.prodorshok.ui.navigation.Screen
 import com.example.prodorshok.viewmodel.profile.ProfileViewModel
 
 @Composable
@@ -50,7 +51,7 @@ fun ChatWithAiScreen(navController: NavController) {
             ) {
                 Button(
                     onClick = {
-                        vm.sendProfileToAI(userProfile)
+                        navController.navigate(Screen.CareerQnA.route)
                     },
                     shape = RoundedCornerShape(20.dp)
                 ) {

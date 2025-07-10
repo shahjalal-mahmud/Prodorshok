@@ -36,7 +36,7 @@ fun CareerRoadmapScreen(viewModel: CareerRoadmapViewModel = viewModel()) {
     Column(
         modifier = Modifier
             .fillMaxSize()
-            .padding(16.dp)
+            .padding(top = 64.dp, start = 24.dp, end = 24.dp)
     ) {
         Text("🎯 Enter a Career Goal", style = MaterialTheme.typography.titleLarge)
         Spacer(modifier = Modifier.height(8.dp))

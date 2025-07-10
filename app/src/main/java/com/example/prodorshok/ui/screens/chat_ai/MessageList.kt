@@ -1,6 +1,13 @@
 package com.example.prodorshok.ui.screens.chat_ai
-import androidx.compose.foundation.layout.*
-import androidx.compose.foundation.lazy.*
+
+import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.PaddingValues
+import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.items
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
@@ -12,18 +19,36 @@ fun MessageList(
     modifier: Modifier = Modifier
 ) {
     LazyColumn(
-        modifier = modifier,
-        contentPadding = PaddingValues(vertical = 8.dp, horizontal = 16.dp)
+        modifier = modifier
+            .padding(horizontal = 8.dp)
+            .fillMaxSize(),
+        contentPadding = PaddingValues(vertical = 8.dp),
+        verticalArrangement = Arrangement.Bottom
     ) {
         items(messages) { (isUser, text) ->
-            MessageBubble(isUser = isUser, text = text)
-            Spacer(Modifier.height(8.dp))
+            Row(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(horizontal = 8.dp, vertical = 4.dp),
+                horizontalArrangement = if (isUser) Arrangement.End else Arrangement.Start
+            ) {
+                MessageBubble(isUser = isUser, text = text)
+            }
         }
 
         if (isTyping) {
             item {
-                TypingIndicatorBubble()
-                Spacer(Modifier.height(8.dp))
+                Row(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .padding(horizontal = 8.dp, vertical = 4.dp),
+                    horizontalArrangement = Arrangement.Start
+                ) {
+                    MessageBubble(
+                        isUser = false,
+                        text = "Typing..."
+                    )
+                }
             }
         }
     }

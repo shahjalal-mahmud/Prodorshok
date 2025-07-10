@@ -27,7 +27,6 @@ val topMenuConfigMap = mapOf(
     ),
     "chat_ai" to TopMenuConfig(showTopBar = false),
     "home" to TopMenuConfig(showTopBar = false),
-    "roadmap" to TopMenuConfig(showTopBar = false),
     "mentorship" to TopMenuConfig(showTopBar = false),
     "courses" to TopMenuConfig(showTopBar = false),
     "skills" to TopMenuConfig(showTopBar = false),
@@ -47,6 +46,14 @@ val topMenuConfigMap = mapOf(
     "need_help" to TopMenuConfig(showTopBar = true),
     "contact_us" to TopMenuConfig(showTopBar = true),
     "feedback" to TopMenuConfig(showTopBar = true),
-    "feedback_list" to TopMenuConfig(showTopBar = true)
+    "feedback_list" to TopMenuConfig(showTopBar = true),
+    "career_qna" to TopMenuConfig(
+        showTopBar = false,
+        iconTint = Color.Black
+    ),
+    "roadmap" to TopMenuConfig(
+        showTopBar = false,
+        iconTint = Color.Black
+    )
     // Add other routes as needed
 )

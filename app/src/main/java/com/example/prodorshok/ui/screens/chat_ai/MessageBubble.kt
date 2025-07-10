@@ -1,11 +1,16 @@
 package com.example.prodorshok.ui.screens.chat_ai
 
-import androidx.compose.foundation.background
-import androidx.compose.foundation.layout.*
-import androidx.compose.material3.*
+import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.widthIn
+import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.Surface
 import androidx.compose.runtime.Composable
-import androidx.compose.ui.*
+import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
+import dev.jeziellago.compose.markdowntext.MarkdownText
 
 @Composable
 fun MessageBubble(isUser: Boolean, text: String) {
@@ -16,13 +21,18 @@ fun MessageBubble(isUser: Boolean, text: String) {
         modifier = Modifier.fillMaxWidth(),
         horizontalArrangement = if (isUser) Arrangement.End else Arrangement.Start
     ) {
-        Box(
+        Surface(
+            color = bgColor,
+            shape = MaterialTheme.shapes.medium,
             modifier = Modifier
-                .background(bgColor, shape = MaterialTheme.shapes.medium)
-                .padding(12.dp)
-                .widthIn(max = 250.dp)
+                .padding(4.dp)
+                .widthIn(max = 275.dp)
         ) {
-            Text(text, color = textColor)
+            MarkdownText(
+                markdown = text,
+                color = textColor,
+                modifier = Modifier.padding(12.dp)
+            )
         }
     }
 }

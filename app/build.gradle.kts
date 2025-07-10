@@ -109,6 +109,8 @@ dependencies {
     // Firebase Task support for coroutines
     implementation ("org.jetbrains.kotlinx:kotlinx-coroutines-play-services:1.7.3")
 
+    // Parsing
+    implementation("io.github.jeziellago:compose-markdown:0.3.0")
 
     // Testing
     testImplementation(libs.junit)
