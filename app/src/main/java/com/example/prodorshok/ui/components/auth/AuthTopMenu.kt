@@ -1,5 +1,6 @@
 package com.example.prodorshok.ui.components.auth
 
+import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Row
@@ -34,78 +35,83 @@ fun AuthTopMenu(
     showBackButton: Boolean = true,
     showMenuDots: Boolean = true,
     iconTintColor: Color = Color.White,
+    backgroundColor: Color = Color.Transparent,
     onMenuItemClick: (String) -> Unit = {},
-    showAnimation: Boolean = true // New parameter to control animation
+    showAnimation: Boolean = true
 ) {
-    // Apply the slide-in animation to the entire row
-    Row(
+    Box(
         modifier = Modifier
             .fillMaxWidth()
-            .slideInFromTop(show = showAnimation) // Use the animation modifier here
-            .padding(top = 24.dp, start = 16.dp, end = 16.dp),
-        horizontalArrangement = Arrangement.SpaceBetween,
-        verticalAlignment = Alignment.Top
+            .background(backgroundColor) // <-- Apply background
+            .padding(top = 24.dp, start = 16.dp, end = 16.dp)
+            .slideInFromTop(show = showAnimation)
     ) {
-        if (showBackButton) {
-            IconButton(
-                onClick = { navController.popBackStack() },
-                modifier = Modifier.size(40.dp)
-            ) {
-                Icon(
-                    imageVector = Icons.AutoMirrored.Filled.ArrowBack,
-                    contentDescription = "Back",
-                    tint = iconTintColor
-                )
-            }
-        } else {
-            Spacer(modifier = Modifier.size(40.dp)) // Preserve layout spacing
-        }
-
-        if (showMenuDots) {
-            var expanded by remember { mutableStateOf(false) }
-
-            Box {
+        Row(
+            modifier = Modifier.fillMaxWidth(),
+            horizontalArrangement = Arrangement.SpaceBetween,
+            verticalAlignment = Alignment.Top
+        ) {
+            if (showBackButton) {
                 IconButton(
-                    onClick = { expanded = true },
+                    onClick = { navController.popBackStack() },
                     modifier = Modifier.size(40.dp)
                 ) {
                     Icon(
-                        imageVector = Icons.Default.MoreVert,
-                        contentDescription = "Menu",
+                        imageVector = Icons.AutoMirrored.Filled.ArrowBack,
+                        contentDescription = "Back",
                         tint = iconTintColor
                     )
                 }
-
-                DropdownMenu(
-                    expanded = expanded,
-                    onDismissRequest = { expanded = false },
-                    modifier = Modifier.width(180.dp)
-                ) {
-                    DropdownMenuItem(
-                        text = { Text("Need Help?") },
-                        onClick = {
-                            expanded = false
-                            onMenuItemClick("need_help")
-                        }
-                    )
-                    DropdownMenuItem(
-                        text = { Text("Contact Us") },
-                        onClick = {
-                            expanded = false
-                            onMenuItemClick("contact_us")
-                        }
-                    )
-                    DropdownMenuItem(
-                        text = { Text("Give Feedback") },
-                        onClick = {
-                            expanded = false
-                            onMenuItemClick("feedback")
-                        }
-                    )
-                }
+            } else {
+                Spacer(modifier = Modifier.size(40.dp))
             }
-        } else {
-            Spacer(modifier = Modifier.size(40.dp)) // Maintain layout
+
+            if (showMenuDots) {
+                var expanded by remember { mutableStateOf(false) }
+
+                Box {
+                    IconButton(
+                        onClick = { expanded = true },
+                        modifier = Modifier.size(40.dp)
+                    ) {
+                        Icon(
+                            imageVector = Icons.Default.MoreVert,
+                            contentDescription = "Menu",
+                            tint = iconTintColor
+                        )
+                    }
+
+                    DropdownMenu(
+                        expanded = expanded,
+                        onDismissRequest = { expanded = false },
+                        modifier = Modifier.width(180.dp)
+                    ) {
+                        DropdownMenuItem(
+                            text = { Text("Need Help?") },
+                            onClick = {
+                                expanded = false
+                                onMenuItemClick("need_help")
+                            }
+                        )
+                        DropdownMenuItem(
+                            text = { Text("Contact Us") },
+                            onClick = {
+                                expanded = false
+                                onMenuItemClick("contact_us")
+                            }
+                        )
+                        DropdownMenuItem(
+                            text = { Text("Give Feedback") },
+                            onClick = {
+                                expanded = false
+                                onMenuItemClick("feedback")
+                            }
+                        )
+                    }
+                }
+            } else {
+                Spacer(modifier = Modifier.size(40.dp))
+            }
         }
     }
 }

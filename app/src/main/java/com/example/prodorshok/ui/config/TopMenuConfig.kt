@@ -6,7 +6,8 @@ data class TopMenuConfig(
     val showTopBar: Boolean = true,
     val showBackButton: Boolean = true,
     val showMenuDots: Boolean = true,
-    val iconTint: Color = Color.White
+    val iconTint: Color = Color.White,
+    val backgroundColor: Color = Color.Transparent
 )
 
 // Mapping route names to top bar behavior
@@ -49,11 +50,13 @@ val topMenuConfigMap = mapOf(
     "feedback_list" to TopMenuConfig(showTopBar = true),
     "career_qna" to TopMenuConfig(
         showTopBar = false,
-        iconTint = Color.Black
+        iconTint = Color.Black,
+        backgroundColor = Color.Gray
     ),
     "roadmap" to TopMenuConfig(
         showTopBar = false,
-        iconTint = Color.Black
+        iconTint = Color.Black,
+        backgroundColor = Color.Green
     )
     // Add other routes as needed
 )
