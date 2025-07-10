@@ -2,6 +2,7 @@
 
 package com.example.prodorshok.ui.screens.dashboard
 
+import android.content.Intent
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
@@ -24,8 +25,10 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.core.net.toUri
 import androidx.navigation.NavController
 import com.example.prodorshok.R
 import com.example.prodorshok.ui.components.dashboard.Feature
@@ -44,6 +47,10 @@ fun DashboardScreen(
 ) {
     val drawerState = rememberDrawerState(DrawerValue.Closed)
     val scope = rememberCoroutineScope()
+    val context = LocalContext.current
+
+    // Permanent Google Meet URL for mentor session (replace with your own)
+    val mentorSessionUrl = "https://meet.google.com/hsx-bqyb-ssg"
 
     ModalNavigationDrawer(
         drawerState = drawerState,
@@ -95,7 +102,11 @@ fun DashboardScreen(
                     // Upcoming Events
                     UpcomingEventCard(
                         date = "Today, 2:00 PM",
-                        onClickViewAll = { /* TODO */ }
+                        onClickViewAll = { /* TODO */ },
+                        onClickJoin = {
+                            val intent = Intent(Intent.ACTION_VIEW, mentorSessionUrl.toUri())
+                            context.startActivity(intent)
+                        }
                     )
 
                     Spacer(modifier = Modifier.height(28.dp))
@@ -131,3 +142,4 @@ fun DashboardScreen(
         )
     }
 }
+
