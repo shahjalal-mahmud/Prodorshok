@@ -23,9 +23,9 @@ import com.example.prodorshok.ui.screens.auth.SignUpScreen
 import com.example.prodorshok.ui.screens.career_guidance.CareerNewsScreen
 import com.example.prodorshok.ui.screens.career_guidance.CoursesScreen
 import com.example.prodorshok.ui.screens.career_guidance.MentorshipScreen
-import com.example.prodorshok.ui.screens.career_guidance.RoadmapScreen
 import com.example.prodorshok.ui.screens.career_guidance.SkillTrackerScreen
 import com.example.prodorshok.ui.screens.career_qna.CareerQnAScreen
+import com.example.prodorshok.ui.screens.career_roadmap.CareerRoadmapScreen
 import com.example.prodorshok.ui.screens.chat_ai.ChatWithAiScreen
 import com.example.prodorshok.ui.screens.contact_us.ContactUsScreen
 import com.example.prodorshok.ui.screens.dashboard.DashboardScreen
@@ -44,8 +44,8 @@ import com.example.prodorshok.ui.screens.profile.ProfileSetupScreen
 import com.example.prodorshok.ui.screens.splash.SplashScreen
 import com.example.prodorshok.ui.screens.terms.TermsAndPrivacyScreen
 import com.example.prodorshok.ui.utils.AutoSmartBackHandler
-import com.example.prodorshok.viewmodel.CareerQnAViewModel
 import com.example.prodorshok.viewmodel.auth.AuthViewModel
+import com.example.prodorshok.viewmodel.career.CareerQnAViewModel
 import com.example.prodorshok.viewmodel.profile.ProfileViewModel
 
 @OptIn(ExperimentalAnimationApi::class)
@@ -122,7 +122,7 @@ fun Navigation(
             animatedComposable(Screen.Premium.route) {
                 PremiumScreen(navController)
             }
-            animatedComposable("roadmap") { RoadmapScreen() }
+            animatedComposable("roadmap") { CareerRoadmapScreen() }
             animatedComposable("mentorship") { MentorshipScreen() }
             animatedComposable("courses") { CoursesScreen() }
             animatedComposable("skills") { SkillTrackerScreen() }
@@ -158,6 +158,7 @@ fun Navigation(
                 val history by viewModel.questionHistory.collectAsState()
                 val suggestions by viewModel.careerSuggestions.collectAsState()
                 val isLoadingNextQuestion by viewModel.isLoadingNextQuestion.collectAsState()
+                val isFirstQuestionLoading by viewModel.isFirstQuestionLoading.collectAsState()
 
                 val userProfile by profileViewModel.userProfile.collectAsState()
                 val isProfileLoading by profileViewModel.isLoading.collectAsState()
@@ -181,6 +182,7 @@ fun Navigation(
                     pastQnA = history,
                     careerSuggestions = suggestions,
                     isLoadingNextQuestion = isLoadingNextQuestion,
+                    isFirstQuestionLoading = isFirstQuestionLoading,
                     onAnswer = { answer ->
                         viewModel.submitAnswer(answer)
                     }

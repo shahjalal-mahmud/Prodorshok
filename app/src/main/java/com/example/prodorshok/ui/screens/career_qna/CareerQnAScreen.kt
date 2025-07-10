@@ -27,106 +27,118 @@ fun CareerQnAScreen(
     pastQnA: List<QnAItem>,
     onAnswer: (String) -> Unit,
     careerSuggestions: String?,
-    isLoadingNextQuestion: Boolean  // 🆕 New parameter to control question loading state
+    isLoadingNextQuestion: Boolean,
+    isFirstQuestionLoading: Boolean
 ) {
-    Column(
+    LazyColumn(
         modifier = Modifier
             .fillMaxSize()
-            .padding(16.dp)
+            .padding(16.dp),
+        verticalArrangement = Arrangement.spacedBy(12.dp),
+        contentPadding = PaddingValues(bottom = 24.dp)
     ) {
-        LazyColumn(
-            modifier = Modifier.fillMaxSize(),
-            verticalArrangement = Arrangement.spacedBy(12.dp),
-            contentPadding = PaddingValues(bottom = 24.dp)
-        ) {
-            // 🔢 Show QnA history with serial numbers
-            itemsIndexed(pastQnA) { index, item ->
-                Column {
-                    Text(
-                        text = "🤖 Q${index + 1}: ${item.question}",
-                        style = MaterialTheme.typography.bodyMedium
+        // 📝 QnA history
+        itemsIndexed(pastQnA) { index, item ->
+            Column {
+                Text(
+                    text = "🤖 Q${index + 1}: ${item.question}",
+                    style = MaterialTheme.typography.bodyMedium
+                )
+                Text(
+                    text = "🧑 ${item.answer}",
+                    style = MaterialTheme.typography.bodySmall
+                )
+            }
+        }
+
+        // ⏳ Loading first question
+        if (isFirstQuestionLoading && pastQnA.isEmpty()) {
+            item {
+                Column(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .padding(top = 48.dp),
+                    horizontalAlignment = Alignment.CenterHorizontally
+                ) {
+                    CircularProgressIndicator()
+                    Spacer(modifier = Modifier.height(8.dp))
+                    Text("Loading your first question...")
+                }
+            }
+        }
+
+        // ⏳ Loading next questions (Q2–Q5)
+        if (isLoadingNextQuestion && pastQnA.isNotEmpty() && pastQnA.size < 5 && careerSuggestions == null) {
+            item {
+                Column(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .padding(top = 32.dp),
+                    horizontalAlignment = Alignment.CenterHorizontally
+                ) {
+                    CircularProgressIndicator()
+                    Spacer(modifier = Modifier.height(8.dp))
+                    Text("Loading your next question...")
+                }
+            }
+        }
+
+        // ⏳ Loading final career suggestions
+        if (pastQnA.size >= 5 && careerSuggestions == null && isLoadingNextQuestion) {
+            item {
+                Column(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .padding(top = 32.dp),
+                    horizontalAlignment = Alignment.CenterHorizontally
+                ) {
+                    CircularProgressIndicator()
+                    Spacer(modifier = Modifier.height(8.dp))
+                    Text("Loading your career options...")
+                }
+            }
+        }
+
+        // ❓ Display current question
+        if (currentQuestion != null && !isLoadingNextQuestion && careerSuggestions == null) {
+            item {
+                when (currentQuestion) {
+                    is QuestionType.YesNo -> YesNoQuestion(currentQuestion.question, onAnswer)
+                    is QuestionType.MultipleChoice -> MultipleChoiceQuestion(
+                        currentQuestion.question,
+                        currentQuestion.options,
+                        onAnswer
                     )
-                    Text(
-                        text = "🧑 ${item.answer}",
-                        style = MaterialTheme.typography.bodySmall
+                    is QuestionType.Checkbox -> CheckboxQuestion(
+                        currentQuestion.question,
+                        currentQuestion.options,
+                        onAnswer
+                    )
+                    is QuestionType.ShortAnswer -> ShortAnswerQuestion(
+                        currentQuestion.question,
+                        onAnswer
                     )
                 }
             }
+        }
 
-            // ⏳ Show loading while next question is being fetched
-            if (isLoadingNextQuestion && careerSuggestions == null) {
-                item {
-                    Column(
-                        modifier = Modifier
-                            .fillMaxWidth()
-                            .padding(top = 48.dp),
-                        horizontalAlignment = Alignment.CenterHorizontally
-                    ) {
-                        CircularProgressIndicator()
-                        Spacer(modifier = Modifier.height(8.dp))
-                        Text("Thinking about the next question...")
-                    }
-                }
-            }
-
-            // ❓ Render current question only if not loading
-            if (currentQuestion != null && careerSuggestions == null && !isLoadingNextQuestion) {
-                item {
-                    when (currentQuestion) {
-                        is QuestionType.YesNo -> YesNoQuestion(currentQuestion.question, onAnswer)
-                        is QuestionType.MultipleChoice -> MultipleChoiceQuestion(
-                            currentQuestion.question,
-                            currentQuestion.options,
-                            onAnswer
-                        )
-                        is QuestionType.Checkbox -> CheckboxQuestion(
-                            currentQuestion.question,
-                            currentQuestion.options,
-                            onAnswer
-                        )
-                        is QuestionType.ShortAnswer -> ShortAnswerQuestion(
-                            currentQuestion.question,
-                            onAnswer
-                        )
-                    }
-                }
-            }
-
-            // 💡 Career suggestions
-            if (careerSuggestions != null) {
-                item {
-                    when (val result =
-                        AIResponseParser.parseResponse(careerSuggestions, isSuggestionPhase = true)) {
-                        is AIResponseParser.ParseResult.Suggestions -> {
-                            CareerSuggestionList(suggestions = result.suggestions) {
-                                // TODO: Handle click on career
-                                println("Clicked: $it")
-                            }
-                        }
-
-                        else -> {
-                            Text(
-                                text = "⚠️ Could not parse career suggestions.",
-                                style = MaterialTheme.typography.bodyMedium,
-                                modifier = Modifier.padding(top = 16.dp)
-                            )
+        // 💡 Display career suggestions
+        if (careerSuggestions != null) {
+            item {
+                when (val result =
+                    AIResponseParser.parseResponse(careerSuggestions, isSuggestionPhase = true)) {
+                    is AIResponseParser.ParseResult.Suggestions -> {
+                        CareerSuggestionList(suggestions = result.suggestions) {
+                            println("Clicked: $it")
                         }
                     }
-                }
-            }
 
-            // ⏳ Initial screen loading
-            if (currentQuestion == null && careerSuggestions == null && pastQnA.isEmpty() && !isLoadingNextQuestion) {
-                item {
-                    Column(
-                        modifier = Modifier
-                            .fillMaxWidth()
-                            .padding(top = 48.dp),
-                        horizontalAlignment = Alignment.CenterHorizontally
-                    ) {
-                        CircularProgressIndicator()
-                        Spacer(modifier = Modifier.height(8.dp))
-                        Text("Loading your first question...")
+                    else -> {
+                        Text(
+                            text = "⚠️ Could not parse career suggestions.",
+                            style = MaterialTheme.typography.bodyMedium,
+                            modifier = Modifier.padding(top = 16.dp)
+                        )
                     }
                 }
             }

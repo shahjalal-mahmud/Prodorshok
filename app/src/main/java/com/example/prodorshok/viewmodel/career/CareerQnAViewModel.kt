@@ -1,4 +1,4 @@
-package com.example.prodorshok.viewmodel
+package com.example.prodorshok.viewmodel.career
 
 import android.app.Application
 import android.util.Log
@@ -40,6 +40,8 @@ class CareerQnAViewModel(app: Application) : AndroidViewModel(app) {
 
     private val _isLoadingNextQuestion = MutableStateFlow(false)
     val isLoadingNextQuestion: StateFlow<Boolean> = _isLoadingNextQuestion
+    private val _isFirstQuestionLoading = MutableStateFlow(true)
+    val isFirstQuestionLoading: StateFlow<Boolean> = _isFirstQuestionLoading
 
     fun startConversationWithProfile(profile: UserProfile) {
         val prompt = CareerQnAUseCase.buildInitialPrompt(profile)
@@ -65,7 +67,10 @@ class CareerQnAViewModel(app: Application) : AndroidViewModel(app) {
             is QuestionType.ShortAnswer -> lastQuestion.question
         }
 
-        _questionHistory.value += QnAItem(question = questionText, answer = answer)
+        _questionHistory.value = _questionHistory.value + QnAItem(
+            question = questionText,
+            answer = answer
+        )
         historyManager.add(Message(role = "user", content = answer))
 
         questionCount++
@@ -81,6 +86,7 @@ class CareerQnAViewModel(app: Application) : AndroidViewModel(app) {
         if (waitingForSuggestions || questionCount >= maxQuestions) return
 
         _isLoadingNextQuestion.value = true
+        if (questionCount == 0) _isFirstQuestionLoading.value = true
 
         viewModelScope.launch {
             try {
@@ -127,7 +133,8 @@ class CareerQnAViewModel(app: Application) : AndroidViewModel(app) {
                     }
                 }
             } finally {
-                _isLoadingNextQuestion.value = false  // ✅ Always reset loading state
+                _isLoadingNextQuestion.value = false
+                _isFirstQuestionLoading.value = false
             }
         }
     }
