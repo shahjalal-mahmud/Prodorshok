@@ -23,6 +23,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
+import com.example.prodorshok.domain.logic.CareerRoadmapParser
 import com.example.prodorshok.viewmodel.career.CareerRoadmapViewModel
 
 @Composable
@@ -38,7 +39,6 @@ fun CareerRoadmapScreen(viewModel: CareerRoadmapViewModel = viewModel()) {
             .padding(16.dp)
     ) {
         Text("🎯 Enter a Career Goal", style = MaterialTheme.typography.titleLarge)
-
         Spacer(modifier = Modifier.height(8.dp))
 
         OutlinedTextField(
@@ -63,10 +63,13 @@ fun CareerRoadmapScreen(viewModel: CareerRoadmapViewModel = viewModel()) {
         if (isLoading) {
             LinearProgressIndicator(modifier = Modifier.fillMaxWidth())
         } else if (!roadmap.isNullOrEmpty()) {
-            Text(
-                text = roadmap ?: "",
-                modifier = Modifier.verticalScroll(rememberScrollState())
-            )
+            val parsedSteps = remember(roadmap) {
+                CareerRoadmapParser.parse(roadmap!!)
+            }
+
+            Column(modifier = Modifier.verticalScroll(rememberScrollState())) {
+                StepTree(steps = parsedSteps)
+            }
         }
     }
 }

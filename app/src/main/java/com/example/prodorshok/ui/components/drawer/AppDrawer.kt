@@ -63,8 +63,8 @@ fun AppDrawer(
             onCloseDrawer()
         }
 
-        DrawerItem("📚 Courses Recommended") {
-            navController.navigate("courses")
+        DrawerItem("📚 Career Roadmap") {
+            navController.navigate("roadmap")
             onCloseDrawer()
         }
 

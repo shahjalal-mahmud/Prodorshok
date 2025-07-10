@@ -19,26 +19,27 @@ class CareerRoadmapViewModel(app: Application) : AndroidViewModel(app) {
 
     fun requestRoadmapForCareer(careerName: String) {
         val prompt = """
-            You are an expert career advisor.
-            
-            The user wants to become a "$careerName".
-            
-            Please generate a complete **step-by-step career roadmap** to become a $careerName. Include:
-            - Academic requirements (by stage: high school, undergrad, postgrad)
-            - Skill development steps
-            - Recommended courses or tools
-            - Certifications (if any)
-            - Internships or job roles at different stages
-            - Final goal path
-            
-            Present the roadmap in a clear TREE STRUCTURE like:
-            
-            Step 1: Do this
-                └─ Then this
-                    └─ Next this
-            Step 2: ...
-            
-            Tailor the roadmap for students from Bangladesh where possible.
+        You are an expert career advisor.
+        
+        The user wants to become a "$careerName".
+        
+        Return a career roadmap as a **compact JSON array**, with each step like this:
+        
+        {
+          "text": "Step title",
+          "subSteps": [ ... ]
+        }
+        
+        Only include:
+        - "text": short instruction for the step
+        - "subSteps": nested child steps (if any)
+        
+        ✅ Keep responses short and focused. Avoid long explanations.
+        ✅ Use simple language (max 20 words per step).
+        ✅ Only output the JSON array — no intro, no markdown, no explanation.
+        
+        Make sure it's valid JSON and fits within 1000 tokens.
+        Tailor it for students in Bangladesh.
         """.trimIndent()
 
         _isLoading.value = true
