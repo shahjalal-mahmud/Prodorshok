@@ -202,12 +202,6 @@ Designed to show future roadmap for investors.
 
 ---
 
-### 🎨 8. ScreenShots
-
-
----
-
-
 ## 🛠️ Tech Stack
 
 ### 🧱 Android
