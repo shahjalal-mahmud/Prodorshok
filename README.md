@@ -1,415 +1,460 @@
-# 🚀 Prodorshok App
+# 🚀 Prodorshok – AI Career Companion
 
-**Your Smart AI-Powered Career Guide for Students in Bangladesh**
+<p align="center">
+  <img src="screenshots/dashboard.jfif" width="220" alt="Prodorshok Preview"/>
+</p>
 
-Prodorshok is an Android application built using **Kotlin + Jetpack Compose**, designed to help students explore careers, receive structured roadmaps, and interact with AI for career guidance.
+<p align="center">
+  <b>An AI-powered Android career guidance platform designed for Bangladeshi students.</b>
+</p>
 
-This project was originally developed as a UI-first prototype focused on design quality, AI integration, and investor-ready MVP presentation.
-
----
-
-## 📥 App Distribution & Media
-
-A compiled, installable asset is available for immediate review. If you are reviewing this repository for technical evaluation or hiring purposes, you can download the application via the links below:
-
-[![Download APK](https://img.shields.io/badge/Download%20APK-Direct%20Link-success?style=for-the-badge&logo=android&logoColor=white&color=2E7D32)](https://drive.google.com/file/d/1f74Z32Zrevh6W5p_Rp-MG6c1_3o33AVy/view?usp=sharing)
+<p align="center">
+  Built with Kotlin, Jetpack Compose, Firebase, and GPT-powered AI assistance.
+</p>
 
 ---
 
-## 📱 Overview
+## 📌 Project Status
 
-Many students in Bangladesh struggle with career confusion after SSC/HSC. Career advice is often scattered, inconsistent, or unavailable.
-
-**Prodorshok solves this by providing:**
-
-* 🎯 Structured career exploration
-* 🧠 AI-powered Q&A guidance
-* 📍 Career roadmaps
-* 📊 SWOT & salary insights
-* 📺 Learning resources
-* 🚧 Clear premium roadmap for future scalability
+> ⚠️ **Archived Portfolio Project**
+>
+> This project is no longer under active development and is being preserved as a portfolio showcase project for learning, technical demonstration, and career opportunities.
+>
+> The repository remains public to demonstrate:
+>
+> - Android development skills
+> - Modern Jetpack Compose UI implementation
+> - AI integration workflows
+> - Firebase backend integration
+> - MVP product architecture & product thinking
 
 ---
 
-## 📸 App Screenshots
+# 📱 About The Project
+
+**Prodorshok** was developed as an AI-powered career guidance mobile application focused on helping Bangladeshi students navigate career confusion after SSC, HSC, or university.
+
+The project was built as an investor-oriented MVP combining:
+
+- 🎯 Career exploration
+- 🤖 Conversational AI guidance
+- 🧠 Skill-gap awareness
+- 📍 Structured learning roadmaps
+- 📚 Educational resources
+- 💼 Future mentorship ecosystem planning
+
+The goal was to create a single mobile platform where students could explore careers, ask AI-powered questions, and receive actionable guidance in a localized context.
+
+---
+
+# ✨ Key Highlights
+
+- ✅ Built complete Android MVP using **Kotlin + Jetpack Compose**
+- ✅ Integrated **GPT-3.5** using OpenRouter API
+- ✅ Designed modern Material 3 responsive UI
+- ✅ Implemented Firebase Authentication & Firestore
+- ✅ Added roadmap generation & career recommendation flows
+- ✅ Structured scalable UI modules for future expansion
+- ✅ Engineered secure API key management using `BuildConfig`
+- ✅ Developed investor-ready product presentation flow
+
+---
+
+# 📥 APK Download
+
+If you are reviewing this project for hiring, technical evaluation, or portfolio purposes, you can directly download the APK below.
+
+<p align="center">
+
+[![Download APK](https://img.shields.io/badge/Download%20APK-Android-success?style=for-the-badge&logo=android&logoColor=white)](https://drive.google.com/file/d/1f74Z32Zrevh6W5p_Rp-MG6c1_3o33AVy/view?usp=sharing)
+
+</p>
+
+---
+
+# 📸 Application Screenshots
+
+## 🔐 Authentication & User Flow
 
 <div align="center">
-  <h3>Row 1: Authentication & Core Flow</h3>
-  <table>
-    <tr>
-      <td align="center" width="33%">
-        <kbd><b>Login Screen</b></kbd><br><br>
-        <img src="screenshots/login.jfif" width="720" alt="Login Screen"/>
-      </td>
-      <td align="center" width="33%">
-        <kbd><b>Signin Screen</b></kbd><br><br>
-        <img src="screenshots/singin.jfif" width="720" alt="Signin Screen"/>
-      </td>
-      <td align="center" width="33%">
-        <kbd><b>Dashboard Screen</b></kbd><br><br>
-        <img src="screenshots/dashboard.jfif" width="720" alt="Dashboard Screen"/>
-      </td>
-    </tr>
-    <tr>
-      <td align="center" width="33%">
-        <kbd><b>User Profile</b></kbd><br><br>
-        <img src="screenshots/profile.jfif" width="720" alt="Profile Screen"/>
-      </td>
-      <td align="center" width="33%">
-        <kbd><b>Career Exploration</b></kbd><br><br>
-        <img src="screenshots/career.jfif" width="720" alt="Career Screen"/>
-      </td>
-      <td align="center" width="33%">
-        <kbd><b>Interactive Roadmap</b></kbd><br><br>
-        <img src="screenshots/roadmap.jfif" width="720" alt="Roadmap Screen"/>
-      </td>
-    </tr>
-  </table>
 
-  <br>
-  <h3>Row 2: AI Assistance & Feedback</h3>
-  <table>
-    <tr>
-      <td align="center" width="33%">
-        <kbd><b>AI Career Guidance Chat</b></kbd><br><br>
-        <img src="screenshots/chatAI.jfif" width="720" alt="AI Chat Screen"/>
-      </td>
-      <td align="center" width="33%">
-        <kbd><b>Submit Feedback</b></kbd><br><br>
-        <img src="screenshots/feedback.jfif" width="720" alt="Give Feedback Screen"/>
-      </td>
-      <td align="center" width="33%">
-        <kbd><b>Community Feedbacks</b></kbd><br><br>
-        <img src="screenshots/allFeedback.jfif" width="720" alt="All Feedbacks Screen"/>
-      </td>
-    </tr>
-  </table>
+| Login                                           | Sign Up                                          | Dashboard                                           |
+| ----------------------------------------------- | ------------------------------------------------ | --------------------------------------------------- |
+| <img src="screenshots/login.jfif" width="250"/> | <img src="screenshots/singin.jfif" width="250"/> | <img src="screenshots/dashboard.jfif" width="250"/> |
+
+| Profile                                           | Career Exploration                               | Career Roadmap                                    |
+| ------------------------------------------------- | ------------------------------------------------ | ------------------------------------------------- |
+| <img src="screenshots/profile.jfif" width="250"/> | <img src="screenshots/career.jfif" width="250"/> | <img src="screenshots/roadmap.jfif" width="250"/> |
+
 </div>
 
 ---
 
-## ✨ MVP Features (Implemented)
+## 🤖 AI Guidance & Community
 
-### 🔐 1. Authentication
+<div align="center">
 
-* Firebase Authentication
+| AI Career Chat                                   | Feedback                                           | Community Reviews                                     |
+| ------------------------------------------------ | -------------------------------------------------- | ----------------------------------------------------- |
+| <img src="screenshots/chatAI.jfif" width="250"/> | <img src="screenshots/feedback.jfif" width="250"/> | <img src="screenshots/allFeedback.jfif" width="250"/> |
 
-  * Google Sign-In ✅
-  * Email/Password ✅
-  * Facebook (Coming Soon)
-  * Phone (Coming Soon)
-
----
-
-### 👤 2. User Profile Setup
-
-Users can set:
-
-* Full Name
-* Study Level
-* Skills
-* Interests
-* Career Goal (Optional)
-* Location (Optional)
-
-Stored securely in **Firebase Firestore**.
+</div>
 
 ---
 
-### 🏠 3. Dashboard
+# 🧠 Core Features
 
-Main sections include:
+## 🤖 AI Career Guidance
 
-* 🎯 Career Guidance
-* 🧠 Skill Analysis (Coming Soon)
-* 💼 Job Prep (Coming Soon)
-* 🤝 Mentorship (Coming Soon)
-* ❤️ Mental Support (Coming Soon)
-* 📚 Learning Community (Coming Soon)
+- GPT-powered conversational career assistant
+- Career-related Q&A support
+- AI-generated suggestions and guidance
+- Personalized career direction exploration
 
----
+### Example Questions
 
-### 🎯 4. Career Guidance Flow
+```text
+What skills do I need to become a Data Analyst?
 
-#### Step 1: Career Goal Question
+Should I learn Flutter or Web Development?
 
-* Do you have a fixed career goal?
-
-  * ✅ Yes → Roadmap
-  * ❌ No → Career Suggestions
-
-#### Step 2: Suggestion Questions
-
-* Subjects you enjoy
-* Your skills
-* Preferred work type
-
-#### Step 3: Career Options
-
-Displays 3–6 careers with:
-
-* Short description
-* Explore button
-
-#### Step 4: Career Details
-
-Each career includes:
-
-* Requirements
-* Opportunities in Bangladesh
-* SWOT Analysis
-* Average Salary Range
-* FAQs
-* Embedded Video (YouTube/mock)
-* “Get Roadmap” button
-
-#### Step 5: Career Roadmap
-
-Visual vertical stepper:
-
-* Learn skills
-* Get degree
-* Build projects
-* Apply for jobs/internships
-
----
-
-### 🤖 5. AI Chat (Lite Version)
-
-* GPT-3.5 powered via OpenRouter API
-* Prompt-limited implementation
-* Example:
-
-  > “What should I do after HSC if I want to become a data analyst?”
-
----
-
-### 🚧 6. Coming Soon Screens
-
-UI prepared for:
-
-* Mentorship Tiers (Silver, Gold, Platinum)
-* Resume Builder
-* LinkedIn Builder
-* Skill Gap Analysis
-* Mental Health Support
-* Community
-
-Designed to show future roadmap for investors.
-
----
-
-### 🎨 7. Modern UI
-
-* Designed in Canva
-* Implemented in Jetpack Compose
-* Material 3
-* Animations & smooth navigation
-* Lottie support
-* Markdown rendering support
-
----
-
-## 🛠️ Tech Stack
-
-### 🧱 Android
-
-* Kotlin
-* Jetpack Compose
-* Navigation Compose
-* ViewModel
-* Coroutines
-
-### 🔥 Backend & Cloud
-
-* Firebase Authentication
-* Firebase Firestore
-* Firebase Storage
-* Firebase Analytics (optional upgrade)
-
-### 🌐 Networking
-
-* Retrofit
-* OkHttp
-* Logging Interceptor
-* Gson Converter
-
-### 🤖 AI Integration
-
-* OpenRouter API (GPT-3.5)
-* API key stored securely via `local.properties`
-
-### 🎨 UI & Media
-
-* Material 3
-* Coil / Picasso
-* Lottie Animations
-* Compose Markdown
-
----
-
-## 📂 Project Structure (High-Level)
-
+What can I do after HSC if I like programming?
 ```
+
+---
+
+## 🎯 Career Recommendation System
+
+Users receive career suggestions based on:
+
+- Interests
+- Skills
+- Academic background
+- Preferred work style
+
+Each career path includes:
+
+- Career overview
+- Required skills
+- Opportunities in Bangladesh
+- Salary insights
+- SWOT analysis
+- Learning recommendations
+
+---
+
+## 🛣️ Career Roadmap System
+
+Visual step-by-step roadmap flow including:
+
+- Learning path
+- Skill development
+- Degree suggestions
+- Project building
+- Internship preparation
+- Job readiness guidance
+
+---
+
+## 🔐 Authentication & User Management
+
+Implemented with Firebase Authentication:
+
+- Google Sign-In
+- Email & Password Authentication
+- Firestore user profiles
+- Persistent login session
+
+---
+
+## 🎨 Modern Android UI
+
+- Jetpack Compose UI architecture
+- Material 3 Design System
+- Lottie animations
+- Responsive layouts
+- Smooth navigation transitions
+- Markdown rendering support
+
+---
+
+# 🏗️ Tech Stack
+
+## 📱 Android Development
+
+- Kotlin
+- Jetpack Compose
+- Navigation Compose
+- ViewModel
+- Coroutines
+
+---
+
+## 🔥 Backend & Cloud
+
+- Firebase Authentication
+- Firebase Firestore
+- Firebase Storage
+
+---
+
+## 🌐 Networking
+
+- Retrofit
+- OkHttp
+- Gson Converter
+- Logging Interceptor
+
+---
+
+## 🤖 AI Integration
+
+- OpenRouter API
+- GPT-3.5 Integration
+- Prompt-engineered career guidance flow
+
+---
+
+## 🎨 UI & Media
+
+- Material 3
+- Lottie Animations
+- Compose Markdown
+- Coil / Picasso
+
+---
+
+# 📂 Project Architecture
+
+## High-Level Structure
+
+```text
 com.example.prodorshok
 │
-├── ui/
-│   ├── screens/
-│   ├── components/
-│   └── navigation/
+├── auth/
 │
 ├── data/
-│   ├── model/
-│   ├── repository/
-│   └── remote/
+│   ├── local/
+│   │   ├── db/
+│   │   └── entities/
+│   │
+│   ├── mappers/
+│   │
+│   ├── remote/
+│   │   ├── api/
+│   │   └── dto/
+│   │
+│   └── repository/
+│
+├── ui/
+│   ├── components/
+│   │   ├── animation/
+│   │   ├── auth/
+│   │   └── common/
+│   │
+│   ├── navigation/
+│   ├── screens/
+│   │   ├── auth/
+│   │   ├── career_guidance/
+│   │   ├── dashboard/
+│   │   ├── feedback/
+│   │   ├── home/
+│   │   ├── profile/
+│   │   └── splash/
+│   │
+│   ├── theme/
+│   └── utils/
 │
 ├── viewmodel/
+│   ├── auth/
+│   └── dashboard/
 │
 └── utils/
 ```
 
 ---
 
-## 🔑 Environment Setup
+# ⚙️ Environment Setup
 
-### 1️⃣ Clone the project
+## 1️⃣ Clone Repository
 
 ```bash
-git clone https://github.com/shahjalal-mahmud/Prodorshok
+git clone https://github.com/shahjalal-mahmud/Prodorshok.git
 ```
 
 ---
 
-### 2️⃣ Add API Key
+## 2️⃣ Configure OpenRouter API
 
-Add your OpenRouter API key to `local.properties`:
+Add your API key to:
 
+```properties
+local.properties
 ```
+
+Example:
+
+```properties
 OPENROUTER_API_KEY=your_api_key_here
 ```
 
-The project reads it securely via:
+BuildConfig injection:
 
 ```kotlin
-buildConfigField("String", "OPENROUTER_API_KEY", "\"${localProperties.getProperty("OPENROUTER_API_KEY")}\"")
+buildConfigField(
+    "String",
+    "OPENROUTER_API_KEY",
+    "\"${localProperties.getProperty("OPENROUTER_API_KEY")}\""
+)
 ```
 
-⚠️ Never commit your API key.
+> ⚠️ Never expose or commit API keys publicly.
 
 ---
 
-### 3️⃣ Firebase Setup
+## 3️⃣ Firebase Configuration
 
-1. Create Firebase Project
-2. Add Android App
+1. Create Firebase project
+2. Add Android application
 3. Download `google-services.json`
-4. Place inside:
+4. Place file inside:
 
-```
+```text
 app/google-services.json
 ```
 
 Enable:
 
-* Authentication (Google + Email)
-* Firestore Database
-* Storage (Optional)
+- Authentication
+- Firestore Database
+- Storage
 
 ---
 
-## 📦 Gradle Highlights
+# 📦 Build Configuration
 
-* Compile SDK: 35
-* Min SDK: 24
-* Target SDK: 35
-* JVM Target: 11
-* Compose enabled
-* BuildConfig enabled for API key injection
-
----
-
-## 🚧 Future Roadmap (Post-Funding)
-
-### 💼 Mentorship Platform
-
-* Tiered subscriptions
-* Mentor browsing
-* Session booking
-* Group chat
-
-### 🤖 Advanced AI Tools
-
-* GPT-4 / DeepSeek server-hosted
-* Dynamic roadmap tree generation
-* Real-time skill gap analysis
-* Resume & LinkedIn builder
-
-### ❤️ Emotional & Parental Support
-
-* Mental health chatbot
-* Therapy content
-* Parental guidance section
-
-### ⚡ Backend Upgrades
-
-* Blaze Plan Firebase
-* Dedicated AI backend server
-* Advanced analytics
+| Config      | Value           |
+| ----------- | --------------- |
+| Compile SDK | 35              |
+| Min SDK     | 24              |
+| Target SDK  | 35              |
+| JVM Target  | 11              |
+| UI Toolkit  | Jetpack Compose |
 
 ---
 
-## 🎯 Prototype Strategy (Original Plan)
+# 🚀 Planned Features (Originally Intended)
 
-### Month 1
+Although the project is archived, the original product vision included:
 
-* UI design in Canva
-* Compose implementation
-* Firebase Auth
-* Static career data
+## 💼 Mentorship Marketplace
 
-### Month 2
-
-* GPT-3.5 integration
-* Roadmap system
-* Coming Soon screens
-* UX polish & testing
+- Mentor discovery
+- Session booking
+- Paid mentorship tiers
+- Community interaction
 
 ---
 
-## ⚠️ Important Note
+## 📄 Resume & LinkedIn Builder
 
-This project was built primarily as:
-
-* A UI-focused prototype
-* AI-integration demo
-* Investor-ready MVP concept
-
-It does **not yet focus on:**
-
-* Advanced performance optimization
-* Scalability architecture
-* Clean architecture separation
-* Production-level security hardening
-
-Future versions will refactor the codebase with:
-
-* Proper layered architecture
-* Caching strategies
-* Offline support
-* Improved API management
+- AI-generated resume assistance
+- LinkedIn optimization
+- Career portfolio suggestions
 
 ---
 
-## 👨‍💻 Author
+## 🧠 Advanced AI Features
 
-**Shahajalal Mahmud**
-Android Developer (Kotlin | Jetpack Compose | Firebase | AI Integration)
+- Dynamic roadmap generation
+- Skill-gap analysis
+- Personalized growth tracking
+- AI learning assistant
+
+---
+
+## ❤️ Student Mental Support
+
+- Mental health guidance
+- Emotional support system
+- Parent-focused career education resources
 
 ---
 
-## 📜 License
+# 🧪 Engineering Focus Areas
 
-This project is for educational and prototype purposes.
-License can be updated based on future commercialization.
+This project primarily focused on:
+
+- Rapid MVP development
+- Product validation
+- UI/UX quality
+- AI workflow integration
+- Mobile-first experience
+- Startup-oriented feature planning
+
+This repository does **not** represent:
+
+- Enterprise-scale architecture
+- Full production optimization
+- Advanced security hardening
+- Complete clean architecture implementation
 
 ---
+
+# 📚 Learning Outcomes
+
+Through this project, key practical experience was gained in:
+
+- Modern Android app development
+- Compose UI architecture
+- Firebase ecosystem integration
+- AI API integration
+- Product MVP planning
+- Mobile UI/UX implementation
+- Repository structuring
+- Scalable feature planning
+
+---
+
+# 👨‍💻 Developer
+
+## Md Shahajalal Mahmud
+
+Android Developer • Kotlin Developer • AI Product Builder
+
+### Areas of Interest
+
+- Android Development
+- Jetpack Compose
+- Firebase Ecosystem
+- AI-powered Applications
+- Product-focused Engineering
+
+---
+
+# 📜 License
+
+This repository is preserved for:
+
+- Educational purposes
+- Portfolio showcasing
+- Technical evaluation
+- Career opportunities
+
+Commercial reuse or redistribution should be discussed with the author.
+
+---
+
+# ⭐ Final Note
+
+Prodorshok was an ambitious student-built MVP attempting to solve a real-world problem using AI and modern Android technologies.
+
+Even though development has stopped, the project remains an important milestone in demonstrating:
+
+- Product thinking
+- Technical implementation
+- UI engineering capability
+- AI integration experience
+- End-to-end Android development workflow
+
+If you are reviewing this repository for hiring or collaboration purposes, feedback is always appreciated.
