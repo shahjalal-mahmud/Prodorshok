@@ -29,16 +29,16 @@ Many students in Bangladesh struggle with career confusion after SSC/HSC. Career
   <table>
     <tr>
       <td align="center" width="33%">
-        <kbd><b>🌟 Login Screen</b></kbd><br><br>
-        <img src="screenshots/Splash_Screen.png" width="720" alt="Splash Screen"/>
+        <kbd><b>Login Screen</b></kbd><br><br>
+        <img src="screenshots/login.jfif" width="720" alt="Login Screen"/>
       </td>
       <td align="center" width="33%">
-        <kbd><b>🛒 Home Screen</b></kbd><br><br>
-        <img src="screenshots/Home_Screen.png" width="720" alt="Home Screen"/>
+        <kbd><b>Signin Screen</b></kbd><br><br>
+        <img src="screenshots/singin.jfif" width="720" alt="Signin Screen"/>
       </td>
       <td align="center" width="33%">
-        <kbd><b>➕ Add Product Sheet</b></kbd><br><br>
-        <img src="screenshots/Add_Product_FAB.png" width="720" alt="Add Product Bottom Sheet"/>
+        <kbd><b>Dashboard Screen</b></kbd><br><br>
+        <img src="screenshots/dashboard.jfif" width="720" alt="Dashboard Screen"/>
       </td>
     </tr>
   </table>
