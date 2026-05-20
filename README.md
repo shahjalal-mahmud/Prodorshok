@@ -8,6 +8,14 @@ This project was originally developed as a UI-first prototype focused on design 
 
 ---
 
+## 📥 App Distribution & Media
+
+A compiled, installable asset is available for immediate review. If you are reviewing this repository for technical evaluation or hiring purposes, you can download the application via the links below:
+
+[![Download APK](https://img.shields.io/badge/Download%20APK-Direct%20Link-success?style=for-the-badge&logo=android&logoColor=white&color=2E7D32)](https://drive.google.com/file/d/1f74Z32Zrevh6W5p_Rp-MG6c1_3o33AVy/view?usp=sharing)
+
+---
+
 ## 📱 Overview
 
 Many students in Bangladesh struggle with career confusion after SSC/HSC. Career advice is often scattered, inconsistent, or unavailable.
