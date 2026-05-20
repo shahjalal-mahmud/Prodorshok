@@ -26,6 +26,7 @@ Many students in Bangladesh struggle with career confusion after SSC/HSC. Career
 ## 📸 App Screenshots
 
 <div align="center">
+  <h3>Row 1: Authentication & Core Flow</h3>
   <table>
     <tr>
       <td align="center" width="33%">
@@ -39,6 +40,39 @@ Many students in Bangladesh struggle with career confusion after SSC/HSC. Career
       <td align="center" width="33%">
         <kbd><b>Dashboard Screen</b></kbd><br><br>
         <img src="screenshots/dashboard.jfif" width="720" alt="Dashboard Screen"/>
+      </td>
+    </tr>
+    <tr>
+      <td align="center" width="33%">
+        <kbd><b>User Profile</b></kbd><br><br>
+        <img src="screenshots/profile.jfif" width="720" alt="Profile Screen"/>
+      </td>
+      <td align="center" width="33%">
+        <kbd><b>Career Exploration</b></kbd><br><br>
+        <img src="screenshots/career.jfif" width="720" alt="Career Screen"/>
+      </td>
+      <td align="center" width="33%">
+        <kbd><b>Interactive Roadmap</b></kbd><br><br>
+        <img src="screenshots/roadmap.jfif" width="720" alt="Roadmap Screen"/>
+      </td>
+    </tr>
+  </table>
+
+  <br>
+  <h3>Row 2: AI Assistance & Feedback</h3>
+  <table>
+    <tr>
+      <td align="center" width="33%">
+        <kbd><b>AI Career Guidance Chat</b></kbd><br><br>
+        <img src="screenshots/chatAI.jfif" width="720" alt="AI Chat Screen"/>
+      </td>
+      <td align="center" width="33%">
+        <kbd><b>Submit Feedback</b></kbd><br><br>
+        <img src="screenshots/feedback.jfif" width="720" alt="Give Feedback Screen"/>
+      </td>
+      <td align="center" width="33%">
+        <kbd><b>Community Feedbacks</b></kbd><br><br>
+        <img src="screenshots/allFeedback.jfif" width="720" alt="All Feedbacks Screen"/>
       </td>
     </tr>
   </table>
