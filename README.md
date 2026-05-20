@@ -23,6 +23,29 @@ Many students in Bangladesh struggle with career confusion after SSC/HSC. Career
 
 ---
 
+## 📸 App Screenshots
+
+<div align="center">
+  <table>
+    <tr>
+      <td align="center" width="33%">
+        <kbd><b>🌟 Login Screen</b></kbd><br><br>
+        <img src="screenshots/Splash_Screen.png" width="720" alt="Splash Screen"/>
+      </td>
+      <td align="center" width="33%">
+        <kbd><b>🛒 Home Screen</b></kbd><br><br>
+        <img src="screenshots/Home_Screen.png" width="720" alt="Home Screen"/>
+      </td>
+      <td align="center" width="33%">
+        <kbd><b>➕ Add Product Sheet</b></kbd><br><br>
+        <img src="screenshots/Add_Product_FAB.png" width="720" alt="Add Product Bottom Sheet"/>
+      </td>
+    </tr>
+  </table>
+</div>
+
+---
+
 ## ✨ MVP Features (Implemented)
 
 ### 🔐 1. Authentication
