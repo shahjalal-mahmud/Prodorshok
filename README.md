@@ -1,7 +1,7 @@
 # 🚀 Prodorshok – AI Career Companion
 
 <p align="center">
-  <img src="screenshots/dashboard.jfif" width="220" alt="Prodorshok Preview"/>
+  <img src="screenshots/icon.jfif" width="220" alt="Prodorshok App Icon"/>
 </p>
 
 <p align="center">
